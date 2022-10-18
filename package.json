@@ -12,7 +12,11 @@
     "watch": "yarn workspaces foreach -pi run watch",
     "postinstall": "yarn build",
     "build": "yarn workspaces foreach --exclude next-app -pi run build",
-    "upgrade:tamagui": "manypkg upgrade tamagui && manypkg upgrade @tamagui && manypkg upgrade tamagui-loader"
+    "upgrade:tamagui": "manypkg upgrade tamagui && manypkg upgrade @tamagui && manypkg upgrade tamagui-loader",
+    "db:push": "dotenv -e .env.development -- prisma db push",
+    "db:pull": "dotenv -e .env.development -- prisma db pull",
+    "db:build": "dotenv -e .env.development -- prisma generate",
+    "db:deploy": "dotenv -e .env.deployment -- prisma migrate deploy"
   },
   "resolutions": {
     "esbuild": "0.15.6",
@@ -23,7 +27,8 @@
     "react-native-web": "0.18.6"
   },
   "dependencies": {
-    "@babel/runtime": "^7.18.9"
+    "@babel/runtime": "^7.18.9",
+    "dotenv-cli": "^6.0.0"
   },
   "devDependencies": {
     "@manypkg/cli": "^0.19.1",
