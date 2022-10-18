@@ -1,4 +1,4 @@
-# Test Push by Wave
+# Test Push by Wave 2
 
 # Tamagui + Solito + Next + Expo Monorepo
 
