@@ -2,11 +2,8 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-prisma.user.create({
-  data: {
-    username: "spicyzboss",
-    password: "password",
-  }
+prisma.user.findMany({
+
 })
   .then(e => {
     console.log(e)

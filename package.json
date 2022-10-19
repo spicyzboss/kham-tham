@@ -13,10 +13,9 @@
     "postinstall": "yarn build",
     "build": "yarn workspaces foreach --exclude next-app -pi run build",
     "upgrade:tamagui": "manypkg upgrade tamagui && manypkg upgrade @tamagui && manypkg upgrade tamagui-loader",
-    "db:push": "dotenv -e .env.development -- prisma db push",
-    "db:pull": "dotenv -e .env.development -- prisma db pull",
-    "db:build": "dotenv -e .env.development -- prisma generate",
-    "db:deploy": "dotenv -e .env.deployment -- prisma migrate deploy"
+    "db:build": "dotenv -e .env.development -- prisma generate --data-proxy",
+    "db:push": "dotenv -e .env.deployment -- prisma db push --skip-generate",
+    "db:pull": "dotenv -e .env.deployment -- prisma db pull"
   },
   "resolutions": {
     "esbuild": "0.15.6",
