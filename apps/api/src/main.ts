@@ -1,6 +1,5 @@
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
-import { PrismaService } from './prisma/prisma.service';
 import { AppModule } from './app.module';
 
 const ENV = process.env.NODE_ENV;
