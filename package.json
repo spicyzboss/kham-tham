@@ -1,5 +1,5 @@
 {
-  "name": "myapp-monorepo",
+  "name": "kham-tham",
   "private": true,
   "workspaces": [
     "apps/*",
