@@ -17,6 +17,12 @@ export function NavigationProvider({
             screens: {
               'home': '',
               'user-detail': 'user/:id',
+<<<<<<< HEAD
+              login: 'login',
+              SignIn: 'signIn',
+=======
+              'create-room': 'create-room'
+>>>>>>> 8f279e70e33047b67f47c00bf2f4b979b6d14f75
               'create-room': 'create-room',
               'user-room': 'user-room'
             },

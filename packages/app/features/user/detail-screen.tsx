@@ -8,13 +8,14 @@ const { useParam } = createParam<{ id: string }>()
 
 export function UserDetailScreen() {
   const [id] = useParam('id')
-  const linkProps = useLink({ href: '/' })
+  const linkProps = useLink({ href: '/login' })
+
 
   return (
     <YStack f={1} jc="center" ai="center" space>
       <Paragraph ta="center" fow="800">{`User ID: ${id}`}</Paragraph>
       <Button {...linkProps} icon={ChevronLeft}>
-        Go Home
+        Go Test
       </Button>
     </YStack>
   )
