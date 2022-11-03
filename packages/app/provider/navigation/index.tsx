@@ -15,8 +15,9 @@ export function NavigationProvider({
           config: {
             initialRouteName: 'home',
             screens: {
-              home: '',
+              'home': '',
               'user-detail': 'user/:id',
+              'create-room': 'create-room'
             },
           },
         }),

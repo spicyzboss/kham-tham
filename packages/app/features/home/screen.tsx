@@ -5,7 +5,7 @@ import { useLink } from 'solito/link'
 
 export function HomeScreen() {
   const linkProps = useLink({
-    href: '/user/nate',
+    href: '/create-room',
   })
 
   return (
@@ -32,7 +32,7 @@ export function HomeScreen() {
       </YStack>
 
       <XStack>
-        <Button {...linkProps}>Link to user</Button>
+        <Button {...linkProps}>Link to Create Room</Button>
       </XStack>
 
       <SheetDemo />

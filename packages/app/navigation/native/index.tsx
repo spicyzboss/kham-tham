@@ -3,12 +3,14 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import { HomeScreen } from '../../features/home/screen'
 import { UserDetailScreen } from '../../features/user/detail-screen'
+import { CreateRoom } from 'app/features/room/create-room'
 
 const Stack = createNativeStackNavigator<{
-  home: undefined
+  'home': undefined
   'user-detail': {
     id: string
-  }
+  },
+  'create-room': undefined
 }>()
 
 export function NativeNavigation() {
@@ -26,6 +28,13 @@ export function NativeNavigation() {
         component={UserDetailScreen}
         options={{
           title: 'User',
+        }}
+      />
+      <Stack.Screen
+        name="create-room"
+        component={CreateRoom}
+        options={{
+          title: 'CreateRoom',
         }}
       />
     </Stack.Navigator>
