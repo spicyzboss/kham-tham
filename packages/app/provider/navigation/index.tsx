@@ -15,10 +15,14 @@ export function NavigationProvider({
           config: {
             initialRouteName: 'home',
             screens: {
-              home: '',
+              'home': '',
               'user-detail': 'user/:id',
+<<<<<<< HEAD
               login: 'login',
               SignIn: 'signIn',
+=======
+              'create-room': 'create-room'
+>>>>>>> 8f279e70e33047b67f47c00bf2f4b979b6d14f75
             },
           },
         }),
