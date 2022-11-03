@@ -17,7 +17,8 @@ export function NavigationProvider({
             screens: {
               'home': '',
               'user-detail': 'user/:id',
-              'create-room': 'create-room'
+              'create-room': 'create-room',
+              'user-room': 'user-room'
             },
           },
         }),
