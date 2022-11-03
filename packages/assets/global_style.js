@@ -13,5 +13,6 @@ export default StyleSheet.create({
     },
     mb10: {
         marginBottom: 10
-    },
+    }
+
 })

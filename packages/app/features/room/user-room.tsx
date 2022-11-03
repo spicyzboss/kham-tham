@@ -19,16 +19,30 @@ export function UserRoom() {
         name: "wave",
         amountQuestions: 1,
         mode: "competitive"
+    }, {
+        id: 2,
+        name: "test",
+        amountQuestions: 5,
+        mode: "cooperative"
     }])
     const [inputFilter, setInputFilter] = useState<string>("")
     const [filterByCompetitive, setFilterByCompetitive] = useState<boolean>(false)
     const [filterByCooperative, setFilterByCooperative] = useState<boolean>(false)
 
-    const filterKhamThams = khamThams.filter(khamTham => khamTham.name.includes(inputFilter))
+    let filterKhamThams = khamThams.filter(khamTham => khamTham.name.includes(inputFilter))
+    if (filterByCompetitive) filterKhamThams = filterKhamThams.filter(khamThams => khamThams.mode == "competitive")
+    if (filterByCooperative) filterKhamThams = filterKhamThams.filter(khamThams => khamThams.mode == "cooperative")
     const amountFilterKhamThams = filterKhamThams.length
 
     const filterByMode = (mode: string) => {
-        filterKhamThams.filter(khamTham => khamTham.mode == mode)
+        if (mode == "competitive") {
+            setFilterByCompetitive(prev => !prev)
+            setFilterByCooperative(false)
+        }
+        if (mode == "cooperative") {
+            setFilterByCooperative(prev => !prev)
+            setFilterByCompetitive(false)
+        }
     }
 
     return (
@@ -36,8 +50,8 @@ export function UserRoom() {
             <H1>Kham Tham ({amountFilterKhamThams})</H1>
             <Input onChangeText={text => setInputFilter(text)}></Input>
             <XStack justifyContent='center'>
-                <Button style={globalStyles.mt10} onPress={() => setFilterByCompetitive(prev => !prev)}>Competitive</Button>
-                <Button style={globalStyles.mt10} onPress={() => setFilterByCooperative(prev => !prev)}>Cooperative</Button>
+                <Button style={globalStyles.mt10} backgroundColor={filterByCompetitive ? "$red11Light" : "grey"} onPress={() => filterByMode("competitive")}>Competitive</Button>
+                <Button style={globalStyles.mt10} backgroundColor={filterByCooperative ? "$green11Light" : "grey"} onPress={() => filterByMode("cooperative")}>Cooperative</Button>
             </XStack>
             {filterKhamThams.map((khamTham, index) => {
                 return (
