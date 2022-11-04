@@ -4,5 +4,10 @@ export default StyleSheet.create({
         width: "100%",
         height: "100%",
         margin: 0
-    }
+    },
+    input: {
+        borderColor: "#CD1D8D",
+        backgroundColor: "#251425",
+
+    },
 })

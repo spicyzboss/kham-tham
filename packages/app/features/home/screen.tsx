@@ -7,6 +7,9 @@ export function HomeScreen() {
   const linkProps = useLink({
     href: '/create-room',
   })
+  const login = useLink({
+    href: '/login',
+  })
 
   return (
     <YStack f={1} jc="center" ai="center" p="$4" space>
@@ -32,11 +35,10 @@ export function HomeScreen() {
       </YStack>
 
       <XStack>
-<<<<<<< HEAD
-        <Button {...linkProps}>Link to Tet</Button>
-=======
         <Button {...linkProps}>Link to Create Room</Button>
->>>>>>> 8f279e70e33047b67f47c00bf2f4b979b6d14f75
+      </XStack>
+      <XStack>
+        <Button {...login}>login</Button>
       </XStack>
 
       <SheetDemo />

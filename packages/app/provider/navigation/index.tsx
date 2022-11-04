@@ -17,12 +17,9 @@ export function NavigationProvider({
             screens: {
               'home': '',
               'user-detail': 'user/:id',
-<<<<<<< HEAD
-              login: 'login',
-              SignIn: 'signIn',
-=======
+              'login': 'login',
+              'signUp': 'signUp',
               'create-room': 'create-room'
->>>>>>> 8f279e70e33047b67f47c00bf2f4b979b6d14f75
             },
           },
         }),
