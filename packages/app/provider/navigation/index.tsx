@@ -19,7 +19,9 @@ export function NavigationProvider({
               'user-detail': 'user/:id',
               'login': 'login',
               'signUp': 'signUp',
-              'create-room': 'create-room'
+              'create-room': 'create-room',
+              'user-room': 'user-room',
+              'show-room': 'show-room'
             },
           },
         }),

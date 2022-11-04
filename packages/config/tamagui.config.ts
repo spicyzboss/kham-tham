@@ -1,4 +1,4 @@
-import { createTamagui } from '@my/ui'
+import { createTamagui, createTheme } from '@my/ui'
 import { createInterFont } from '@tamagui/font-inter'
 import { shorthands } from '@tamagui/shorthands'
 import { themes, tokens } from '@tamagui/theme-base'
@@ -49,9 +49,25 @@ const bodyFont = createInterFont(
   }
 )
 
+const dark_Button = createTheme({
+  background: '#F0C000',
+  backgroundHover: '#F0C000',
+  backgroundPress: '#F0C000',
+  backgroundFocus: '#F0C000',
+  backgroundTransparent: '#F0C000',
+  borderColor: '#F0C000',
+  borderColorHover: '#F0C000',
+  borderColorPress: '#F0C000',
+  borderColorFocus: '#F0C000',
+  color: '#341711',
+  colorHover: '#341711',
+  colorPress: '#341711',
+  colorFocus: '#341711',
+})
+
 export const config = createTamagui({
   animations,
-  defaultTheme: 'dark_green',
+  defaultTheme: 'dark',
   shouldAddPrefersColorThemes: true,
   themeClassNameOnRoot: true,
   shorthands,
@@ -59,7 +75,11 @@ export const config = createTamagui({
     heading: headingFont,
     body: bodyFont,
   },
-  themes,
+  themes: {
+    ...themes,
+    dark_Button
+  },
+  dark_Button,
   tokens,
   media: {
     xs: { maxWidth: 660 },
