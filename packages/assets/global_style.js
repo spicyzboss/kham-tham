@@ -15,5 +15,8 @@ export default StyleSheet.create({
     },
     mt10: {
         marginTop: 10
-    }
+    },
+    backgroudDark: {
+        backgroundColor: "#000"
+    },
 })

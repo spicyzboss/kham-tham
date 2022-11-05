@@ -22,7 +22,9 @@ export function NavigationProvider({
               'create-room': 'create-room',
               'user-room': 'user-room',
               'show-room': 'show-room',
-              'selectMode-room': 'selectMode-room'
+              'selectMode-room': 'selectMode-room',
+              'comp-question': 'comp-question',
+              'coop-question': 'coop-question'
             },
           },
         }),

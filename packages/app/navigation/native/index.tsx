@@ -1,14 +1,17 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import { HomeScreen } from '../../features/home/screen'
-import { UserDetailScreen } from '../../features/user/detail-screen'
-import { LoginScreen } from '../../features/login/login'
+import { HomeScreen } from 'app/features/home/screen'
+import { UserDetailScreen } from 'app/features/user/detail-screen'
+import { LoginScreen } from 'app/features/login/login'
 import { CreateRoom } from 'app/features/room/create-room'
 import { SignUpScreen } from 'app/features/login/signUp'
 import { UserRoom } from 'app/features/room/user-room'
 import { ShowRoom } from 'app/features/room/show-room'
 import { SelectModeRoom } from 'app/features/room/selectMode-room'
+import { CompetitiveQuestion } from 'app/features/question/comp-question'
+import { CooperativeQuestion } from 'app/features/question/coop-question'
+
 const Stack = createNativeStackNavigator<{
   'home': undefined
   'user-detail': {
@@ -21,6 +24,8 @@ const Stack = createNativeStackNavigator<{
   'user-room': undefined,
   'show-room': undefined
   'selectMode-room': undefined
+  'comp-question': undefined
+  'coop-question': undefined
 }>()
 
 export function NativeNavigation() {
@@ -82,7 +87,20 @@ export function NativeNavigation() {
           title: 'SelectModeRoom',
         }}
       />
-
+      <Stack.Screen
+        name="comp-question"
+        component={CompetitiveQuestion}
+        options={{
+          title: 'CompetitiveQuestion'
+        }}
+      />
+      <Stack.Screen
+        name="coop-question"
+        component={CooperativeQuestion}
+        options={{
+          title: 'CooperativeQuestion'
+        }}
+      />
 
     </Stack.Navigator>
   )

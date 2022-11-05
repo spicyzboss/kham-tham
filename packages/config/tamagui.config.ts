@@ -48,6 +48,17 @@ const bodyFont = createInterFont(
     sizeLineHeight: (size) => Math.round(size * 1.1 + (size > 20 ? 10 : 10)),
   }
 )
+const dark_Input = createTheme({
+  borderColor: "#CD1D8D",
+  borderColorHover: '#CD1D8D',
+  borderColorPress: '#CD1D8D',
+  borderColorFocus: '#CD1D8D',
+  background: "#251425",
+  backgroundHover: "#251425",
+  backgroundPress: "#251425",
+  backgroundFocus: "#251425",
+  color: "#FFFCFC",
+})
 
 const dark_Button = createTheme({
   background: '#F0C000',
@@ -77,9 +88,13 @@ export const config = createTamagui({
   },
   themes: {
     ...themes,
-    dark_Button
+    dark_Button,
+    dark_Input,
+
   },
   dark_Button,
+  dark_Input,
+
   tokens,
   media: {
     xs: { maxWidth: 660 },

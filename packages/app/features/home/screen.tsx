@@ -10,6 +10,9 @@ export function HomeScreen() {
   const login = useLink({
     href: '/login',
   })
+  const competitiveQuestion = useLink({
+    href: '/comp-question',
+  })
 
   return (
     <YStack f={1} jc="center" ai="center" p="$4" space>
@@ -40,6 +43,10 @@ export function HomeScreen() {
       <XStack>
         <Button {...login}>Link to Login</Button>
       </XStack>
+      <XStack>
+        <Button {...competitiveQuestion}>comp-question</Button>
+      </XStack>
+
 
       <SheetDemo />
     </YStack>
