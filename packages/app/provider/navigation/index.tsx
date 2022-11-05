@@ -21,7 +21,8 @@ export function NavigationProvider({
               'signUp': 'signUp',
               'create-room': 'create-room',
               'user-room': 'user-room',
-              'show-room': 'show-room'
+              'show-room': 'show-room',
+              'selectMode-room': 'selectMode-room'
             },
           },
         }),

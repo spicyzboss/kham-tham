@@ -37,6 +37,9 @@ export function HomeScreen() {
       <XStack>
         <Button {...linkProps}>Link to Show Room</Button>
       </XStack>
+      <XStack>
+        <Button {...login}>Link to Login</Button>
+      </XStack>
 
       <SheetDemo />
     </YStack>

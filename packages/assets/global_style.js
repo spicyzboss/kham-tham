@@ -10,4 +10,10 @@ export default StyleSheet.create({
         backgroundColor: "#251425",
 
     },
+    padding10: {
+        padding: 10
+    },
+    mt10: {
+        marginTop: 10
+    }
 })

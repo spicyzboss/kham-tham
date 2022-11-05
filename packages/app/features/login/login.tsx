@@ -25,13 +25,16 @@ export function LoginScreen({ navigation }) {
                     {isNullpassword ? <Paragraph color={"#FFFCFC"} ta="right">null password</Paragraph> : null}
                 </YStack>
 
-                <Button w={245} color="#341711" backgroundColor="$yellow11Dark"
+
+                <Button w={245}
                     onPress={
                         () => {
                             email == null || email == '' ? setIsNullemail(true) : setIsNullemail(false)
                             password == null || password == '' ? setIsNullpassword(true) : setIsNullpassword(false)
                             if (!(email == null || email == '' || password == null || password == '')) {
-                                navigation.navigate('home')
+                                setIsNullemail(false)
+                                setIsNullpassword(false)
+                                navigation.navigate('user-room')
                             }
                         }
                     }> Sign In
@@ -42,10 +45,6 @@ export function LoginScreen({ navigation }) {
                     </Paragraph>
                 </YStack>
             </YStack>
-
-            <Button {...Login}>
-                Go Home
-            </Button>
         </YStack>
     )
 

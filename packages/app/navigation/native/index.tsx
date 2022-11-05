@@ -8,18 +8,19 @@ import { CreateRoom } from 'app/features/room/create-room'
 import { SignUpScreen } from 'app/features/login/signUp'
 import { UserRoom } from 'app/features/room/user-room'
 import { ShowRoom } from 'app/features/room/show-room'
-
+import { SelectModeRoom } from 'app/features/room/selectMode-room'
 const Stack = createNativeStackNavigator<{
   'home': undefined
   'user-detail': {
     id: string
   }
-  login: undefined
-  signIn: undefined
+  'login': undefined
+  'signIn': undefined
   'signUp': undefined
   'create-room': undefined
   'user-room': undefined,
   'show-room': undefined
+  'selectMode-room': undefined
 }>()
 
 export function NativeNavigation() {
@@ -74,6 +75,14 @@ export function NativeNavigation() {
           title: 'ShowRoom',
         }}
       />
+      <Stack.Screen
+        name="selectMode-room"
+        component={SelectModeRoom}
+        options={{
+          title: 'SelectModeRoom',
+        }}
+      />
+
 
     </Stack.Navigator>
   )
