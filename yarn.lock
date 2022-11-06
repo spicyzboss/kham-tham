@@ -4934,6 +4934,7 @@ __metadata:
     "@tamagui/shorthands": 1.0.1-beta.193
     "@tamagui/theme-base": 1.0.1-beta.193
     expo-linking: ^3.2.2
+    react-native-leaderboard: ^1.0.6
     solito: ^0.0.26
   languageName: unknown
   linkType: soft
@@ -13073,7 +13074,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.6.0, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -13311,6 +13312,15 @@ __metadata:
   version: 0.0.7
   resolution: "react-native-gradle-plugin@npm:0.0.7"
   checksum: 959ce3bcbc8362909210fae894e4b414a0afdff39fe1683463214b7feddae6beaf8584ebe62323b1e91ba31de00311e826588e0d807c93a949e445b1770cac27
+  languageName: node
+  linkType: hard
+
+"react-native-leaderboard@npm:^1.0.6":
+  version: 1.0.6
+  resolution: "react-native-leaderboard@npm:1.0.6"
+  dependencies:
+    prop-types: ^15.6.0
+  checksum: 1008894122b788803ae5ea8d2ec4b58d8ec77116fe659b84da84887b167e2ed528b6a58640fb7facbe262555c66e372f8d934d2f4e617a1ee1cdb80c4886fa0a
   languageName: node
   linkType: hard
 
