@@ -24,7 +24,8 @@ export function NavigationProvider({
               'show-room': 'show-room',
               'selectMode-room': 'selectMode-room',
               'comp-question': 'comp-question',
-              'coop-question': 'coop-question'
+              'coop-question': 'coop-question',
+              'comp-score': 'comp-score'
             },
           },
         }),

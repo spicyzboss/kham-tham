@@ -1,8 +1,11 @@
-import { Button, H1, Input, Paragraph, YStack } from '@my/ui'
+import { Button, H1, Input, Paragraph, YStack, Image, Dialog } from '@my/ui'
 import React, { useState } from 'react'
 import { useLink } from 'solito/link'
 import globalStyles from "../../../assets/global_style"
-import { ContainerConfirmOTP } from 'app/components/confirmOTP'
+
+import { ContainerConfirmOTP } from 'app/components/login/confirmOTP'
+import { Alert, Modal, StyleSheet } from 'react-native'
+
 export function SignUpScreen() {
     const Login = useLink({ href: '/login' })
 
@@ -38,12 +41,7 @@ export function SignUpScreen() {
                 <Paragraph color="#CD1D8D" ta="left" >Tel</Paragraph>
                 <Input value={tel} onChangeText={setTel} w={245} color="#FFFCFC" size="$4" borderWidth={2} />
             </YStack>
-
-            <YStack w={245}>
-                <Button {...Login}>
-                    Confirm Sign Up
-                </Button>
-            </YStack>
+            <ContainerConfirmOTP></ContainerConfirmOTP>
         </YStack>
     )
 

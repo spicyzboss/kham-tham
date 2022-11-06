@@ -10,8 +10,8 @@ export function HomeScreen() {
   const login = useLink({
     href: '/login',
   })
-  const competitiveQuestion = useLink({
-    href: '/comp-question',
+  const competitiveScore = useLink({
+    href: '/comp-score',
   })
 
   return (
@@ -44,7 +44,7 @@ export function HomeScreen() {
         <Button {...login}>Link to Login</Button>
       </XStack>
       <XStack>
-        <Button {...competitiveQuestion}>comp-question</Button>
+        <Button {...competitiveScore}>comp-question</Button>
       </XStack>
 
 

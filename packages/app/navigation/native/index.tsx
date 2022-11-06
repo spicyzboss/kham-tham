@@ -11,6 +11,7 @@ import { ShowRoom } from 'app/features/room/show-room'
 import { SelectModeRoom } from 'app/features/room/selectMode-room'
 import { CompetitiveQuestion } from 'app/features/question/comp-question'
 import { CooperativeQuestion } from 'app/features/question/coop-question'
+import { CompetitiveScore } from 'app/features/question/comp-score'
 
 const Stack = createNativeStackNavigator<{
   'home': undefined
@@ -26,6 +27,7 @@ const Stack = createNativeStackNavigator<{
   'selectMode-room': undefined
   'comp-question': undefined
   'coop-question': undefined
+  'comp-score': undefined
 }>()
 
 export function NativeNavigation() {
@@ -100,6 +102,14 @@ export function NativeNavigation() {
         options={{
           title: 'CooperativeQuestion'
         }}
+      />
+      <Stack.Screen
+        name="comp-score"
+        component={CompetitiveScore}
+        options={{
+          title: 'CompetitiveScore'
+        }}
+
       />
 
     </Stack.Navigator>
