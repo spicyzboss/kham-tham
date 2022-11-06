@@ -28,7 +28,7 @@ export function NavigationProvider({
               'create-question': 'create-question',
               'enter-code-room': 'enter-code-room',
               'waiting-room': 'waiting-room',
-
+              'comp-score': 'comp-score'
             },
           },
         }),

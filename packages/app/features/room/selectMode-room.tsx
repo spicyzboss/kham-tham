@@ -1,12 +1,17 @@
 import { Button, H2, YStack } from "@my/ui";
 import { useLink } from 'solito/link'
-
+import { ModeInfo } from "app/components/room/modeInfo";
 export function SelectModeRoom() {
     const competitive = useLink({ href: '/create-question' })
     const cooperative = useLink({ href: '/create-question' })
     return (
         <YStack backgroundColor="black" f={1} jc="center" ai="center" space>
-            <H2 color="#FFFCFC">โหมด</H2>
+            <YStack fd={'row'} >
+                <H2 color="#FFFCFC" mr="$1">โหมด </H2>
+                <ModeInfo></ModeInfo>
+            </YStack>
+
+
             <Button backgroundColor="#F76190" w={245} {...competitive}>
                 Competitive
             </Button>

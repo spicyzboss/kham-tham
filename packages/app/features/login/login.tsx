@@ -13,7 +13,7 @@ export function LoginScreen({ navigation }) {
     return (
         <YStack backgroundColor="black" f={1} jc="center" >
             <YStack ai="center" space>
-                <H1 ta="center" >Kham Tham</H1>
+                <H1 ta="center" color="#FFFCFC">Kham Tham</H1>
                 <YStack>
                     <Input value={email} onChangeText={setEmail} w={245} color="#FFFCFC" placeholderTextColor="#CD1D8D" placeholder="email" size="$4" borderWidth={2} />
                     {isNullemail ? <Paragraph color={"#FFFCFC"} ta="right">null email</Paragraph> : null}

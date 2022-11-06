@@ -14,6 +14,7 @@ import { CooperativeQuestion } from 'app/features/question/coop-question'
 import { CreateQuestion } from 'app/features/question/createQuestion'
 import { EnterCodeRoom } from 'app/features/player/enterCodeRoom'
 import { WaitingRoom } from 'app/features/player/waitingRoom'
+import { CompetitiveScore } from 'app/features/question/comp-score'
 
 const Stack = createNativeStackNavigator<{
   'home': undefined,
@@ -34,6 +35,7 @@ const Stack = createNativeStackNavigator<{
   },
   'enter-code-room': undefined,
   'waiting-room': undefined,
+  'comp-score': undefined
 }>()
 
 export function NativeNavigation() {
@@ -130,7 +132,13 @@ export function NativeNavigation() {
           title: 'WaitingRoom'
         }}
       />
-
+      <Stack.Screen
+        name="comp-score"
+        component={CompetitiveScore}
+        options={{
+          title: 'CompetitiveScore'
+        }}
+      />
 
     </Stack.Navigator>
   )

@@ -3,7 +3,8 @@ export default StyleSheet.create({
     container: {
         width: "100%",
         height: "100%",
-        margin: 0
+        margin: 0,
+        backgroundColor: '#000'
     },
     input: {
         borderColor: "#CD1D8D",
@@ -25,4 +26,5 @@ export default StyleSheet.create({
     space: {
         paddingTop: "30%"
     }
+
 })
