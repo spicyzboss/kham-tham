@@ -24,7 +24,11 @@ export function NavigationProvider({
               'show-room': 'show-room',
               'selectMode-room': 'selectMode-room',
               'comp-question': 'comp-question',
-              'coop-question': 'coop-question'
+              'coop-question': 'coop-question',
+              'create-question': 'create-question',
+              'enter-code-room': 'enter-code-room',
+              'waiting-room': 'waiting-room',
+
             },
           },
         }),

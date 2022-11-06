@@ -60,6 +60,18 @@ const dark_Input = createTheme({
   color: "#FFFCFC",
 })
 
+const dark_TextArea = createTheme({
+  borderColor: "#CD1D8D",
+  borderColorHover: '#CD1D8D',
+  borderColorPress: '#CD1D8D',
+  borderColorFocus: '#CD1D8D',
+  background: "#251425",
+  backgroundHover: "#251425",
+  backgroundPress: "#251425",
+  backgroundFocus: "#251425",
+  color: "#FFFCFC",
+})
+
 const dark_Button = createTheme({
   background: '#F0C000',
   backgroundHover: '#F0C000',
@@ -90,11 +102,11 @@ export const config = createTamagui({
     ...themes,
     dark_Button,
     dark_Input,
-
+    dark_TextArea,
   },
   dark_Button,
   dark_Input,
-
+  dark_TextArea,
   tokens,
   media: {
     xs: { maxWidth: 660 },

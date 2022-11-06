@@ -1,9 +1,19 @@
-import { Button, XStack } from "@my/ui"
+import { Button, XStack, YStack } from "@my/ui"
 import { useState } from "react"
+import { useLink } from "solito/link"
 
 export const ContainerShowPlayer = () => {
 
     const [players, setPlayers] = useState(['wave', 'bank', 'ฉันจะกินไก่', 'omg', "wavewave", "wavewave", "w"])
+
+    const mode = "competitive"
+
+    const renderLinkQuestion = () => {
+        if (mode == "competitive") return "/comp-question"
+        if (mode == "cooperative") return "/coop-question"
+    }
+
+    const likeQuestion = useLink({ href: `${renderLinkQuestion()}` })
 
     const sortByLength = (a, b) => {
         return a.length - b.length
@@ -12,13 +22,16 @@ export const ContainerShowPlayer = () => {
     const filterPlayers = players.sort(sortByLength)
 
     return (
-        <XStack flexWrap="wrap">
-            {filterPlayers.map((playerName, index) => {
-                return (
-                    <Button key={index}>{playerName}</Button>
-                )
-            })}
-        </XStack>
+        <YStack space="$3">
+            <XStack flexWrap="wrap">
+                {filterPlayers.map((playerName, index) => {
+                    return (
+                        <Button key={index}>{playerName}</Button>
+                    )
+                })}
+            </XStack>
+            <Button {...likeQuestion}>เริ่มเล่น</Button>
+        </YStack>
     )
 
 }

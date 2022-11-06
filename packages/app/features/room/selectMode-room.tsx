@@ -1,9 +1,9 @@
-import { Button, H2, Paragraph, YStack } from "@my/ui";
+import { Button, H2, YStack } from "@my/ui";
 import { useLink } from 'solito/link'
 
 export function SelectModeRoom() {
-    const competitive = useLink({ href: '/comp-question' })
-    const cooperative = useLink({ href: '/coop-question' })
+    const competitive = useLink({ href: '/create-question' })
+    const cooperative = useLink({ href: '/create-question' })
     return (
         <YStack backgroundColor="black" f={1} jc="center" ai="center" space>
             <H2 color="#FFFCFC">โหมด</H2>

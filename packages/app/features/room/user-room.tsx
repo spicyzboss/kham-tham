@@ -6,9 +6,9 @@ import { H1, Input, XStack, Button } from '@my/ui'
 import { CardKhamTham } from '../../components/room/cardKhamTham'
 
 interface KhamTham {
-    id: Number;
+    id: number;
     name: string;
-    amountQuestions: Number;
+    amountQuestions: number;
     mode: string;
 }
 

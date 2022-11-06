@@ -13,6 +13,12 @@ export function HomeScreen() {
   const competitiveQuestion = useLink({
     href: '/comp-question',
   })
+  const linkUserRoom = useLink({
+    href: '/user-room',
+  })
+  const linkEnterCodeRoom = useLink({
+    href: '/enter-code-room',
+  })
 
   return (
     <YStack f={1} jc="center" ai="center" p="$4" space>
@@ -45,6 +51,12 @@ export function HomeScreen() {
       </XStack>
       <XStack>
         <Button {...competitiveQuestion}>comp-question</Button>
+      </XStack>
+      <XStack>
+        <Button {...linkUserRoom}>user-room</Button>
+      </XStack>
+      <XStack>
+        <Button {...linkEnterCodeRoom}>enter-code-room</Button>
       </XStack>
 
 

@@ -11,21 +11,29 @@ import { ShowRoom } from 'app/features/room/show-room'
 import { SelectModeRoom } from 'app/features/room/selectMode-room'
 import { CompetitiveQuestion } from 'app/features/question/comp-question'
 import { CooperativeQuestion } from 'app/features/question/coop-question'
+import { CreateQuestion } from 'app/features/question/createQuestion'
+import { EnterCodeRoom } from 'app/features/player/enterCodeRoom'
+import { WaitingRoom } from 'app/features/player/waitingRoom'
 
 const Stack = createNativeStackNavigator<{
-  'home': undefined
+  'home': undefined,
   'user-detail': {
     id: string
-  }
-  'login': undefined
-  'signIn': undefined
-  'signUp': undefined
-  'create-room': undefined
+  },
+  'login': undefined,
+  'signIn': undefined,
+  'signUp': undefined,
+  'create-room': undefined,
   'user-room': undefined,
-  'show-room': undefined
-  'selectMode-room': undefined
-  'comp-question': undefined
-  'coop-question': undefined
+  'show-room': undefined,
+  'selectMode-room': undefined,
+  'comp-question': undefined,
+  'coop-question': undefined,
+  'create-question': {
+    mode: string
+  },
+  'enter-code-room': undefined,
+  'waiting-room': undefined,
 }>()
 
 export function NativeNavigation() {
@@ -101,6 +109,28 @@ export function NativeNavigation() {
           title: 'CooperativeQuestion'
         }}
       />
+      <Stack.Screen
+        name="create-question"
+        component={CreateQuestion}
+        options={{
+          title: 'CreateCompQuestion'
+        }}
+      />
+      <Stack.Screen
+        name="enter-code-room"
+        component={EnterCodeRoom}
+        options={{
+          title: 'EnterCodeRoom'
+        }}
+      />
+      <Stack.Screen
+        name="waiting-room"
+        component={WaitingRoom}
+        options={{
+          title: 'WaitingRoom'
+        }}
+      />
+
 
     </Stack.Navigator>
   )

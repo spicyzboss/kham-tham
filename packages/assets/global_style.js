@@ -16,7 +16,13 @@ export default StyleSheet.create({
     mt10: {
         marginTop: 10
     },
+    m10: {
+        margin: 10
+    },
     backgroudDark: {
         backgroundColor: "#000"
     },
+    space: {
+        paddingTop: "30%"
+    }
 })
