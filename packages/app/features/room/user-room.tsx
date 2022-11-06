@@ -47,11 +47,17 @@ export function UserRoom() {
 
     return (
         <View style={[globalStyles.container, globalStyles.padding10]}>
-            <H1>Kham Tham ({amountFilterKhamThams})</H1>
-            <Input onChangeText={text => setInputFilter(text)}></Input>
-            <XStack justifyContent='center'>
-                <Button style={globalStyles.mt10} backgroundColor={filterByCompetitive ? "$red11Light" : "grey"} onPress={() => filterByMode("competitive")}>Competitive</Button>
-                <Button style={globalStyles.mt10} backgroundColor={filterByCooperative ? "$green11Light" : "grey"} onPress={() => filterByMode("cooperative")}>Cooperative</Button>
+            <H1 color="#FFFCFC">Kham Tham ({amountFilterKhamThams})</H1>
+            <Input
+                borderColor={'$blue11Dark'}
+                placeholderTextColor={'$gray9Light'}
+                placeholder=""
+                backgroundColor={'$blue3Light'}
+                color={'#17151F'}
+                onChangeText={text => setInputFilter(text)}></Input>
+            <XStack justifyContent='center' w={'100%'}>
+                <Button w={'50%'} style={globalStyles.mt10} backgroundColor={filterByCompetitive ? "#F76190" : "$blue5Light"} onPress={() => filterByMode("competitive")}>Competitive</Button>
+                <Button w={'50%'} style={globalStyles.mt10} backgroundColor={filterByCooperative ? "#C4F042" : "$blue5Light"} onPress={() => filterByMode("cooperative")}>Cooperative</Button>
             </XStack>
             {filterKhamThams.map((khamTham, index) => {
                 return (

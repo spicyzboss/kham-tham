@@ -9,7 +9,7 @@ export const ContainerConfirmOTP = () => {
     return (
         <Dialog>
             <Dialog.Trigger asChild>
-                <Button>Edit Profile</Button>
+                <Button>Confirm Sign Up</Button>
             </Dialog.Trigger>
             <Dialog.Portal>
                 <Dialog.Overlay

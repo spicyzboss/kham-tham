@@ -26,14 +26,14 @@ export const ShowRoom = () => {
     }
 
     return (
-        <View>
-            <YStack p="$3" space="$2" ai="center">
+        <YStack f={1} backgroundColor={'#000'}>
+            <YStack p="$3" space="$2" ai="center" >
                 <XGroup>
-                    <Button backgroundColor={showCode ? "$red11Light" : "grey"} onPress={() => selectTab('code')}>Code ของห้อง</Button>
-                    <Button backgroundColor={showPlayer ? "$red11Light" : "grey"} onPress={() => selectTab('player')}>ผู้เล่นที่เข้าร่วมห้อง</Button>
+                    <Button backgroundColor={showCode ? "$blue11Dark" : "$blue5Light"} onPress={() => selectTab('code')}>Code ของห้อง</Button>
+                    <Button backgroundColor={showPlayer ? "$blue11Dark" : "$blue5Light"} onPress={() => selectTab('player')}>ผู้เล่นที่เข้าร่วมห้อง</Button>
                 </XGroup>
                 {showContainerTab()}
             </YStack>
-        </View>
+        </YStack>
     )
 }

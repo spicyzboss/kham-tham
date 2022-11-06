@@ -3,7 +3,7 @@ import { ChevronLeft } from '@tamagui/feather-icons'
 import React, { useState } from 'react'
 import { createParam } from 'solito'
 import { useLink } from 'solito/link'
-
+import { CreateButtonBottom } from 'app/components/createButtonBottom'
 export function CompetitiveScore() {
 
     return (
@@ -14,6 +14,7 @@ export function CompetitiveScore() {
                 <YStack jc="center" ai="center">
                 </YStack>
             </YStack>
+            <CreateButtonBottom to='/login' name='ออกห้อง' />
         </YStack>
     )
 }
