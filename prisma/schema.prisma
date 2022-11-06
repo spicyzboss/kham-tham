@@ -15,20 +15,60 @@ model User {
   password  String
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-  Post      Post[]
+  Room      Room[]
 
   @@map("users")
 }
 
-model Post {
-  id          Int    @id @default(autoincrement())
-  user        User   @relation(fields: [userId], references: [id])
-  userId      String
-  description String
+model Player {
+  id            String @id @default(uuid())
+  name          String
+  correctAnswer Int
+  room          Room   @relation(fields: [roomId], references: [id])
+  roomId        Int
 }
 
-model Comment {
-  id       Int      @id @default(autoincrement())
-  message  String
-  createAt DateTime @default(now())
+model Room {
+  id        Int         @id @default(autoincrement())
+  code      String      @unique
+  user      User        @relation(fields: [userId], references: [id])
+  userId    String
+  name      String
+  mode      String
+  minScore  Float
+  status    StatusRoom
+  question  Question[]
+  statistic Statistic[]
+  player    Player[]
+}
+
+enum StatusRoom {
+  CLOSING
+  WAITING
+  PLAYING
+}
+
+model Question {
+  id                 Int         @id @default(autoincrement())
+  room               Room        @relation(fields: [roomId], references: [id])
+  index              Int
+  roomId             Int
+  description        String
+  choice_1           String
+  choice_2           String
+  choice_3           String
+  choice_4           String
+  timeShowQuestion   Float
+  timeAnswerQuestion Float
+  Statistic          Statistic[]
+}
+
+model Statistic {
+  id                  Int      @id @default(autoincrement())
+  room                Room     @relation(fields: [roomId], references: [id])
+  roomId              Int
+  question            Question @relation(fields: [questionId], references: [id])
+  questionId          Int
+  amountAllAnswer     Int
+  amountCorrectAnswer Int
 }
