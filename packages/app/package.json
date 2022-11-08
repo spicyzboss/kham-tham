@@ -13,10 +13,12 @@
     "@tamagui/font-inter": "1.0.1-beta.193",
     "@tamagui/shorthands": "1.0.1-beta.193",
     "@tamagui/theme-base": "1.0.1-beta.193",
+    "axios": "^1.1.3",
     "expo-linking": "^3.2.2",
     "react-native-chart-kit": "^6.12.0",
     "react-native-leaderboard": "^1.0.6",
-    "solito": "^0.0.26"
+    "solito": "^0.0.26",
+    "swr": "^1.3.0"
   },
   "sideEffects": false
 }
