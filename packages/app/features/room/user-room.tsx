@@ -63,6 +63,7 @@ export function UserRoom() {
                 return (
                     <CardKhamTham
                         key={index}
+                        roomId={3}
                         animation="bouncy"
                         size="$4"
                         w={'100%'}
