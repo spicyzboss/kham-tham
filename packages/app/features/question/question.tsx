@@ -5,7 +5,7 @@ import { createParam } from 'solito'
 import { useLink } from 'solito/link'
 const { useParam } = createParam<{ id: string }>()
 
-export function CooperativeQuestion() {
+export function Question() {
     const [id] = useParam('id')
     const sumQuestion = useState(null)
     const linkProps = useLink({ href: '/login' })
@@ -13,9 +13,8 @@ export function CooperativeQuestion() {
 
     return (
         <YStack f={1} backgroundColor="black">
-            <YStack></YStack>
             <H2 color="#FFFCFC" margin="$5" fow="800">คำถามที่ {`${id}`} / {`${sumQuestion[0]}`} </H2>
-            <YStack h="70%" jc="center" ai="center">
+            <YStack h="80%" jc="center" ai="center">
                 <YStack h="50%" fd="row">
                     <Card backgroundColor={'$red11Dark'} w='45%'
                         animation="bouncy"

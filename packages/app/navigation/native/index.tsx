@@ -9,12 +9,12 @@ import { SignUpScreen } from 'app/features/login/signUp'
 import { UserRoom } from 'app/features/room/user-room'
 import { ShowRoom } from 'app/features/room/show-room'
 import { SelectModeRoom } from 'app/features/room/selectMode-room'
-import { CompetitiveQuestion } from 'app/features/question/comp-question'
-import { CooperativeQuestion } from 'app/features/question/coop-question'
+import { Question } from 'app/features/question/question'
 import { CreateQuestion } from 'app/features/question/createQuestion'
 import { EnterCodeRoom } from 'app/features/player/enterCodeRoom'
 import { WaitingRoom } from 'app/features/player/waitingRoom'
 import { CompetitiveScore } from 'app/features/question/comp-score'
+import { StatisticRoom } from 'app/features/statistic/statisticRoom'
 
 const Stack = createNativeStackNavigator<{
   'home': undefined,
@@ -26,16 +26,29 @@ const Stack = createNativeStackNavigator<{
   'signUp': undefined,
   'create-room': undefined,
   'user-room': undefined,
-  'show-room': undefined,
+  'show-room': {
+    roomId: string,
+  },
   'selectMode-room': undefined,
-  'comp-question': undefined,
-  'coop-question': undefined,
+  'question': {
+    roomId: string,
+    order: number
+  },
   'create-question': {
+    roomId: string,
     mode: string
   },
+  // player room
   'enter-code-room': undefined,
-  'waiting-room': undefined,
-  'comp-score': undefined
+  'waiting-room': {
+    roomId: string,
+  },
+  'comp-score': {
+    roomId: string,
+  },
+  'statistic-room': {
+    roomId: string,
+  }
 }>()
 
 export function NativeNavigation() {
@@ -98,17 +111,10 @@ export function NativeNavigation() {
         }}
       />
       <Stack.Screen
-        name="comp-question"
-        component={CompetitiveQuestion}
+        name="question"
+        component={Question}
         options={{
-          title: 'CompetitiveQuestion'
-        }}
-      />
-      <Stack.Screen
-        name="coop-question"
-        component={CooperativeQuestion}
-        options={{
-          title: 'CooperativeQuestion'
+          title: 'Question'
         }}
       />
       <Stack.Screen
@@ -137,6 +143,13 @@ export function NativeNavigation() {
         component={CompetitiveScore}
         options={{
           title: 'CompetitiveScore'
+        }}
+      />
+      <Stack.Screen
+        name="statistic-room"
+        component={StatisticRoom}
+        options={{
+          title: 'StatisticRoom'
         }}
       />
 

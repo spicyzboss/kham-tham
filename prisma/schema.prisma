@@ -26,6 +26,8 @@ model Player {
   correctAnswer Int
   room          Room   @relation(fields: [roomId], references: [id])
   roomId        Int
+
+  @@map("players")
 }
 
 model Room {
@@ -40,6 +42,8 @@ model Room {
   question  Question[]
   statistic Statistic[]
   player    Player[]
+
+  @@map("rooms")
 }
 
 enum StatusRoom {
@@ -61,6 +65,8 @@ model Question {
   timeShowQuestion   Float
   timeAnswerQuestion Float
   Statistic          Statistic[]
+
+  @@map("questions")
 }
 
 model Statistic {
@@ -71,4 +77,6 @@ model Statistic {
   questionId          Int
   amountAllAnswer     Int
   amountCorrectAnswer Int
+
+  @@map("statistics")
 }
