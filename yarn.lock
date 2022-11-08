@@ -5148,6 +5148,7 @@ __metadata:
     expo-linking: ^3.2.2
     i: ^0.3.7
     npm: ^8.19.3
+    react-native-countdown-circle-timer: ^3.0.9
     react-native-leaderboard: ^1.0.6
     solito: ^0.0.26
   languageName: unknown
@@ -14279,6 +14280,17 @@ __metadata:
     jscodeshift: ^0.13.1
     nullthrows: ^1.1.1
   checksum: 73dc9464a90fde727a19ad4f002f3bc4ec948a948cd95b5f3bfbef24ff7cf2ca7282830fd99e6b1772804c1e0f172e64097190021b3a00ba27a1f9777e58cf77
+  languageName: node
+  linkType: hard
+
+"react-native-countdown-circle-timer@npm:^3.0.9":
+  version: 3.0.9
+  resolution: "react-native-countdown-circle-timer@npm:3.0.9"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-native: ">=0.50.0"
+    react-native-svg: ">=6.2.1"
+  checksum: fb865e755c67447265d9f41b7a561462a8cd9fa9474f71998ea02f7b27219379ad6e432bd554addde7d370b25c4316366842c4f025d427d68a81168593caa1eb
   languageName: node
   linkType: hard
 
