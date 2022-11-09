@@ -1,7 +1,6 @@
 import { View, StyleSheet } from 'react-native'
 import { Card, H2, H4, Paragraph, XStack, Button, CardProps } from "@my/ui"
 import { useLink } from 'solito/link'
-
 interface KhamTham extends CardProps {
     name: string;
     amountQuestions: number;
@@ -11,10 +10,12 @@ interface KhamTham extends CardProps {
 
 export const CardKhamTham = (props: KhamTham) => {
 
+
     const name = props.name
     const amountQuestions = props.amountQuestions
     const mode = props.mode
     const roomId = props.roomId
+
 
     const linkProps = useLink({
         href: `/${roomId}/statistic-room`,
