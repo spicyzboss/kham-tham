@@ -4,6 +4,8 @@ import { CreateButton } from 'app/components/createButton'
 import globalStyles from "../../../assets/global_style"
 import { H1, Input, XStack, Button } from '@my/ui'
 import { CardKhamTham } from '../../components/room/cardKhamTham'
+import useSWR from "swr"
+import axios from 'axios'
 
 interface KhamTham {
     id: number;
@@ -14,17 +16,8 @@ interface KhamTham {
 
 export function UserRoom() {
 
-    const [khamThams, setKhamThams] = useState<KhamTham[]>([{
-        id: 1,
-        name: "wave",
-        amountQuestions: 1,
-        mode: "competitive"
-    }, {
-        id: 2,
-        name: "test",
-        amountQuestions: 5,
-        mode: "cooperative"
-    }])
+
+    const [khamThams, setKhamThams] = useState<KhamTham[]>(data || [])
     const [inputFilter, setInputFilter] = useState<string>("")
     const [filterByCompetitive, setFilterByCompetitive] = useState<boolean>(false)
     const [filterByCooperative, setFilterByCooperative] = useState<boolean>(false)
@@ -45,6 +38,12 @@ export function UserRoom() {
         }
     }
 
+    const fetchRooms = url => axios.get(url).then(r => r.data)
+
+    const { data, error } = useSWR('/room', fetchRooms)
+
+    if (!data && !error) return <Button>Loading . . .</Button>
+
     return (
         <View style={[globalStyles.container, globalStyles.padding10]}>
             <H1 color="#FFFCFC">Kham Tham ({amountFilterKhamThams})</H1>
@@ -56,8 +55,8 @@ export function UserRoom() {
                 color={'#17151F'}
                 onChangeText={text => setInputFilter(text)}></Input>
             <XStack justifyContent='center' w={'100%'}>
-                <Button w={'50%'} style={globalStyles.mt10} backgroundColor={filterByCompetitive ? "#F76190" : "$blue5Light"} onPress={() => filterByMode("competitive")}>Competitive</Button>
-                <Button w={'50%'} style={globalStyles.mt10} backgroundColor={filterByCooperative ? "#C4F042" : "$blue5Light"} onPress={() => filterByMode("cooperative")}>Cooperative</Button>
+                <Button w={'50%'} style={globalStyles.mt10} theme={filterByCompetitive ? "crimson_Button" : "light"} onPress={() => filterByMode("competitive")}>Competitive</Button>
+                <Button w={'50%'} style={globalStyles.mt10} theme={filterByCooperative ? "lime_Button" : "light"} onPress={() => filterByMode("cooperative")}>Cooperative</Button>
             </XStack>
             {filterKhamThams.map((khamTham, index) => {
                 return (

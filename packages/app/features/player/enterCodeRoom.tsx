@@ -1,17 +1,9 @@
 import { Button, YStack, Input } from "@my/ui";
 import { useState } from "react";
-import axios from 'axios'
-import useSWR from 'swr'
 
 export const EnterCodeRoom = ({ navigation }) => {
 
     const [input, setInput] = useState("")
-
-    const fetchRoomByCode = (url) => axios.get(url).then(res => res.data)
-
-    const { data, error, isValidating } = useSWR(`/room/${input}`, fetchRoomByCode)
-
-    if (!error && !data) return <Button>Loading</Button>
 
     const enterRoom = () => {
         navigation.navigate("waiting-room")

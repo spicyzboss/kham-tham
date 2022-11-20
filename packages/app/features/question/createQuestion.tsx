@@ -2,7 +2,7 @@ import { H1, H3, YStack, XStack, Button, Card, Label, Input } from "@my/ui"
 import { useState } from "react"
 import { AddQuestionButton } from "../../components/question/addQuestionButton"
 import { CardQuestion } from "../../components/question/cardQuestion"
-import { ScrollView, View, StyleSheet } from 'react-native'
+import { ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native'
 import globalStyles from '../../../assets/global_style'
 
 interface Question {
@@ -15,7 +15,6 @@ interface Question {
     answerQuestion: number
 
 }
-
 
 
 export const CreateQuestion = ({ navigation }) => {

@@ -88,6 +88,38 @@ const dark_Button = createTheme({
   colorFocus: '#341711',
 })
 
+const crimson_Button = createTheme({
+  background: '#F76190',
+  backgroundHover: '#F76190',
+  backgroundPress: '#F76190',
+  backgroundFocus: '#F76190',
+  backgroundTransparent: '#F76190',
+  borderColor: '#F76190',
+  borderColorHover: '#F76190',
+  borderColorPress: '#F76190',
+  borderColorFocus: '#F76190',
+  color: '#341711',
+  colorHover: '#341711',
+  colorPress: '#341711',
+  colorFocus: '#341711',
+})
+
+const lime_Button = createTheme({
+  background: '#C4F042',
+  backgroundHover: '#C4F042',
+  backgroundPress: '#C4F042',
+  backgroundFocus: '#C4F042',
+  backgroundTransparent: '#C4F042',
+  borderColor: '#C4F042',
+  borderColorHover: '#C4F042',
+  borderColorPress: '#C4F042',
+  borderColorFocus: '#C4F042',
+  color: '#341711',
+  colorHover: '#341711',
+  colorPress: '#341711',
+  colorFocus: '#341711',
+})
+
 export const config = createTamagui({
   animations,
   defaultTheme: 'dark',
@@ -103,10 +135,14 @@ export const config = createTamagui({
     dark_Button,
     dark_Input,
     dark_TextArea,
+    crimson_Button,
+    lime_Button
   },
   dark_Button,
   dark_Input,
   dark_TextArea,
+  crimson_Button,
+  lime_Button,
   tokens,
   media: {
     xs: { maxWidth: 660 },
