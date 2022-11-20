@@ -33,14 +33,14 @@ const headingFont = createInterFont({
     15: -6,
   },
   face: {
-    700: { normal: 'InterBold' },
+    700: { normal: 'Inter' },
   },
 })
 
 const bodyFont = createInterFont(
   {
     face: {
-      700: { normal: 'InterBold' },
+      700: { normal: 'Inter' },
     },
   },
   {
