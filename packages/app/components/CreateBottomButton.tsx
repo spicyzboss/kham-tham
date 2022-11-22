@@ -1,22 +1,23 @@
 import { View } from 'react-native';
-import { Button } from '@my/ui';
+import { Button, YStack } from '@my/ui';
 import { Plus } from '@tamagui/feather-icons';
 import { StyleSheet } from 'react-native';
 import { useLink } from 'solito/link';
 
-interface PathCreateButton {
+interface PathCreateBottomButton {
   to: string;
+  name: string;
 }
 
-export default function CreateButton({ to: path }: PathCreateButton) {
+export default function CreateBottomButton({ to: path, name }: PathCreateBottomButton) {
   const linkProps = useLink({
     href: path,
   });
 
   return (
-    <View style={styles.createButton}>
-      <Button icon={Plus} size="$6"></Button>
-    </View>
+    <YStack mb={'-5%'} w={'100%'} style={styles.createButton}>
+      <Button size="$6">{name}</Button>
+    </YStack>
   );
 }
 
@@ -24,6 +25,5 @@ const styles = StyleSheet.create({
   createButton: {
     position: 'absolute',
     alignSelf: 'center',
-    bottom: '5%',
   },
 });

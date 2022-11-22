@@ -1,27 +1,25 @@
-import { View } from "react-native"
-import { Button } from "@my/ui"
-import { Plus } from "@tamagui/feather-icons"
-import { StyleSheet } from "react-native"
-import { useLink } from "solito/link"
+import { View } from 'react-native';
+import { Button } from '@my/ui';
+import { Plus } from '@tamagui/feather-icons';
+import { StyleSheet } from 'react-native';
+import { useLink } from 'solito/link';
 
-interface addQuestionFunction {
-    function: Function
+interface AddQuestionButtonProps {
+  handler: () => void;
 }
 
-export const AddQuestionButton = (props: addQuestionFunction) => {
-
-    return (
-        <View style={styles.addQuestionButton}>
-            <Button icon={Plus} size="$6" onPress={() => props.function()}>
-            </Button>
-        </View>
-    )
+export default function AddQuestionButton({ handler }: AddQuestionButtonProps) {
+  return (
+    <View style={styles.addQuestionButton}>
+      <Button icon={Plus} size="$6" onPress={() => handler()}></Button>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    addQuestionButton: {
-        position: "absolute",
-        alignSelf: 'center',
-        bottom: "5%",
-    }
-})
+  addQuestionButton: {
+    position: 'absolute',
+    alignSelf: 'center',
+    bottom: '5%',
+  },
+});

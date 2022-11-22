@@ -1,24 +1,24 @@
-import { Anchor, Button, H1, Paragraph, Separator, Sheet, XStack, YStack } from '@my/ui'
-import { ChevronDown, ChevronUp } from '@tamagui/feather-icons'
-import React, { useState } from 'react'
-import { useLink } from 'solito/link'
+import { Anchor, Button, H1, Paragraph, Separator, Sheet, XStack, YStack } from '@my/ui';
+import { ChevronDown, ChevronUp } from '@tamagui/feather-icons';
+import React, { useState } from 'react';
+import { useLink } from 'solito/link';
 
-export function HomeScreen() {
+export default function HomeScreen() {
   const linkProps = useLink({
     href: '/show-room',
-  })
+  });
   const login = useLink({
     href: '/login',
-  })
+  });
   const competitiveScore = useLink({
     href: '/comp-score',
-  })
+  });
   const linkUserRoom = useLink({
     href: '/user-room',
-  })
+  });
   const linkEnterCodeRoom = useLink({
     href: '/enter-code-room',
-  })
+  });
 
   return (
     <YStack f={1} jc="center" ai="center" p="$4" space>
@@ -59,15 +59,15 @@ export function HomeScreen() {
         <Button {...linkEnterCodeRoom}>enter-code-room</Button>
       </XStack>
 
-
       <SheetDemo />
     </YStack>
-  )
+  );
 }
 
 function SheetDemo() {
-  const [open, setOpen] = useState(false)
-  const [position, setPosition] = useState(0)
+  const [open, setOpen] = useState(false);
+  const [position, setPosition] = useState(0);
+
   return (
     <>
       <Button
@@ -93,11 +93,11 @@ function SheetDemo() {
             circular
             icon={ChevronDown}
             onPress={() => {
-              setOpen(false)
+              setOpen(false);
             }}
           />
         </Sheet.Frame>
       </Sheet>
     </>
-  )
+  );
 }

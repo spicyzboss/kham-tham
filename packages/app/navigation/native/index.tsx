@@ -1,158 +1,124 @@
-import React from 'react'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { HomeScreen } from 'app/features/home/screen'
-import { UserDetailScreen } from 'app/features/user/detail-screen'
-import { LoginScreen } from 'app/features/login/login'
-import { CreateRoom } from 'app/features/room/create-room'
-import { SignUpScreen } from 'app/features/login/signUp'
-import { UserRoom } from 'app/features/room/user-room'
-import { ShowRoom } from 'app/features/room/show-room'
-import { SelectModeRoom } from 'app/features/room/selectMode-room'
-import { Question } from 'app/features/question/question'
-import { CreateQuestion } from 'app/features/question/createQuestion'
-import { EnterCodeRoom } from 'app/features/player/enterCodeRoom'
-import { WaitingRoom } from 'app/features/player/waitingRoom'
-import { CompetitiveScore } from 'app/features/question/comp-score'
-import { StatisticRoom } from 'app/features/statistic/statisticRoom'
+import HomeScreen from 'app/features/home/Screen';
+import UserDetailScreen from 'app/features/user/UserDetailScreen';
+import LoginScreen from 'app/features/login/LoginScreen';
+import CreateRoomScreen from 'app/features/room/CreateRoomScreen';
+import SignUpScreen from 'app/features/login/SignUpScreen';
+import UserRoomScreen from 'app/features/room/UserRoomScreen';
+import ShowRoomScreen from 'app/features/room/ShowRoomScreen';
+import SelectModeRoomScreen from 'app/features/room/SelectModeRoomScreen';
+import QuestionScreen from 'app/features/question/QuestionScreen';
+import CreateQuestionScreen from 'app/features/question/CreateQuestionScreen';
+import EnterCodeRoomScreen from 'app/features/player/EnterCodeRoomScreen';
+import WaitingRoomScreen from 'app/features/player/WaitingRoomScreen';
+import CompetitiveScoreScreen from 'app/features/question/CompetitiveScoreScreen';
+import StatisticRoomScreen from 'app/features/statistic/StatisticRoomScreen';
 
-const Stack = createNativeStackNavigator<{
-  'home': undefined,
-  'user-detail': {
-    id: string
-  },
-  'login': undefined,
-  'signIn': undefined,
-  'signUp': undefined,
-  'create-room': undefined,
-  'user-room': undefined,
-  'show-room': {
-    roomId: string,
-  },
-  'selectMode-room': undefined,
-  'question': {
-    roomId: string,
-    order: number
-  },
-  'create-question': {
-    roomId: string,
-    mode: string
-  },
-  // player room
-  'enter-code-room': undefined,
-  'waiting-room': {
-    roomId: string,
-  },
-  'comp-score': {
-    roomId: string,
-  },
-  'statistic-room': {
-    roomId: string,
-  }
-}>()
+const Stack = createNativeStackNavigator<KhamThamScreen>();
 
-export function NativeNavigation() {
+export default function NativeNavigation() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="home"
+        name="HomeScreen"
         component={HomeScreen}
         options={{
           title: 'Home',
         }}
       />
       <Stack.Screen
-        name="user-detail"
+        name="UserDetailScreen"
         component={UserDetailScreen}
         options={{
           title: 'User',
         }}
       />
       <Stack.Screen
-        name="login"
+        name="LoginScreen"
         component={LoginScreen}
         options={{
           title: 'Login',
         }}
       />
       <Stack.Screen
-        name="signUp"
+        name="SignUpScreen"
         component={SignUpScreen}
         options={{
           title: 'SignUp',
         }}
       />
       <Stack.Screen
-        name="create-room"
-        component={CreateRoom}
+        name="CreateRoomScreen"
+        component={CreateRoomScreen}
         options={{
           title: 'CreateRoom',
         }}
       />
       <Stack.Screen
-        name="user-room"
-        component={UserRoom}
+        name="UserRoomScreen"
+        component={UserRoomScreen}
         options={{
           title: 'UserRoom',
         }}
       />
       <Stack.Screen
-        name="show-room"
-        component={ShowRoom}
+        name="ShowRoomScreen"
+        component={ShowRoomScreen}
         options={{
           title: 'ShowRoom',
         }}
       />
       <Stack.Screen
-        name="selectMode-room"
-        component={SelectModeRoom}
+        name="SelectModeRoomScreen"
+        component={SelectModeRoomScreen}
         options={{
           title: 'SelectModeRoom',
         }}
       />
       <Stack.Screen
-        name="question"
-        component={Question}
+        name="QuestionScreen"
+        component={QuestionScreen}
         options={{
-          title: 'Question'
+          title: 'Question',
         }}
       />
       <Stack.Screen
-        name="create-question"
-        component={CreateQuestion}
+        name="CreateQuestionScreen"
+        component={CreateQuestionScreen}
         options={{
-          title: 'CreateCompQuestion'
+          title: 'CreateCompQuestion',
         }}
       />
       <Stack.Screen
-        name="enter-code-room"
-        component={EnterCodeRoom}
+        name="EnterCodeRoomScreen"
+        component={EnterCodeRoomScreen}
         options={{
-          title: 'EnterCodeRoom'
+          title: 'EnterCodeRoom',
         }}
       />
       <Stack.Screen
-        name="waiting-room"
-        component={WaitingRoom}
+        name="WaitingRoomScreen"
+        component={WaitingRoomScreen}
         options={{
-          title: 'WaitingRoom'
+          title: 'WaitingRoom',
         }}
       />
       <Stack.Screen
-        name="comp-score"
-        component={CompetitiveScore}
+        name="CompetitiveScoreScreen"
+        component={CompetitiveScoreScreen}
         options={{
-          title: 'CompetitiveScore'
+          title: 'CompetitiveScore',
         }}
       />
       <Stack.Screen
-        name="statistic-room"
-        component={StatisticRoom}
+        name="StatisticRoomScreen"
+        component={StatisticRoomScreen}
         options={{
-          title: 'StatisticRoom'
+          title: 'StatisticRoom',
         }}
       />
-
     </Stack.Navigator>
-  )
+  );
 }

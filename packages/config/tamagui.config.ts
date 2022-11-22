@@ -1,9 +1,9 @@
-import { createTamagui, createTheme } from '@my/ui'
-import { createInterFont } from '@tamagui/font-inter'
-import { shorthands } from '@tamagui/shorthands'
-import { themes, tokens } from '@tamagui/theme-base'
+import { createTamagui, createTheme } from '@my/ui';
+import { createInterFont } from '@tamagui/font-inter';
+import { shorthands } from '@tamagui/shorthands';
+import { themes, tokens } from '@tamagui/theme-base';
 
-import { animations } from './animations'
+import { animations } from './animations';
 
 const headingFont = createInterFont({
   size: {
@@ -35,7 +35,7 @@ const headingFont = createInterFont({
   face: {
     700: { normal: 'Inter' },
   },
-})
+});
 
 const bodyFont = createInterFont(
   {
@@ -47,7 +47,7 @@ const bodyFont = createInterFont(
     sizeSize: (size) => Math.round(size * 1.1),
     sizeLineHeight: (size) => Math.round(size * 1.1 + (size > 20 ? 10 : 10)),
   }
-)
+);
 const dark_Input = createTheme({
   borderColor: "#CD1D8D",
   borderColorHover: '#CD1D8D',
@@ -58,7 +58,7 @@ const dark_Input = createTheme({
   backgroundPress: "#251425",
   backgroundFocus: "#251425",
   color: "#FFFCFC",
-})
+});
 
 const dark_TextArea = createTheme({
   borderColor: "#CD1D8D",
@@ -70,7 +70,7 @@ const dark_TextArea = createTheme({
   backgroundPress: "#251425",
   backgroundFocus: "#251425",
   color: "#FFFCFC",
-})
+});
 
 const dark_Button = createTheme({
   background: '#F0C000',
@@ -86,7 +86,7 @@ const dark_Button = createTheme({
   colorHover: '#341711',
   colorPress: '#341711',
   colorFocus: '#341711',
-})
+});
 
 const crimson_Button = createTheme({
   background: '#F76190',
@@ -102,7 +102,7 @@ const crimson_Button = createTheme({
   colorHover: '#341711',
   colorPress: '#341711',
   colorFocus: '#341711',
-})
+});
 
 const lime_Button = createTheme({
   background: '#C4F042',
@@ -118,7 +118,7 @@ const lime_Button = createTheme({
   colorHover: '#341711',
   colorPress: '#341711',
   colorFocus: '#341711',
-})
+});
 
 export const config = createTamagui({
   animations,
@@ -160,4 +160,4 @@ export const config = createTamagui({
     hoverNone: { hover: 'none' },
     pointerCoarse: { pointer: 'coarse' },
   },
-})
+});

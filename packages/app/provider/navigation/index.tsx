@@ -1,34 +1,38 @@
-import { NavigationContainer } from '@react-navigation/native'
-import * as Linking from 'expo-linking'
-import { useMemo } from 'react'
+import { NavigationContainer } from '@react-navigation/native';
+import { useNavigationContainerRef } from '@react-navigation/native';
+import { createURL } from 'expo-linking';
+import { ReactNode, useMemo } from 'react';
 
-export function NavigationProvider({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+type NavigationProviderProps = {
+  children: ReactNode;
+};
+
+export default function NavigationProvider({ children }: NavigationProviderProps) {
+  const navigationContainerRef = useNavigationContainerRef<KhamThamScreen>();
+
   return (
     <NavigationContainer
+      ref={navigationContainerRef}
       linking={useMemo(
         () => ({
-          prefixes: [Linking.createURL('/')],
+          prefixes: [createURL('')],
           config: {
-            initialRouteName: 'home',
+            initialRouteName: 'HomeScreen',
             screens: {
-              'home': '',
-              'user-detail': 'user/:id',
-              'signUp': 'signUp',
-              'login': 'login',
-              'user-room': 'user-room',
-              'create-room': 'create-room',
-              'selectMode-room': 'selectMode-room',
-              'create-question': ':roomId/:mode/create-question',
-              'show-room': ':roomId/show-room',
-              'enter-code-room': 'enter-code-room',
-              'waiting-room': ':roomId/waiting-room',
-              'question': ':roomId/question/:order',
-              'comp-score': ':roomId/comp-score',
-              'statistic-room': ':roomId/statistic-room'
+              HomeScreen: createURL('/'),
+              UserDetailScreen: createURL('/users/:id'),
+              SignUpScreen: createURL('/sign-up'),
+              LoginScreen: createURL('/login'),
+              UserRoomScreen: createURL('/room/user'),
+              CreateRoomScreen: createURL('/room/create'),
+              SelectModeRoomScreen: createURL('/room/mode'),
+              ShowRoomScreen: createURL('/room/:roomId'),
+              WaitingRoomScreen: createURL('/room/waiting/:roomId'),
+              CreateQuestionScreen: createURL('/question/:mode/:roomId'),
+              QuestionScreen: createURL('/question/:roomId/:order'),
+              CompetitiveScoreScreen: createURL('/:roomId/comp-score'),
+              StatisticRoomScreen: createURL('/room/statistic/:roomId'),
+              EnterCodeRoomScreen: createURL('/code'),
             },
           },
         }),
@@ -37,5 +41,5 @@ export function NavigationProvider({
     >
       {children}
     </NavigationContainer>
-  )
+  );
 }
