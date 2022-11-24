@@ -1,25 +1,40 @@
-import { Button, YStack, Input } from '@my/ui';
+import { Button, YStack, Input, H1, Paragraph, Spinner } from '@my/ui';
 import { useState } from 'react';
+import { KeyboardAvoidingView } from 'react-native';
+import { useRouter } from 'solito/router';
 
 export default function EnterCodeRoomScreen({ navigation }) {
+  const { push, back } = useRouter();
   const [input, setInput] = useState('');
 
+  const [loading, setLoading] = useState(false);
+
   const enterRoom = () => {
-    navigation.navigate('waiting-room');
+    setLoading(true);
+    push('/room/1/waiting');
+    setLoading(false);
   };
 
   return (
-    <YStack backgroundColor="black" f={1} jc="center" ai="center" space>
-      <Input
-        w={245}
-        placeholderTextColor="#CD1D8D"
-        placeholder="enterc"
-        onChangeText={(text) => setInput(text)}
-        size={'$4'}
-      ></Input>
-      <Button w={245} onPress={enterRoom}>
-        เข้าร่วมห้อง
-      </Button>
-    </YStack>
+    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: '#222' }} behavior="padding">
+      <YStack backgroundColor="#222" f={1} jc="center" ai="center" space="$12" theme="dark">
+        <H1>Kham Tham</H1>
+        <YStack space w={300}>
+          <Input
+            placeholderTextColor="#CD1D8D"
+            placeholder="Enter code here"
+            onChangeText={setInput}
+            size={'$5'}
+            keyboardType="number-pad"
+          />
+          <Button onPress={enterRoom}>
+            {loading ? <Spinner size="small" color="$green10" /> : <Paragraph>Join</Paragraph>}
+          </Button>
+          <Button theme="dark_white_Button" onPress={back}>
+            Back
+          </Button>
+        </YStack>
+      </YStack>
+    </KeyboardAvoidingView>
   );
 }

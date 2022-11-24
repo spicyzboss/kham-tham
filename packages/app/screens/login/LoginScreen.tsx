@@ -1,12 +1,13 @@
 import { Button, H1, Input, Paragraph, YStack, Spinner } from '@my/ui';
 import { useState } from 'react';
 import { KeyboardAvoidingView } from 'react-native';
-import { useLink } from 'solito/link';
 import { useRouter } from 'solito/router';
 
 export default function LoginScreen() {
   const { push } = useRouter();
-  const signUpLink = useLink({ href: '/sign-up' });
+  const signUp = () => {
+    push('/sign-up');
+  };
 
   const [email, setEmail] = useState('');
   const [displayEmailErrorMessage, setDisplayEmailErrorMessage] = useState(false);
@@ -24,7 +25,8 @@ export default function LoginScreen() {
     if (email && password) {
       setLoading(false);
 
-      push('/home');
+      setOpenOTP(true);
+      // push('/home');
     }
   };
 
@@ -33,38 +35,43 @@ export default function LoginScreen() {
       <YStack f={1} jc="center" ai="center" space="$12" theme="dark">
         <H1>Kham Tham</H1>
 
-        <YStack w={300} space>
-          <YStack>
-            <Input
-              value={email}
-              onChangeText={setEmail}
-              placeholderTextColor="#CD1D8D"
-              placeholder="Email*"
-              size="$4"
-              borderWidth={2}
-            />
-            {displayEmailErrorMessage && <Paragraph ta="right">Please enter your email</Paragraph>}
-          </YStack>
-
-          <YStack>
-            <Input
-              value={password}
-              onChangeText={setPassword}
-              placeholderTextColor="#CD1D8D"
-              placeholder="Password*"
-              size="$4"
-              borderWidth={2}
-            />
-            {displayPasswordErrorMessage && (
-              <Paragraph ta="right">Please enter your password</Paragraph>
-            )}
+        <YStack w={300} space="$8">
+          <YStack space>
+            <YStack>
+              <Paragraph>Email</Paragraph>
+              <Input
+                value={email}
+                onChangeText={setEmail}
+                placeholderTextColor="#CD1D8D"
+                placeholder="Please enter your email"
+                size="$4"
+                borderWidth={2}
+              />
+              {displayEmailErrorMessage && (
+                <Paragraph ta="right">Please enter your email</Paragraph>
+              )}
+            </YStack>
+            <YStack>
+              <Paragraph>Password</Paragraph>
+              <Input
+                value={password}
+                onChangeText={setPassword}
+                placeholderTextColor="#CD1D8D"
+                placeholder="Please enter your password"
+                size="$4"
+                borderWidth={2}
+              />
+              {displayPasswordErrorMessage && (
+                <Paragraph ta="right">Please enter your password</Paragraph>
+              )}
+            </YStack>
           </YStack>
 
           <YStack space>
             <Button onPress={() => validate()}>
-              {loading ? <Spinner size="large" color="$green10" /> : <Paragraph>Sign In</Paragraph>}
+              {loading ? <Spinner size="small" color="#CD1D8D" /> : <Paragraph>Sign In</Paragraph>}
             </Button>
-            <Button backgroundColor="white" {...signUpLink}>
+            <Button theme="dark_white_Button" onPress={signUp}>
               Create New Account
             </Button>
           </YStack>

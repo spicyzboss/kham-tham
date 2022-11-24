@@ -21,9 +21,9 @@ const Stack = createNativeStackNavigator<KhamThamScreen>();
 export default function NativeNavigation() {
   return (
     <Stack.Navigator
-    // screenOptions={{
-    //   headerShown: false,
-    // }}
+      screenOptions={{
+        headerShown: false,
+      }}
     >
       <Stack.Screen
         name="HomeScreen"

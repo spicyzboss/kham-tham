@@ -89,6 +89,22 @@ const dark_Button = createTheme({
   colorFocus: '#341711',
 });
 
+const dark_white_Button = createTheme({
+  background: '#FFF',
+  backgroundHover: '#FFF',
+  backgroundPress: '#FFF',
+  backgroundFocus: '#FFF',
+  backgroundTransparent: '#FFF',
+  borderColor: '#FFF',
+  borderColorHover: '#FFF',
+  borderColorPress: '#FFF',
+  borderColorFocus: '#FFF',
+  color: '#341711',
+  colorHover: '#341711',
+  colorPress: '#341711',
+  colorFocus: '#341711',
+});
+
 const crimson_Button = createTheme({
   background: '#F76190',
   backgroundHover: '#F76190',
@@ -135,6 +151,7 @@ export const config = createTamagui({
     dark_Input,
     dark_TextArea,
     dark_Button,
+    dark_white_Button,
     // crimson_Button,
     // lime_Button,
   },
