@@ -1,3 +1,3 @@
-import { UserDetailScreen } from 'app/features/user/UserDetailScreen';
+import { UserDetailScreen } from 'app/screens/user/UserDetailScreen';
 
 export default UserDetailScreen;

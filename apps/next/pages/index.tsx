@@ -1,3 +1,3 @@
-import HomeScreen from 'app/features/home/HomeScreen';
+import HomeScreen from 'app/screens/home/HomeScreen';
 
 export default HomeScreen;

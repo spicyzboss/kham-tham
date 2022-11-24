@@ -13,8 +13,9 @@ export default function EnterCodeRoomScreen({ navigation }) {
       <Input
         w={245}
         placeholderTextColor="#CD1D8D"
-        placeholder="กรอกโค้ดห้องที่นี่"
+        placeholder="enterc"
         onChangeText={(text) => setInput(text)}
+        size={'$4'}
       ></Input>
       <Button w={245} onPress={enterRoom}>
         เข้าร่วมห้อง
