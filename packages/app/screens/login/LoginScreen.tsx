@@ -25,8 +25,7 @@ export default function LoginScreen() {
     if (email && password) {
       setLoading(false);
 
-      setOpenOTP(true);
-      // push('/home');
+      push('/home');
     }
   };
 
