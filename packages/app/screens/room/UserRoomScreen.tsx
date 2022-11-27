@@ -42,7 +42,9 @@ export default function UserRoomScreen() {
 
   const { data, error } = useSWR('/room', fetchRooms);
 
-  if (!data && !error) return <Button>Loading . . .</Button>;
+  if (error) return <Button>Error...</Button>;
+
+  if (!data) return <Button>Loading...</Button>;
 
   return (
     <View style={[globalStyles.container, globalStyles.padding10]}>
