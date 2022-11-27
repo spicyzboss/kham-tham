@@ -4,7 +4,7 @@ import { StyleSheet, TextInput } from 'react-native';
 interface PropQuestion {
   indexQuestion: number;
   question: Question;
-  handleChange: (a, b, c) => void;
+  handleChange: (a, b) => void;
   mode: GameMode;
 }
 
@@ -15,6 +15,11 @@ export default function CardQuestion({
   mode,
 }: PropQuestion) {
   const { score, choices, showQuestion, answerQuestion } = question;
+
+  const handleChoicesChange = (index, text) => {
+    choices[index] = text
+    handleChange(indexQuestion, { choices: choices })
+  }
 
   return (
     <Card theme="dark" elevate style={styles.cardContainer}>
@@ -27,7 +32,7 @@ export default function CardQuestion({
             <Label w={60}>คะแนน</Label>
             <Input
               textAlign="center"
-              onChangeText={(text) => handleChange(indexQuestion, 'score', Number(text))}
+              onChangeText={(text) => handleChange(indexQuestion, { score: Number(text) })}
               value={String(score)}
               keyboardType="number-pad"
             />
@@ -38,7 +43,7 @@ export default function CardQuestion({
               <Label w={90}>ตัวเลือกที่ {i + 1}</Label>
               <Input
                 w={220}
-                onChangeText={(text) => handleChange(indexQuestion, 'choice', text)}
+                onChangeText={(text) => handleChoicesChange(i, text)}
                 value={choices[i]}
               />
             </XStack>
@@ -49,7 +54,7 @@ export default function CardQuestion({
               <Input
                 w={80}
                 textAlign="center"
-                onChangeText={(text) => handleChange(indexQuestion, 'showQuestion', Number(text))}
+                onChangeText={(text) => handleChange(indexQuestion, { 'showQuestion': Number(text) })}
                 value={String(showQuestion)}
                 keyboardType="number-pad"
               />
@@ -60,7 +65,7 @@ export default function CardQuestion({
               <Input
                 w={80}
                 textAlign="center"
-                onChangeText={(text) => handleChange(indexQuestion, 'answerQuestion', Number(text))}
+                onChangeText={(text) => handleChange(indexQuestion, { 'answerQuestion': Number(text) })}
                 value={String(answerQuestion)}
                 keyboardType="number-pad"
               />
