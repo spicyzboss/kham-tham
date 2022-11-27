@@ -17,7 +17,7 @@ export default function HomeScreen() {
     href: '/user-room',
   });
   const linkEnterCodeRoom = useLink({
-    href: '/enter-code-room',
+    href: '/code',
   });
 
   return (

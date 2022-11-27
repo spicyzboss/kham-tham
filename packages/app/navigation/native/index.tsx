@@ -1,26 +1,30 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import HomeScreen from 'app/features/home/Screen';
-import UserDetailScreen from 'app/features/user/UserDetailScreen';
-import LoginScreen from 'app/features/login/LoginScreen';
-import CreateRoomScreen from 'app/features/room/CreateRoomScreen';
-import SignUpScreen from 'app/features/login/SignUpScreen';
-import UserRoomScreen from 'app/features/room/UserRoomScreen';
-import ShowRoomScreen from 'app/features/room/ShowRoomScreen';
-import SelectModeRoomScreen from 'app/features/room/SelectModeRoomScreen';
-import QuestionScreen from 'app/features/question/QuestionScreen';
-import CreateQuestionScreen from 'app/features/question/CreateQuestionScreen';
-import EnterCodeRoomScreen from 'app/features/player/EnterCodeRoomScreen';
-import WaitingRoomScreen from 'app/features/player/WaitingRoomScreen';
-import CompetitiveScoreScreen from 'app/features/question/CompetitiveScoreScreen';
-import StatisticRoomScreen from 'app/features/statistic/StatisticRoomScreen';
+import HomeScreen from 'app/screens/home/HomeScreen';
+import UserDetailScreen from 'app/screens/user/UserDetailScreen';
+import LoginScreen from 'app/screens/login/LoginScreen';
+import CreateRoomScreen from 'app/screens/room/CreateRoomScreen';
+import SignUpScreen from 'app/screens/login/SignUpScreen';
+import UserRoomScreen from 'app/screens/room/UserRoomScreen';
+import ShowRoomScreen from 'app/screens/room/ShowRoomScreen';
+import SelectModeRoomScreen from 'app/screens/room/SelectModeRoomScreen';
+import QuestionScreen from 'app/screens/question/QuestionScreen';
+import CreateQuestionScreen from 'app/screens/question/CreateQuestionScreen';
+import EnterCodeRoomScreen from 'app/screens/player/EnterCodeRoomScreen';
+import WaitingRoomScreen from 'app/screens/player/WaitingRoomScreen';
+import CompetitiveScoreScreen from 'app/screens/question/CompetitiveScoreScreen';
+import StatisticRoomScreen from 'app/screens/statistic/StatisticRoomScreen';
 
 const Stack = createNativeStackNavigator<KhamThamScreen>();
 
 export default function NativeNavigation() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <Stack.Screen
         name="HomeScreen"
         component={HomeScreen}

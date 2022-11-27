@@ -1,5 +1,5 @@
 import 'expo-dev-client';
-import React, { useEffect } from 'react';
+import React from 'react';
 import NativeNavigation from 'app/navigation/native';
 import Provider from 'app/provider';
 import { useFonts } from 'expo-font';

@@ -1,0 +1,163 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Project "Kham Tham" {
+  database_type: 'MySQL'
+  Note: ''
+}
+
+Table users {
+  id String [pk]
+  username String [unique, not null]
+  email String [unique, not null]
+  password String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime
+  RoomCreated rooms [not null]
+  UserJoinedRoom users_rooms [not null]
+}
+
+Table rooms {
+  id Int [pk, increment]
+  code String [not null]
+  owner users [not null]
+  ownerId String [not null]
+  name String [not null]
+  mode GameMode [not null]
+  status RoomStatus [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  RoomQuestion room_questions [not null]
+  UserJoinedRoom users_rooms [not null]
+}
+
+Table users_rooms {
+  id Int [pk, increment]
+  room rooms [not null]
+  roomId Int [not null]
+  user users [not null]
+  userId String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  UserAnswerQuestion UserAnswerQuestion [not null]
+}
+
+Table UserAnswerQuestion {
+  id Int [pk, increment]
+  room users_rooms [not null]
+  userJoinedRoomId Int [not null]
+  questionId room_questions [not null]
+  roomQuestionId Int [not null]
+  Question4Answer question_4_answers [not null]
+  MultiSelectAnswer multi_select_answers [not null]
+  TypeAnswer type_answers [not null]
+}
+
+Table room_questions {
+  id Int [pk, increment]
+  room rooms [not null]
+  roomId Int [not null]
+  type QuestionType [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  Question4Question question_4_questions [not null]
+  MultiSelectQuestion multi_select_questions [not null]
+  TypeQuestion type_questions [not null]
+  UserAnswerQuestion UserAnswerQuestion [not null]
+}
+
+Table question_4_questions {
+  id Int [pk, increment]
+  Question room_questions [not null]
+  roomQuestionId Int [not null]
+  question1 String [not null]
+  question2 String [not null]
+  question3 String [not null]
+  question4 String [not null]
+  answer Int [not null]
+  timeDisplayQuestion Int [not null]
+}
+
+Table question_4_answers {
+  id Int [pk]
+  UserAnswerQuestion UserAnswerQuestion [not null]
+  userAnswerQuestionId Int [not null]
+  answer Int [not null]
+}
+
+Table multi_select_questions {
+  id Int [pk, increment]
+  Question room_questions [not null]
+  roomQuestionId Int [not null]
+  question1 String [not null]
+  question2 String [not null]
+  question3 String [not null]
+  question4 String [not null]
+  answer Json [not null]
+  timeDisplayQuestion Int [not null]
+}
+
+Table multi_select_answers {
+  id Int [pk]
+  UserAnswerQuestion UserAnswerQuestion [not null]
+  userAnswerQuestionId Int [not null]
+  answer Json [not null]
+}
+
+Table type_questions {
+  id Int [pk, increment]
+  Question room_questions [not null]
+  roomQuestionId Int [not null]
+  question String [not null]
+  answer String [not null]
+  timeDisplayQuestion Int [not null]
+}
+
+Table type_answers {
+  id Int [pk]
+  UserAnswerQuestion UserAnswerQuestion [not null]
+  userAnswerQuestionId Int [not null]
+  answer Json [not null]
+}
+
+Enum RoomStatus {
+  WAITING
+  PLAYING
+  ENDED
+}
+
+Enum GameMode {
+  COMPETITIVE
+  COOPERATIVE
+}
+
+Enum QuestionType {
+  QUIZ_4_ANSWER
+  MULTI_SELECT_ANSWER
+  TYPE_ANSWER
+}
+
+Ref: rooms.ownerId > users.id
+
+Ref: users_rooms.roomId > rooms.id
+
+Ref: users_rooms.userId > users.id
+
+Ref: UserAnswerQuestion.userJoinedRoomId > users_rooms.id
+
+Ref: UserAnswerQuestion.roomQuestionId > room_questions.id
+
+Ref: room_questions.roomId > rooms.id
+
+Ref: question_4_questions.roomQuestionId > room_questions.id
+
+Ref: question_4_answers.userAnswerQuestionId > UserAnswerQuestion.id
+
+Ref: multi_select_questions.roomQuestionId > room_questions.id
+
+Ref: multi_select_answers.userAnswerQuestionId > UserAnswerQuestion.id
+
+Ref: type_questions.roomQuestionId > room_questions.id
+
+Ref: type_answers.userAnswerQuestionId > UserAnswerQuestion.id

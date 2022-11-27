@@ -33,14 +33,14 @@ const headingFont = createInterFont({
     15: -6,
   },
   face: {
-    700: { normal: 'Inter' },
+    700: { normal: 'InterBold' },
   },
 });
 
 const bodyFont = createInterFont(
   {
     face: {
-      700: { normal: 'Inter' },
+      700: { normal: 'InterBold' },
     },
   },
   {
@@ -48,6 +48,7 @@ const bodyFont = createInterFont(
     sizeLineHeight: (size) => Math.round(size * 1.1 + (size > 20 ? 10 : 10)),
   }
 );
+
 const dark_Input = createTheme({
   borderColor: "#CD1D8D",
   borderColorHover: '#CD1D8D',
@@ -88,6 +89,22 @@ const dark_Button = createTheme({
   colorFocus: '#341711',
 });
 
+const dark_white_Button = createTheme({
+  background: '#FFF',
+  backgroundHover: '#FFF',
+  backgroundPress: '#FFF',
+  backgroundFocus: '#FFF',
+  backgroundTransparent: '#FFF',
+  borderColor: '#FFF',
+  borderColorHover: '#FFF',
+  borderColorPress: '#FFF',
+  borderColorFocus: '#FFF',
+  color: '#341711',
+  colorHover: '#341711',
+  colorPress: '#341711',
+  colorFocus: '#341711',
+});
+
 const crimson_Button = createTheme({
   background: '#F76190',
   backgroundHover: '#F76190',
@@ -119,7 +136,6 @@ const lime_Button = createTheme({
   colorPress: '#341711',
   colorFocus: '#341711',
 });
-
 export const config = createTamagui({
   animations,
   defaultTheme: 'dark',
@@ -132,17 +148,13 @@ export const config = createTamagui({
   },
   themes: {
     ...themes,
-    dark_Button,
     dark_Input,
     dark_TextArea,
-    crimson_Button,
-    lime_Button
+    dark_Button,
+    dark_white_Button,
+    // crimson_Button,
+    // lime_Button,
   },
-  dark_Button,
-  dark_Input,
-  dark_TextArea,
-  crimson_Button,
-  lime_Button,
   tokens,
   media: {
     xs: { maxWidth: 660 },
