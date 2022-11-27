@@ -1,5 +1,5 @@
 import { H1, H3, YStack, XStack, Button, Card, Label, Input } from '@my/ui';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AddQuestionButton, CardQuestion } from '../../components/question';
 import { ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native';
 import globalStyles from '../../../assets/global_style';
@@ -7,6 +7,8 @@ import globalStyles from '../../../assets/global_style';
 export default function CreateQuestionScreen({ navigation }) {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [minScore, setMinScore] = useState<number>(30);
+
+  // const questions = [{  }]
 
   const amountQuestions = questions.length;
   // TODO: implement GameMode
@@ -22,11 +24,19 @@ export default function CreateQuestionScreen({ navigation }) {
     setQuestions((prev) => [...prev, emptyQuestion]);
   };
 
-  const handleChange = (index, key, value) => {};
+  const handleChange = (index, value) => {
+    let copyQuestions = [...questions]
+    copyQuestions[index] = { ...copyQuestions[index], ...value }
+
+  };
 
   const submit = () => {
     navigation.navigate('show-room');
   };
+
+  useEffect(() => {
+    console.log(questions)
+  }, [questions])
 
   return (
     <View>
