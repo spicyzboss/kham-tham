@@ -85,6 +85,8 @@ model UserAnswerQuestion {
   Question4Answer   Question4Answer[]
   MultiSelectAnswer MultiSelectAnswer[]
   TypeAnswer        TypeAnswer[]
+
+  @@map("users_rooms_questions")
 }
 
 model RoomQuestion {

@@ -16,7 +16,7 @@ const loggerEnvironment = {
     },
   },
   production: true,
-}
+};
 
 async function launch() {
   const app = await NestFactory.create<NestFastifyApplication>(
