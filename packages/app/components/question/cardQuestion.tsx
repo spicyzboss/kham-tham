@@ -1,9 +1,10 @@
 import { Card, H3, Paragraph, XStack, YStack, Text, Input, Label, TextArea } from '@my/ui';
 import { StyleSheet, TextInput } from 'react-native';
+import { RoomQuestion, GameMode } from '@prisma/client'
 
 interface PropQuestion {
   indexQuestion: number;
-  question: Question;
+  question: RoomQuestion;
   handleChange: (a, b) => void;
   mode: GameMode;
 }

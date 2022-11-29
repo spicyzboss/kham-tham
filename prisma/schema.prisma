@@ -35,14 +35,13 @@ enum QuestionType {
 }
 
 model User {
-  id             String           @id @default(uuid())
-  username       String           @unique
-  email          String           @unique
-  password       String
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime?        @updatedAt
-  RoomCreated    Room[]
-  UserJoinedRoom UserJoinedRoom[]
+  id          String    @id @default(uuid())
+  username    String    @unique
+  email       String    @unique
+  password    String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+  RoomCreated Room[]
 
   @@map("users")
 }
@@ -67,8 +66,6 @@ model UserJoinedRoom {
   id                 Int                  @id @default(autoincrement())
   room               Room                 @relation(fields: [roomId], references: [id])
   roomId             Int
-  user               User                 @relation(fields: [userId], references: [id])
-  userId             String
   createdAt          DateTime             @default(now())
   updatedAt          DateTime             @updatedAt
   UserAnswerQuestion UserAnswerQuestion[]

@@ -35,8 +35,7 @@ export default function CreateQuestionScreen() {
   };
 
   const submit = () => {
-    const roomId = 3
-    push(`/room/${roomId}`);
+    push(`/room/user`);
   };
 
   useEffect(() => {

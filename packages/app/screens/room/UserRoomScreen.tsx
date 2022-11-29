@@ -38,7 +38,7 @@ export default function UserRoomScreen() {
     }
   };
 
-  const fetchRooms = async (url: string) => await axios.get(url).then((r) => setKhamThams([{ id: 2, name: "wave", amountQuestions: 2, mode: "Competitive" }]));
+  const fetchRooms = async (url: string) => await axios.get(url).then((r) => setKhamThams([{ id: 2, name: "wave", amountQuestions: 2, mode: "Competitive" },]));
 
   const { data, error } = useSWR('https://dummyjson.com/products', fetchRooms);
 
@@ -46,19 +46,16 @@ export default function UserRoomScreen() {
 
   return (
     <View style={[globalStyles.container, globalStyles.padding10]}>
-      <H1 color="#FFFCFC">Kham Tham ({amountFilterKhamThams})</H1>
+      <H1>Kham Tham ({amountFilterKhamThams})</H1>
       <Input
         borderColor={'$blue11Dark'}
         placeholderTextColor={'$gray9Light'}
-        placeholder=""
         backgroundColor={'$blue3Light'}
-        color={'#17151F'}
         onChangeText={(text) => setInputFilter(text)}
       ></Input>
       <XStack justifyContent="center" w={'100%'}>
         <Button
           w={'50%'}
-          style={globalStyles.mt10}
           theme={filterByCompetitive ? 'crimson_Button' : 'light'}
           onPress={() => filterByMode('competitive')}
         >
@@ -66,7 +63,6 @@ export default function UserRoomScreen() {
         </Button>
         <Button
           w={'50%'}
-          style={globalStyles.mt10}
           theme={filterByCooperative ? 'lime_Button' : 'light'}
           onPress={() => filterByMode('cooperative')}
         >
@@ -79,7 +75,6 @@ export default function UserRoomScreen() {
             key={index}
             roomId={3}
             animation="bouncy"
-            size="$4"
             w={'100%'}
             scale={1}
             pressStyle={{ scale: 0.95 }}

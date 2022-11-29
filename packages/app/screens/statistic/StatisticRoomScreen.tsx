@@ -13,7 +13,7 @@ export default function StatisticRoomScreen() {
   };
 
   const chartConfig = {
-    backgroundColor: '#e26a00',
+    backgroundColor: 'red',
     color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
   };
 
@@ -24,8 +24,8 @@ export default function StatisticRoomScreen() {
         yAxisLabel=""
         yAxisSuffix=""
         data={data}
-        width={300}
         height={400}
+        width={400}
       />
     </View>
   );

@@ -1,15 +1,3 @@
-type GameMode = 'Competitive' | 'Cooperative';
-
-type Choice = string[];
-
-interface Question {
-  description: string;
-  score: number;
-  choices: Choice;
-  showQuestion: number;
-  answerQuestion: number;
-}
-
 type KhamThamScreen = {
   HomeScreen: undefined;
   UserDetailScreen: {
