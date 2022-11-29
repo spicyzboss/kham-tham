@@ -68,12 +68,15 @@ Table question_4_questions {
   id Int [pk, increment]
   Question room_questions [not null]
   roomQuestionId Int [not null]
-  question1 String [not null]
-  question2 String [not null]
-  question3 String [not null]
-  question4 String [not null]
+  question String [not null]
+  choice1 String [not null]
+  choice2 String [not null]
+  choice3 String [not null]
+  choice4 String [not null]
   answer Int [not null]
   timeDisplayQuestion Int [not null]
+  timeAnswerQuestion Int [not null]
+  score Float [not null]
 }
 
 Table question_4_answers {
@@ -87,12 +90,15 @@ Table multi_select_questions {
   id Int [pk, increment]
   Question room_questions [not null]
   roomQuestionId Int [not null]
-  question1 String [not null]
-  question2 String [not null]
-  question3 String [not null]
-  question4 String [not null]
+  question String [not null]
+  choice1 String [not null]
+  choice2 String [not null]
+  choice3 String [not null]
+  choice4 String [not null]
   answer Json [not null]
   timeDisplayQuestion Int [not null]
+  timeAnswerQuestion Int [not null]
+  score Float [not null]
 }
 
 Table multi_select_answers {
@@ -109,13 +115,15 @@ Table type_questions {
   question String [not null]
   answer String [not null]
   timeDisplayQuestion Int [not null]
+  timeAnswerQuestion Int [not null]
+  score Float [not null]
 }
 
 Table type_answers {
   id Int [pk]
   UserAnswerQuestion users_rooms_questions [not null]
   userAnswerQuestionId Int [not null]
-  answer Json [not null]
+  answer String [not null]
 }
 
 Enum RoomStatus {
