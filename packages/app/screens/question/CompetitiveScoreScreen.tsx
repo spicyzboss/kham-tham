@@ -33,9 +33,9 @@ export default function CompetitiveScoreScreen() {
   const delay = 5 * 1000
 
   useEffect(() => {
-    // setTimeout(() => {
-    //   push(`/room/${roomId}/question/${Number(order) + 1}`)
-    // }, delay)
+    setTimeout(() => {
+      push(`/room/${roomId}/question/${Number(order) + 1}`)
+    }, delay)
   }, [])
 
   return (

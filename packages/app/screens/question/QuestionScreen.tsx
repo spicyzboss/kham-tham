@@ -125,12 +125,17 @@ export default function QuestionScreen() {
   const renderFinishButton = () => {
     if (question.type == "SingleSelect") return
     if (!finishAnswer) {
+      if (!click) {
+        return (
+          <Button color="white" theme="dark_Button" mb="$2" disabled>คุณยังไม่ได้เลือกคำตอบ</Button>
+        )
+      }
       return (
         <Button theme="dark_Button" mb="$2" onPress={finishMultiSelectAnswer}>ยืนยันคำตอบ</Button>
       )
     } else {
       return (
-        <Button color="white" disabled theme="dark_Button" mb="$2">ยืนยันคำตอบเรียบร้อย</Button>
+        <Button color="white" disabled theme="dark_Button" mb="$2">คุณเลือกคำตอบเรียบร้อยแล้ว</Button>
       )
     }
   }
