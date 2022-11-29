@@ -1,8 +1,14 @@
 import { Button, XStack, YStack } from '@my/ui';
 import { useState } from 'react';
-import { useLink } from 'solito/link';
+import { useRouter } from 'solito/router';
 
 export default function ContainerShowPlayer() {
+
+  const { push } = useRouter()
+
+  const roomId = 3
+  const order = 0
+
   const [players, setPlayers] = useState([
     'wave',
     'bank',
@@ -13,15 +19,11 @@ export default function ContainerShowPlayer() {
     'w',
   ]);
 
-  // TODO: implement GameMode
-  const mode = 'competitive';
+  const startRoomQuestion = () => {
 
-  const renderLinkQuestion = () => {
-    if (mode == 'competitive') return '/comp-question';
-    if (mode == 'cooperative') return '/coop-question';
-  };
+    push(`/room/${roomId}/question/${order}`)
+  }
 
-  const likeQuestion = useLink({ href: `${renderLinkQuestion()}` });
 
   const sortByLength = (a, b) => {
     return a.length - b.length;
@@ -36,7 +38,7 @@ export default function ContainerShowPlayer() {
           <Button key={index}>{playerName}</Button>
         ))}
       </XStack>
-      <Button {...likeQuestion}>เริ่มเล่น</Button>
+      <Button onPress={startRoomQuestion} theme="dark_Button">เริ่มเล่น</Button>
     </YStack>
   );
 }

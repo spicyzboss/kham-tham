@@ -92,7 +92,7 @@ export default function NativeNavigation() {
         name="CreateQuestionScreen"
         component={CreateQuestionScreen}
         options={{
-          title: 'CreateCompQuestion',
+          title: 'CreateQuestionScreen',
         }}
       />
       <Stack.Screen

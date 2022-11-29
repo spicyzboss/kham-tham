@@ -11,7 +11,7 @@ interface AddQuestionButtonProps {
 export default function AddQuestionButton({ handler }: AddQuestionButtonProps) {
   return (
     <View style={styles.addQuestionButton}>
-      <Button icon={Plus} size="$6" onPress={() => handler()}></Button>
+      <Button theme="dark_Button" icon={Plus} size="$6" onPress={() => handler()}></Button>
     </View>
   );
 }

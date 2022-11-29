@@ -3,6 +3,7 @@ type GameMode = 'Competitive' | 'Cooperative';
 type Choice = string[];
 
 interface Question {
+  description: string;
   score: number;
   choices: Choice;
   showQuestion: number;

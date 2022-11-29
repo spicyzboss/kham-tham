@@ -152,8 +152,8 @@ export const config = createTamagui({
     dark_TextArea,
     dark_Button,
     dark_white_Button,
-    // crimson_Button,
-    // lime_Button,
+    crimson_Button,
+    lime_Button,
   },
   tokens,
   media: {

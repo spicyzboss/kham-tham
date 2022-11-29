@@ -3,8 +3,10 @@ import { useState, useEffect } from 'react';
 import { AddQuestionButton, CardQuestion } from '../../components/question';
 import { ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native';
 import globalStyles from '../../../assets/global_style';
+import { useRouter } from 'solito/router';
 
-export default function CreateQuestionScreen({ navigation }) {
+export default function CreateQuestionScreen() {
+  const { push } = useRouter()
   const [questions, setQuestions] = useState<Question[]>([]);
   const [minScore, setMinScore] = useState<number>(30);
 
@@ -16,8 +18,9 @@ export default function CreateQuestionScreen({ navigation }) {
 
   const handleAddQuestionButton = () => {
     const emptyQuestion: Question = {
+      description: "",
       score: 1000,
-      choices: [],
+      choices: ["", "", "", ""],
       showQuestion: 5,
       answerQuestion: 5,
     };
@@ -27,11 +30,13 @@ export default function CreateQuestionScreen({ navigation }) {
   const handleChange = (index, value) => {
     let copyQuestions = [...questions]
     copyQuestions[index] = { ...copyQuestions[index], ...value }
+    setQuestions([...copyQuestions])
 
   };
 
   const submit = () => {
-    navigation.navigate('show-room');
+    const roomId = 3
+    push(`/room/${roomId}`);
   };
 
   useEffect(() => {
@@ -73,7 +78,7 @@ export default function CreateQuestionScreen({ navigation }) {
           ))}
         </YStack>
         {amountQuestions !== 0 && (
-          <Button style={globalStyles.m10} onPress={submit}>
+          <Button style={globalStyles.m10} onPress={submit} theme={'dark_Button'}>
             ยืนยันการสร้าง
           </Button>
         )}

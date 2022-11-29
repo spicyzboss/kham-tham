@@ -16,7 +16,7 @@ export default function CreateBottomButton({ to: path, name }: PathCreateBottomB
 
   return (
     <YStack mb={'-5%'} w={'100%'} style={styles.createButton}>
-      <Button size="$6">{name}</Button>
+      <Button size="$6" theme="dark_Button">{name}</Button>
     </YStack>
   );
 }

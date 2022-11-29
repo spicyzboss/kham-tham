@@ -1,34 +1,27 @@
-import { AlertDialog, Button, Text, Image, YStack, Paragraph } from '@my/ui';
-import { Pressable } from 'react-native';
+import { Dialog, YStack, Button } from '@my/ui';
+import { useEffect, useState, useRef } from 'react';
 
 interface QuestionText {
-  image: string;
-  questionInfo: string;
-  time: number;
+  order: number;
+  description: string;
+  timeLeft: number;
+  closeModal: () => void;
+  openModal: boolean;
 }
 
-export default function ModalQuestion({
-  image:
-    imageURL = 'https://www.logotypes101.com/logos/92/9FD796504879FC8567A988E91829720C/Undefined.png',
-  questionInfo,
-  time,
-}: QuestionText) {
+export default function ModalQuestion({ description, timeLeft, order, closeModal, openModal }: QuestionText) {
+
   return (
-    <AlertDialog>
-      <AlertDialog.Trigger asChild>
-        <Pressable>
-          <Text>คำถาม</Text>
-        </Pressable>
-      </AlertDialog.Trigger>
-      <AlertDialog.Portal>
-        <AlertDialog.Overlay
+    <Dialog modal open={openModal} >
+      <Dialog.Portal>
+        <Dialog.Overlay
           key="overlay"
           animation="quick"
           o={0.5}
           enterStyle={{ o: 0 }}
           exitStyle={{ o: 0 }}
         />
-        <AlertDialog.Content
+        <Dialog.Content
           bordered
           elevate
           key="content"
@@ -40,35 +33,32 @@ export default function ModalQuestion({
               },
             },
           ]}
+          enterStyle={{ x: 0, y: -20, opacity: 0, scale: 0.9 }}
+          exitStyle={{ x: 0, y: 10, opacity: 0, scale: 0.95 }}
           x={0}
           scale={1}
           opacity={1}
           y={0}
         >
-          <AlertDialog.Description>
-            <Image aspectRatio={1} width={300} height={300} src={imageURL} />
-            <YStack>
-              <Paragraph>{questionInfo}</Paragraph>
+          <YStack space>
+            <Dialog.Title>คำถามข้อที่ {order} </Dialog.Title>
+            <Dialog.Description>
+              {description}
+            </Dialog.Description>
+
+            <YStack ai="flex-end" mt="$2">
+              <Dialog.Close asChild>
+                <Button aria-label="Close" alignSelf='stretch' textAlign='center' theme="dark_Button" onPress={closeModal}>
+                  ปิด
+                </Button>
+              </Dialog.Close>
+              <Dialog.Description>
+                คุณเหลือเวลาอ่านคำถามอีก {timeLeft} วินาที
+              </Dialog.Description>
             </YStack>
-            <YStack backgroundColor={'$yellow11Dark'}>
-              <Paragraph>เหลือเวลาอ่านคำถามอีก</Paragraph> {time}
-            </YStack>
-          </AlertDialog.Description>
-          <AlertDialog.Cancel asChild>
-            <Button
-              backgroundColor={'$blue1Dark'}
-              color={'#F0C000'}
-              pos="absolute"
-              t="$0"
-              r="$0"
-              size="$3"
-              circular
-            >
-              X
-            </Button>
-          </AlertDialog.Cancel>
-        </AlertDialog.Content>
-      </AlertDialog.Portal>
-    </AlertDialog>
+          </YStack>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog>
   );
 }

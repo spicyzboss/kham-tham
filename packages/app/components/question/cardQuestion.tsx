@@ -14,7 +14,7 @@ export default function CardQuestion({
   question,
   mode,
 }: PropQuestion) {
-  const { score, choices, showQuestion, answerQuestion } = question;
+  const { description, score, choices, showQuestion, answerQuestion } = question;
 
   const handleChoicesChange = (index, text) => {
     choices[index] = text
@@ -37,18 +37,18 @@ export default function CardQuestion({
               keyboardType="number-pad"
             />
           </XStack>
-          <TextArea placeholder="รายละเอียดคำถาม" />
+          <TextArea placeholder="รายละเอียดคำถาม" value={description} onChangeText={(text) => handleChange(indexQuestion, { description: text })} />
           {choices.map((v, i) => (
             <XStack key={i}>
               <Label w={90}>ตัวเลือกที่ {i + 1}</Label>
               <Input
                 w={220}
                 onChangeText={(text) => handleChoicesChange(i, text)}
-                value={choices[i]}
+                value={v}
               />
             </XStack>
           ))}
-          {mode === 'Competitive' ? (
+          {mode === 'Competitive' && (
             <XStack>
               <Label w={200}>ระยะเวลาแสดงคำถาม (วินาที)</Label>
               <Input
@@ -59,18 +59,18 @@ export default function CardQuestion({
                 keyboardType="number-pad"
               />
             </XStack>
-          ) : (
-            <XStack>
-              <Label w={200}>ระยะเวลาตอบคำถาม (วินาที)</Label>
-              <Input
-                w={80}
-                textAlign="center"
-                onChangeText={(text) => handleChange(indexQuestion, { 'answerQuestion': Number(text) })}
-                value={String(answerQuestion)}
-                keyboardType="number-pad"
-              />
-            </XStack>
-          )}
+          )
+          }
+          <XStack>
+            <Label w={200}>ระยะเวลาตอบคำถาม (วินาที)</Label>
+            <Input
+              w={80}
+              textAlign="center"
+              onChangeText={(text) => handleChange(indexQuestion, { 'answerQuestion': Number(text) })}
+              value={String(answerQuestion)}
+              keyboardType="number-pad"
+            />
+          </XStack>
         </YStack>
       </Card.Header>
     </Card>

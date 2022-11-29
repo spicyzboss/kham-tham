@@ -38,11 +38,11 @@ export default function UserRoomScreen() {
     }
   };
 
-  const fetchRooms = (url) => axios.get(url).then((r) => r.data);
+  const fetchRooms = async (url: string) => await axios.get(url).then((r) => setKhamThams([{ id: 2, name: "wave", amountQuestions: 2, mode: "Competitive" }]));
 
-  const { data, error } = useSWR('/room', fetchRooms);
+  const { data, error } = useSWR('https://dummyjson.com/products', fetchRooms);
 
-  if (!data && !error) return <Button>Loading . . .</Button>;
+  if (khamThams.length == 0) return <Button>Loading . . .</Button>;
 
   return (
     <View style={[globalStyles.container, globalStyles.padding10]}>
@@ -89,7 +89,7 @@ export default function UserRoomScreen() {
           ></CardKhamTham>
         );
       })}
-      <CreateButton to="/create-room" />
+      <CreateButton to="/room/mode" />
     </View>
   );
 }

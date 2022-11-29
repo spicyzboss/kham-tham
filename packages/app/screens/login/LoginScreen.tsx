@@ -18,14 +18,13 @@ export default function LoginScreen() {
   const [loading, setLoading] = useState(false);
 
   const validate = () => {
-    setLoading(true);
     setDisplayEmailErrorMessage(!email);
     setDisplayPasswordErrorMessage(!password);
 
     if (email && password) {
-      setLoading(false);
-
-      push('/home');
+      // setLoading(true);
+      // setLoading(false);
+      push(`/room/user`);
     }
   };
 
