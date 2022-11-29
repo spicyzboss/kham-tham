@@ -1,10 +1,10 @@
-import { Card, H3, Paragraph, XStack, YStack, Text, Input, Label, TextArea } from '@my/ui';
+import { Card, H3, XStack, YStack, Input, Label, TextArea } from '@my/ui';
 import { StyleSheet, TextInput } from 'react-native';
-import { RoomQuestion, GameMode } from '@prisma/client'
+import { GameMode } from '@prisma/client'
 
 interface PropQuestion {
   indexQuestion: number;
-  question: RoomQuestion;
+  questionInfo: CreateQuestion4Question | CreateMultiSelectQuestion | CreateTypeQuestion;
   handleChange: (a, b) => void;
   mode: GameMode;
 }
@@ -12,14 +12,87 @@ interface PropQuestion {
 export default function CardQuestion({
   indexQuestion,
   handleChange,
-  question,
+  questionInfo,
   mode,
 }: PropQuestion) {
-  const { description, score, choices, showQuestion, answerQuestion } = question;
+  const { question, timeDisplayQuestion, timeAnswerQuestion, type, score, answer, ...rest } = questionInfo;
 
-  const handleChoicesChange = (index, text) => {
-    choices[index] = text
-    handleChange(indexQuestion, { choices: choices })
+  const handleAnswerChange = (indexQuestion, order, text) => {
+    let obj = {}
+    obj[`choice${order}`] = text
+    handleChange(indexQuestion, obj)
+  }
+
+  const handleSelectAnswer = (indexQuestion, order) => {
+    let newAnswer
+    if (type == "SingleSelect") {
+      newAnswer = { answer: order }
+      handleChange(indexQuestion, newAnswer)
+    }
+    if (type == "MultipleSelect") {
+      if (answer.indexOf(order) != -1) {
+        const removeIndex = answer.indexOf(order);
+        answer.splice(removeIndex, 1)
+        newAnswer = { answer: [...answer] }
+      } else {
+        newAnswer = { answer: [...answer, order] }
+      }
+
+      handleChange(indexQuestion, newAnswer)
+    }
+  }
+
+
+  const isAnswerSelect = (order) => {
+    if (type == "SingleSelect") {
+      return (
+        <>
+          <Label w={100} h={"100%"} ta="center" pr="$3" theme={answer == order ? "yellow_Text" : "white_Text"} onPress={() => handleSelectAnswer(indexQuestion, order)}>
+            {answer == order ? `ตัวเลือกที่ ${order} ${"\n"}(คำตอบ)` : `ตัวเลือกที่ ${order}`}
+          </Label>
+        </>
+      )
+    }
+    if (type == "MultipleSelect") {
+      return (
+        <Label w={100} h={"100%"} ta="center" pr="$3" theme={answer.includes(order) ? "yellow_Text" : "white_Text"} onPress={() => handleSelectAnswer(indexQuestion, order)}>
+          {answer.includes(order) ? `ตัวเลือกที่ ${order} ${"\n"}(คำตอบ)` : `ตัวเลือกที่ ${order}`}
+        </Label>
+      )
+    }
+  }
+
+
+  const renderSelectElement = (indexQuestion) => {
+    if (type != "TypeSelect") {
+      return (
+        [1, 2, 3, 4].map((order, index) => (
+          <XStack key={index} ai="center">
+            {isAnswerSelect(order)}
+            <TextArea
+              ai="stretch"
+              f={1}
+              value={rest[`choice${order}`]}
+              onChangeText={(text) => handleAnswerChange(indexQuestion, order, text)}
+            />
+          </XStack>
+        ))
+      )
+    } else {
+      return (
+        <XStack ai={'center'}>
+          <Label pr="$3" theme="white_Text">
+            คำตอบ
+          </Label>
+          <TextArea
+
+            w={300}
+            value={rest['answer']}
+            onChangeText={(text) => handleChange(indexQuestion, { answer: text })}
+          />
+        </XStack>
+      )
+    }
   }
 
   return (
@@ -27,48 +100,43 @@ export default function CardQuestion({
       <Card.Header padded>
         <YStack space="$3">
           <XStack alignItems="center">
-            <H3 color="white" mr="$3">
+            <H3 mr="$3" theme="white_Text">
               คำถามที่ {indexQuestion + 1}
             </H3>
-            <Label w={60}>คะแนน</Label>
+            <Label w={60} theme="white_Text">คะแนน</Label>
             <Input
+              ai="stretch"
+              f={1}
               textAlign="center"
               onChangeText={(text) => handleChange(indexQuestion, { score: Number(text) })}
               value={String(score)}
               keyboardType="number-pad"
             />
           </XStack>
-          <TextArea placeholder="รายละเอียดคำถาม" value={description} onChangeText={(text) => handleChange(indexQuestion, { description: text })} />
-          {choices.map((v, i) => (
-            <XStack key={i}>
-              <Label w={90}>ตัวเลือกที่ {i + 1}</Label>
-              <Input
-                w={220}
-                onChangeText={(text) => handleChoicesChange(i, text)}
-                value={v}
-              />
-            </XStack>
-          ))}
-          {mode === 'Competitive' && (
+          <TextArea ai="stretch" f={1} placeholder="รายละเอียดคำถาม" value={question} onChangeText={(text) => handleChange(indexQuestion, { question: text })} />
+          {renderSelectElement(indexQuestion)}
+          {mode === 'COMPETITIVE' && (
             <XStack>
-              <Label w={200}>ระยะเวลาแสดงคำถาม (วินาที)</Label>
+              <Label theme="white_Text" w={200}>ระยะเวลาแสดงคำถาม (วินาที)</Label>
               <Input
-                w={80}
+                ai="stretch"
+                f={1}
                 textAlign="center"
-                onChangeText={(text) => handleChange(indexQuestion, { 'showQuestion': Number(text) })}
-                value={String(showQuestion)}
+                onChangeText={(text) => handleChange(indexQuestion, { 'timeDisplayQuestion': Number(text) })}
+                value={String(timeDisplayQuestion)}
                 keyboardType="number-pad"
               />
             </XStack>
           )
           }
           <XStack>
-            <Label w={200}>ระยะเวลาตอบคำถาม (วินาที)</Label>
+            <Label theme="white_Text" w={200}>ระยะเวลาตอบคำถาม (วินาที)</Label>
             <Input
-              w={80}
+              ai="stretch"
+              f={1}
               textAlign="center"
-              onChangeText={(text) => handleChange(indexQuestion, { 'answerQuestion': Number(text) })}
-              value={String(answerQuestion)}
+              onChangeText={(text) => handleChange(indexQuestion, { 'timeAnswerQuestion': Number(text) })}
+              value={String(timeAnswerQuestion)}
               keyboardType="number-pad"
             />
           </XStack>
@@ -81,6 +149,6 @@ export default function CardQuestion({
 const styles = StyleSheet.create({
   cardContainer: {
     margin: 10,
-    height: 550,
+    flex: 1
   },
 });

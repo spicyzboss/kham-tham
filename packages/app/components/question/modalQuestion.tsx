@@ -1,5 +1,4 @@
 import { Dialog, YStack, Button } from '@my/ui';
-import { useEffect, useState, useRef } from 'react';
 
 interface QuestionText {
   order: number;

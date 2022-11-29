@@ -1,24 +1,14 @@
 import { Anchor, Button, H1, Paragraph, Separator, Sheet, XStack, YStack } from '@my/ui';
 import { ChevronDown, ChevronUp } from '@tamagui/feather-icons';
 import React, { useState } from 'react';
-import { useLink } from 'solito/link';
+import { useRouter } from 'solito/router';
 
 export default function HomeScreen() {
-  const linkProps = useLink({
-    href: '/show-room',
-  });
-  const login = useLink({
-    href: '/login',
-  });
-  const competitiveScore = useLink({
-    href: '/comp-score',
-  });
-  const linkUserRoom = useLink({
-    href: '/user-room',
-  });
-  const linkEnterCodeRoom = useLink({
-    href: '/code',
-  });
+  const { push } = useRouter()
+
+  const navigateTo = (pathName: string) => {
+    push(pathName)
+  }
 
   return (
     <YStack f={1} jc="center" ai="center" p="$4" space>
@@ -44,19 +34,10 @@ export default function HomeScreen() {
       </YStack>
 
       <XStack>
-        <Button {...linkProps}>Link to Show Room</Button>
+        <Button onPress={() => navigateTo("/login")}>Link to Login</Button>
       </XStack>
       <XStack>
-        <Button {...login}>Link to Login</Button>
-      </XStack>
-      <XStack>
-        <Button {...competitiveScore}>comp-question</Button>
-      </XStack>
-      <XStack>
-        <Button {...linkUserRoom}>user-room</Button>
-      </XStack>
-      <XStack>
-        <Button {...linkEnterCodeRoom}>enter-code-room</Button>
+        <Button onPress={() => navigateTo("/code")}>enter-code-room</Button>
       </XStack>
 
       <SheetDemo />

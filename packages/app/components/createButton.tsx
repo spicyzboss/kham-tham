@@ -16,7 +16,7 @@ export default function CreateButton({ to: path }: PathCreateButton) {
 
   return (
     <View style={styles.createButton}>
-      <Button icon={Plus} size="$6" onPress={navigateTo}></Button>
+      <Button icon={Plus} size="$6" onPress={navigateTo} theme="dark_Button"></Button>
     </View>
   );
 }

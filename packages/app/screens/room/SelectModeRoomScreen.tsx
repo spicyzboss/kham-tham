@@ -1,5 +1,5 @@
 import { Button, H2, YStack } from '@my/ui';
-import { ModeInfo } from 'app/components/room';
+import { ModalInfo } from 'app/components/room';
 import { useRouter } from "solito/router";
 
 export default function SelectModeRoomScreen() {
@@ -14,16 +14,16 @@ export default function SelectModeRoomScreen() {
   return (
     <YStack backgroundColor="black" f={1} jc="center" ai="center" space>
       <YStack fd={'row'}>
-        <H2 color="#FFFCFC" mr="$1">
+        <H2 mr="$1" theme="white_Text">
           โหมด{' '}
         </H2>
-        <ModeInfo />
+        <ModalInfo />
       </YStack>
 
-      <Button backgroundColor="#F76190" w={245} onPress={competitive}>
+      <Button theme="crimson_Button" w={245} onPress={competitive}>
         Competitive
       </Button>
-      <Button backgroundColor="#C4F042" w={245} onPress={cooperative}>
+      <Button theme="lime_Button" w={245} onPress={cooperative}>
         Cooperative
       </Button>
     </YStack>

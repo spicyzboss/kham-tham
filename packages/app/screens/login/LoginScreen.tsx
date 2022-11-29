@@ -29,7 +29,7 @@ export default function LoginScreen() {
   };
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: '#222' }} behavior="padding">
+    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: "black" }} behavior="padding">
       <YStack f={1} jc="center" ai="center" space="$12" theme="dark">
         <H1>Kham Tham</H1>
 

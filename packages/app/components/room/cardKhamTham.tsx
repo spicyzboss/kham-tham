@@ -18,14 +18,14 @@ export default function CardKhamTham({ name, amountQuestions, mode, roomId }: Kh
     push(`/room/statistic/${roomId}`)
   }
 
-  const bg = mode == 'Competitive' ? '#F76190' : '#C4F042';
+  const bg = mode == 'COMPETITIVE' ? '#F76190' : '#C4F042';
 
   return (
     <View style={[{ marginTop: 10 }]}>
       <Card backgroundColor={bg} elevate size="$4" onPress={navigateToStatistocRoom}>
         <Card.Header padded>
-          <H2>{name}</H2>
-          <H4>มีทั้งหมด {amountQuestions} คำถาม</H4>
+          <H2 theme="black_Text">{name}</H2>
+          <H4 theme="black_Text">มีทั้งหมด {amountQuestions} คำถาม</H4>
         </Card.Header>
       </Card>
     </View>

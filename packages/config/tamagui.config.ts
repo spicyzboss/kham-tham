@@ -115,10 +115,28 @@ const crimson_Button = createTheme({
   borderColorHover: '#F76190',
   borderColorPress: '#F76190',
   borderColorFocus: '#F76190',
-  color: '#341711',
-  colorHover: '#341711',
-  colorPress: '#341711',
-  colorFocus: '#341711',
+  color: 'black',
+  colorHover: 'black',
+  colorPress: 'black',
+  colorFocus: 'black',
+});
+const crimson_Text = createTheme({
+  color: '#F76190',
+  colorHover: '#F76190',
+  colorPress: '#F76190',
+  colorFocus: '#F76190',
+});
+const black_Text = createTheme({
+  color: 'black',
+  colorHover: 'black',
+  colorPress: 'black',
+  colorFocus: 'black',
+});
+const white_Text = createTheme({
+  color: 'white',
+  colorHover: 'white',
+  colorPress: 'white',
+  colorFocus: 'white',
 });
 
 const lime_Button = createTheme({
@@ -131,11 +149,25 @@ const lime_Button = createTheme({
   borderColorHover: '#C4F042',
   borderColorPress: '#C4F042',
   borderColorFocus: '#C4F042',
-  color: '#341711',
-  colorHover: '#341711',
-  colorPress: '#341711',
-  colorFocus: '#341711',
+  color: 'black',
+  colorHover: 'black',
+  colorPress: 'black',
+  colorFocus: 'black',
 });
+
+const lime_Text = createTheme({
+  color: '#C4F042',
+  colorHover: '#C4F042',
+  colorPress: '#C4F042',
+  colorFocus: '#C4F042',
+});
+const yellow_Text = createTheme({
+  color: '#F0C000',
+  colorHover: '#F0C000',
+  colorPress: '#F0C000',
+  colorFocus: '#F0C000',
+});
+
 export const config = createTamagui({
   animations,
   defaultTheme: 'dark',
@@ -153,7 +185,12 @@ export const config = createTamagui({
     dark_Button,
     dark_white_Button,
     crimson_Button,
+    crimson_Text,
     lime_Button,
+    lime_Text,
+    black_Text,
+    white_Text,
+    yellow_Text
   },
   tokens,
   media: {

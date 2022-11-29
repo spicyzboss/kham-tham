@@ -6,9 +6,11 @@ import { H1, Input, XStack, Button } from '@my/ui';
 import CardKhamTham from '../../components/room/CardKhamTham';
 import useSWR from 'swr';
 import axios from 'axios';
+import { GameMode } from '@prisma/client';
 
 interface KhamTham {
   id: number;
+  roomId: number;
   name: string;
   amountQuestions: number;
   mode: GameMode;
@@ -22,62 +24,64 @@ export default function UserRoomScreen() {
 
   let filterKhamThams = khamThams.filter((khamTham) => khamTham.name.includes(inputFilter));
   if (filterByCompetitive)
-    filterKhamThams = filterKhamThams.filter((khamThams) => khamThams.mode == 'Competitive');
+    filterKhamThams = filterKhamThams.filter((khamThams) => khamThams.mode == 'COMPETITIVE');
   if (filterByCooperative)
-    filterKhamThams = filterKhamThams.filter((khamThams) => khamThams.mode == 'Cooperative');
+    filterKhamThams = filterKhamThams.filter((khamThams) => khamThams.mode == 'COOPERATIVE');
   const amountFilterKhamThams = filterKhamThams.length;
 
   const filterByMode = (mode: string) => {
-    if (mode == 'competitive') {
+    if (mode == 'COMPETITIVE') {
       setFilterByCompetitive((prev) => !prev);
       setFilterByCooperative(false);
     }
-    if (mode == 'cooperative') {
+    if (mode == 'COOPERATIVE') {
       setFilterByCooperative((prev) => !prev);
       setFilterByCompetitive(false);
     }
   };
 
-  const fetchRooms = async (url: string) => await axios.get(url).then((r) => setKhamThams([{ id: 2, name: "wave", amountQuestions: 2, mode: "Competitive" },]));
+  const fetchRooms = async (url: string) => await axios.get(url).then((r) => setKhamThams([{ id: 2, roomId: 3, name: "wave", amountQuestions: 2, mode: "COMPETITIVE" },]));
 
-  const { data, error } = useSWR('https://dummyjson.com/products', fetchRooms);
+  const { error } = useSWR('https://dummyjson.com/products', fetchRooms);
+
+  if (error) return <Button>error</Button>
 
   if (khamThams.length == 0) return <Button>Loading . . .</Button>;
 
   return (
     <View style={[globalStyles.container, globalStyles.padding10]}>
-      <H1>Kham Tham ({amountFilterKhamThams})</H1>
+      <H1 theme="white_Text">Kham Tham ({amountFilterKhamThams})</H1>
       <Input
         borderColor={'$blue11Dark'}
         placeholderTextColor={'$gray9Light'}
         backgroundColor={'$blue3Light'}
         onChangeText={(text) => setInputFilter(text)}
       ></Input>
-      <XStack justifyContent="center" w={'100%'}>
+      <XStack justifyContent="center" w={'100%'} mt="$2">
         <Button
           w={'50%'}
           theme={filterByCompetitive ? 'crimson_Button' : 'light'}
-          onPress={() => filterByMode('competitive')}
+          onPress={() => filterByMode('COMPETITIVE')}
         >
-          Competitive
+          COMPETITIVE
         </Button>
         <Button
           w={'50%'}
           theme={filterByCooperative ? 'lime_Button' : 'light'}
-          onPress={() => filterByMode('cooperative')}
+          onPress={() => filterByMode('COOPERATIVE')}
         >
-          Cooperative
+          COOPERATIVE
         </Button>
       </XStack>
       {filterKhamThams.map((khamTham, index) => {
         return (
           <CardKhamTham
-            key={index}
-            roomId={3}
             animation="bouncy"
             w={'100%'}
             scale={1}
             pressStyle={{ scale: 0.95 }}
+            key={khamTham.id}
+            roomId={khamTham.roomId}
             name={khamTham.name}
             amountQuestions={khamTham.amountQuestions}
             mode={khamTham.mode}

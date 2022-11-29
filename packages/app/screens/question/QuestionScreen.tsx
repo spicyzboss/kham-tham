@@ -1,9 +1,11 @@
-import { H2, Paragraph, YStack, Text, Card, XStack } from '@my/ui';
+import { H2, Paragraph, YStack, Text, Card, XStack, Button, TextArea } from '@my/ui';
 import { useState, useRef, useEffect } from 'react';
 import { ModalQuestion } from 'app/components/question';
 import { useRouter } from 'solito/router';
 import { createParam } from 'solito';
 import global_style from '../../../assets/global_style';
+import { useIsFocused } from '@react-navigation/native';
+import { RoomQuestion } from '@prisma/client';
 
 
 export default function QuestionScreen() {
@@ -11,26 +13,31 @@ export default function QuestionScreen() {
   const { push } = useRouter()
   const { useParam } = createParam()
 
+  const isFocused = useIsFocused()
+
   // param part
   const [order] = useParam("order")
   const [roomId] = useParam("roomId")
 
   // question part 
   const [sumQuestion, setSumQuestion] = useState(0);
-  const [question, setQuestion] = useState<Question>({
+  const [question, setQuestion] = useState({
     description: "description",
     score: 1000,
     choices: ["wave1", "wave2", "wave3", "wave4"],
-    showQuestion: 5,
-    answerQuestion: 5
+    showQuestion: 2,
+    answerQuestion: 2,
+    type: "MultiSelect",
   });
+  const [click, setClick] = useState(false)
+  const [finishAnswer, setFinishAnswer] = useState(false)
 
   // choices part
   const backgroundChoices = ['$red11Dark', '$green11Dark', '$blue11Dark', '$yellow6Light']
-  const [choiceSelected, setChoiceSelected] = useState<number[]>([0, 1, 2, 3])
+  const [choiceSelected, setChoiceSelected] = useState<number[]>([1, 2, 3, 4])
 
   // host part
-  const isHost = true
+  const isHost = false
   const amountUserSelectChoice = [3, 2, 4, 5]
 
   // time counter part
@@ -39,51 +46,93 @@ export default function QuestionScreen() {
   // modal
   const [openModal, setOpenModal] = useState(true)
 
+  const randomNumber = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1) + min)
+  }
+
   useEffect(() => {
-    timeCounterInterval.current = window.setInterval(() => {
-      setTimeCounter(prev => prev - 1)
-    }, 1000)
-
-
     if (timeCounter <= question.showQuestion) {
       setOpenModal(false)
     }
 
     if (timeCounter <= 0) {
       stopTimeCounter()
-      navigateToNextQuestion()
+      setFinishAnswer(true)
+      if (!click) {
+        let newChoiceSelected = [randomNumber(1, 4)]
+        setChoiceSelected([...newChoiceSelected])
+      }
+      setTimeout(() => {
+        prepareNextQuestion()
+      }, 2000)
     }
-
-    console.log(timeCounter)
-
-    return () => window.clearInterval(timeCounterInterval.current)
-
   }, [timeCounter])
 
-  // useEffect(() => {
+  useEffect(() => {
+    if (isFocused) {
+      initiateValue()
+      timeCounterInterval.current = window.setInterval(() => {
+        setTimeCounter(prev => prev - 1)
+      }, 1000)
 
+    }
+  }, [isFocused])
 
-  // }, [timeCounter])
+  const initiateValue = () => {
+    setClick(false)
+    setFinishAnswer(false)
+    setOpenModal(true)
+    setTimeCounter(question.showQuestion + question.answerQuestion)
+    setChoiceSelected([1, 2, 3, 4])
+  }
 
   const stopTimeCounter = () => {
     window.clearInterval(timeCounterInterval.current)
   }
 
-  const navigateToNextQuestion = () => {
-    setOpenModal(true)
-    setTimeCounter(question.showQuestion + question.answerQuestion)
-    push(`/room/${roomId}/question/${Number(order) + 1}`)
+  const prepareNextQuestion = () => {
+    push(`/room/${roomId}/leaderBoard/${order}`)
   }
 
-  const selectChoice = (index: number) => {
-    if (!isHost) {
-      const newChoiceSelected = [index]
-      setChoiceSelected([...newChoiceSelected])
+  const selectChoice = (order: number) => {
+    let newChoiceSelected
+    if (isHost || finishAnswer) return;
+    if (!click) {
+      setClick(true)
+      newChoiceSelected = [order]
+      if (question.type == "SingleSelect") setFinishAnswer(true)
     }
+    else if (question.type == "MultiSelect") {
+      if (choiceSelected.indexOf(order) != -1) {
+        const removeIndex = choiceSelected.indexOf(order);
+        choiceSelected.splice(removeIndex, 1)
+        newChoiceSelected = [...choiceSelected]
+      } else {
+        newChoiceSelected = [...choiceSelected, order]
+      }
+    }
+    setChoiceSelected([...newChoiceSelected])
   }
 
   const closeModal = () => {
     setOpenModal(false)
+  }
+
+  const finishMultiSelectAnswer = () => {
+    setFinishAnswer(true)
+  }
+
+  const renderFinishButton = () => {
+    if (question.type == "SingleSelect") return
+    if (!finishAnswer) {
+      return (
+        <Button theme="dark_Button" mb="$2" onPress={finishMultiSelectAnswer}>ยืนยันคำตอบ</Button>
+      )
+    } else {
+      return (
+        <Button color="white" disabled theme="dark_Button" mb="$2">ยืนยันคำตอบเรียบร้อย</Button>
+      )
+    }
   }
 
 
@@ -91,16 +140,21 @@ export default function QuestionScreen() {
     <>
       <ModalQuestion description={question.description} timeLeft={timeCounter - question.answerQuestion} order={Number(order)} closeModal={closeModal} openModal={openModal} />
       <YStack f={1} backgroundColor="black">
-        <H2 color="#FFFCFC" margin="$5" fow="800">
+        <H2 theme="white_Text" margin="$5" fow="800">
           คำถามที่ {order} / {sumQuestion}
         </H2>
         <Paragraph style={global_style.padding10}>
-          คุณเหลือเวลาตอบคำถามอีก {timeCounter} วินาที
+          {timeCounter > 0 ? (
+            `คุณเหลือเวลาตอบคำถามอีก ${timeCounter} วินาที`
+          ) : (
+            `หมดเวลาตอบคำถามแล้ว`
+          )}
         </Paragraph>
-        <XStack h="80%" w="100%" jc="center" ai="center" flexWrap='wrap'>
-          {question.choices.map((choice, index) => (
+        <XStack flex={1} jc="center" ai="center" flexWrap='wrap'>
+          {question.type != "TypeSelect" ? question.choices.map((choice, index) => (
             <Card
-              backgroundColor={choiceSelected.includes(index) ? backgroundChoices[index] : "gray"}
+              key={index}
+              backgroundColor={choiceSelected.includes(index + 1) ? backgroundChoices[index] : "gray"}
               w="50%"
               h="50%"
               animation="bouncy"
@@ -109,13 +163,17 @@ export default function QuestionScreen() {
               pressStyle={{ scale: 0.875 }}
               jc="center"
               ai="center"
-              onPress={() => selectChoice(index)}
+              onPress={() => selectChoice(index + 1)}
             >
               <Text>{choice}</Text>
               {isHost && <Text>({amountUserSelectChoice[index]})</Text>}
             </Card>
-          ))}
+          )) : (
+            <TextArea m="$2" flex={1} als="stretch" multiline theme="dark_TextArea">
+            </TextArea>
+          )}
         </XStack>
+        {question.type == "MultiSelect" && renderFinishButton()}
       </YStack>
     </>
   );

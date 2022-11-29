@@ -11,7 +11,7 @@ export default function WaitingRoomScreen({ navigation }) {
   }
 
   return (
-    <YStack backgroundColor="#222" f={1} jc="center" ai="center" space theme="dark">
+    <YStack backgroundColor="black" f={1} jc="center" ai="center" space theme="dark">
       <H4>Waiting for host...</H4>
       <Button onPress={back}>Back</Button>
       <Button onPress={testHostConfirm}>Host Confirm</Button>

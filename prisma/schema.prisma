@@ -105,12 +105,15 @@ model Question4Question {
   id                  Int          @id @default(autoincrement())
   Question            RoomQuestion @relation(fields: [roomQuestionId], references: [id])
   roomQuestionId      Int
-  question1           String
-  question2           String
-  question3           String
-  question4           String
+  question            String
+  choice1             String
+  choice2             String
+  choice3             String
+  choice4             String
   answer              Int
   timeDisplayQuestion Int
+  timeAnswerQuestion  Int
+  score               Float
 
   @@map("question_4_questions")
 }
@@ -128,12 +131,15 @@ model MultiSelectQuestion {
   id                  Int          @id @default(autoincrement())
   Question            RoomQuestion @relation(fields: [roomQuestionId], references: [id])
   roomQuestionId      Int
-  question1           String
-  question2           String
-  question3           String
-  question4           String
+  question            String
+  choice1             String
+  choice2             String
+  choice3             String
+  choice4             String
   answer              Json
   timeDisplayQuestion Int
+  timeAnswerQuestion  Int
+  score               Float
 
   @@map("multi_select_questions")
 }
@@ -154,6 +160,8 @@ model TypeQuestion {
   question            String
   answer              String
   timeDisplayQuestion Int
+  timeAnswerQuestion  Int
+  score               Float
 
   @@map("type_questions")
 }
@@ -162,7 +170,7 @@ model TypeAnswer {
   id                   Int                @id
   UserAnswerQuestion   UserAnswerQuestion @relation(fields: [userAnswerQuestionId], references: [id])
   userAnswerQuestionId Int
-  answer               Json
+  answer               String
 
   @@map("type_answers")
 }

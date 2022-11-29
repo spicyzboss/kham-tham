@@ -16,8 +16,8 @@ export default function EnterCodeRoomScreen({ navigation }) {
   };
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: '#222' }} behavior="padding">
-      <YStack backgroundColor="#222" f={1} jc="center" ai="center" space="$12" theme="dark">
+    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: 'black' }} behavior="padding">
+      <YStack f={1} jc="center" ai="center" space="$12" theme="dark">
         <H1>Kham Tham</H1>
         <YStack space w={300}>
           <Input
