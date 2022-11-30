@@ -15,6 +15,8 @@ import EnterCodeRoomScreen from 'app/screens/player/EnterCodeRoomScreen';
 import WaitingRoomScreen from 'app/screens/player/WaitingRoomScreen';
 import CompetitiveScoreScreen from 'app/screens/question/CompetitiveScoreScreen';
 import StatisticRoomScreen from 'app/screens/statistic/StatisticRoomScreen';
+import BossGetDamaged from 'app/screens/question/BossGetDamaged';
+import ResultCooperativeScreen from 'app/screens/question/ResultCooperativeScreen';
 
 const Stack = createNativeStackNavigator<KhamThamScreen>();
 
@@ -121,6 +123,20 @@ export default function NativeNavigation() {
         component={StatisticRoomScreen}
         options={{
           title: 'StatisticRoom',
+        }}
+      />
+      <Stack.Screen
+        name="BossGetDamaged"
+        component={BossGetDamaged}
+        options={{
+          title: 'BossGetDamaged',
+        }}
+      />
+      <Stack.Screen
+        name="ResultCooperativeScreen"
+        component={ResultCooperativeScreen}
+        options={{
+          title: 'ResultCooperativeScreen',
         }}
       />
     </Stack.Navigator>

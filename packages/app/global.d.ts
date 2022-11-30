@@ -68,4 +68,11 @@ type KhamThamScreen = {
   StatisticRoomScreen: {
     roomId: string;
   };
+  BossGetDamaged: {
+    roomId: string;
+    order: string;
+  };
+  ResultCooperativeScreen: {
+    roomId: string;
+  };
 };

@@ -34,7 +34,11 @@ export default function CompetitiveScoreScreen() {
 
   useEffect(() => {
     setTimeout(() => {
-      push(`/room/${roomId}/question/${Number(order) + 1}`)
+      if (Number(order) > 2) {
+
+      } else {
+        push(`/room/${roomId}/question/${Number(order) + 1}`)
+      }
     }, delay)
   }, [])
 

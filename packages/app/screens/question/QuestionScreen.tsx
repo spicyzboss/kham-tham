@@ -1,4 +1,4 @@
-import { H2, Paragraph, YStack, Text, Card, XStack, Button, TextArea } from '@my/ui';
+import { H2, Paragraph, YStack, Text, Card, XStack, Button, TextArea, Progress } from '@my/ui';
 import { useState, useRef, useEffect } from 'react';
 import { ModalQuestion } from 'app/components/question';
 import { useRouter } from 'solito/router';
@@ -6,6 +6,7 @@ import { createParam } from 'solito';
 import global_style from '../../../assets/global_style';
 import { useIsFocused } from '@react-navigation/native';
 import { RoomQuestion } from '@prisma/client';
+import { GameMode } from '@prisma/client';
 
 
 export default function QuestionScreen() {
@@ -22,12 +23,13 @@ export default function QuestionScreen() {
   // question part 
   const [sumQuestion, setSumQuestion] = useState(0);
   const [question, setQuestion] = useState({
-    description: "description",
+    question: "description",
     score: 1000,
     choices: ["wave1", "wave2", "wave3", "wave4"],
     showQuestion: 2,
     answerQuestion: 2,
     type: "MultiSelect",
+    mode: "COOPERATIVE" as GameMode
   });
   const [click, setClick] = useState(false)
   const [finishAnswer, setFinishAnswer] = useState(false)
@@ -50,24 +52,29 @@ export default function QuestionScreen() {
   const randomNumber = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min)
   }
+  // BossHP 0 - 100
+  const [HP, setHP] = useState(80)
 
   useEffect(() => {
-    if (timeCounter <= question.showQuestion) {
+    if (timeCounter <= question.showQuestion && question.mode != "COOPERATIVE") {
       setOpenModal(false)
     }
-
     if (timeCounter <= 0) {
-      stopTimeCounter()
+      setOpenModal(false)
       setFinishAnswer(true)
-      if (!click) {
-        let newChoiceSelected = [randomNumber(1, 4)]
-        setChoiceSelected([...newChoiceSelected])
-      }
-      setTimeout(() => {
-        prepareNextQuestion()
-      }, 2000)
     }
   }, [timeCounter])
+
+
+  useEffect(() => {
+    if (!finishAnswer) return
+    stopTimeCounter()
+    if (!click) {
+      let newChoiceSelected = [randomNumber(1, 4)]
+      setChoiceSelected([...newChoiceSelected])
+    }
+    prepareNextQuestion()
+  }, [finishAnswer])
 
   useEffect(() => {
     if (isFocused) {
@@ -92,7 +99,13 @@ export default function QuestionScreen() {
   }
 
   const prepareNextQuestion = () => {
-    // push(`/room/${roomId}/leaderBoard/${order}`)
+    setTimeout(() => {
+      if (question.mode == "COMPETITIVE") {
+        push(`/room/${roomId}/leaderBoard/${order}`)
+      } else {
+        push(`/room/${roomId}/bossHP/${order}`)
+      }
+    }, 2000)
   }
 
   const selectChoice = (order: number) => {
@@ -119,7 +132,7 @@ export default function QuestionScreen() {
     setOpenModal(false)
   }
 
-  const finishMultiSelectAnswer = () => {
+  const finishAnswerButton = () => {
     setFinishAnswer(true)
   }
 
@@ -128,7 +141,7 @@ export default function QuestionScreen() {
     if (!finishAnswer) {
       if (click || (question.type == "TypeSelect" && typeSelectAnswer != "")) {
         return (
-          <Button theme="dark_Button" mb="$2" onPress={finishMultiSelectAnswer}>ยืนยันคำตอบ</Button>
+          <Button theme="dark_Button" mb="$2" onPress={finishAnswerButton}>ยืนยันคำตอบ</Button>
         )
       }
       if (question.type == "TypeSelect") {
@@ -146,14 +159,25 @@ export default function QuestionScreen() {
     }
   }
 
+  const renderBossHP = () => {
+    return (
+      <Progress size="$6" value={HP} mt="$5" backgroundColor="white">
+        <Progress.Indicator backgroundColor="$red10Light" animation="lazy" />
+      </Progress>
+    )
+  }
 
   return (
     <>
-      <ModalQuestion description={question.description} timeLeft={timeCounter - question.answerQuestion} order={Number(order)} closeModal={closeModal} openModal={openModal} />
-      <YStack f={1} backgroundColor="black">
-        <H2 theme="white_Text" margin="$5" fow="800">
-          คำถามที่ {order} / {sumQuestion}
-        </H2>
+      <ModalQuestion mode={question.mode} question={question.question} timeLeft={timeCounter - question.answerQuestion} order={Number(order)} closeModal={closeModal} openModal={openModal} />
+      <YStack f={1} backgroundColor="black" jc="center">
+        {question.mode == "COOPERATIVE" && renderBossHP()}
+        <XStack ai="center">
+          <H2 theme="white_Text" margin="$5" fow="800">
+            คำถามที่ {order} / {sumQuestion}
+          </H2>
+          {question.mode == "COOPERATIVE" && <Button theme="dark_Button" ml="$3" onPress={() => setOpenModal(true)}>แสดงคำถาม</Button>}
+        </XStack>
         <Paragraph style={global_style.padding10}>
           {timeCounter > 0 ? (
             `คุณเหลือเวลาตอบคำถามอีก ${timeCounter} วินาที`
@@ -168,10 +192,10 @@ export default function QuestionScreen() {
               backgroundColor={choiceSelected.includes(index + 1) ? backgroundChoices[index] : "gray"}
               w="50%"
               h="50%"
-              animation="bouncy"
+              animation="lazy"
               size="$4"
               scale={0.95}
-              pressStyle={{ scale: 0.875 }}
+              pressStyle={{ scale: 0.9 }}
               jc="center"
               ai="center"
               onPress={() => selectChoice(index + 1)}

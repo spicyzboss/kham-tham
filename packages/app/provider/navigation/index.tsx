@@ -30,6 +30,8 @@ export default function NavigationProvider({ children }: NavigationProviderProps
           CompetitiveScoreScreen: '/room/:roomId/leaderBoard/:order',
           StatisticRoomScreen: '/room/statistic/:roomId',
           EnterCodeRoomScreen: '/code',
+          BossGetDamaged: "/room/:roomId/bossHP/:order",
+          ResultCooperativeScreen: "/room/:roomId/resultBossHP"
         },
       },
     }),

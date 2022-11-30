@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import CreateButton from 'app/components/CreateButton';
 import globalStyles from '../../../assets/global_style';
 import { H1, Input, XStack, Button } from '@my/ui';
 import CardKhamTham from '../../components/room/CardKhamTham';
+import LoadingSpinner from 'app/components/LoadingSpinner';
 import useSWR from 'swr';
 import axios from 'axios';
 import { GameMode } from '@prisma/client';
@@ -46,7 +47,7 @@ export default function UserRoomScreen() {
 
   if (error) return <Button>error</Button>
 
-  if (khamThams.length == 0) return <Button>Loading . . .</Button>;
+  if (khamThams.length == 0) return <LoadingSpinner />;
 
   return (
     <View style={[globalStyles.container, globalStyles.padding10]}>
