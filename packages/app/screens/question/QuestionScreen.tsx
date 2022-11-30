@@ -35,6 +35,7 @@ export default function QuestionScreen() {
   // choices part
   const backgroundChoices = ['$red11Dark', '$green11Dark', '$blue11Dark', '$yellow6Light']
   const [choiceSelected, setChoiceSelected] = useState<number[]>([1, 2, 3, 4])
+  const [typeSelectAnswer, setTypeSelectAnswer] = useState("")
 
   // host part
   const isHost = false
@@ -91,7 +92,7 @@ export default function QuestionScreen() {
   }
 
   const prepareNextQuestion = () => {
-    push(`/room/${roomId}/leaderBoard/${order}`)
+    // push(`/room/${roomId}/leaderBoard/${order}`)
   }
 
   const selectChoice = (order: number) => {
@@ -125,17 +126,22 @@ export default function QuestionScreen() {
   const renderFinishButton = () => {
     if (question.type == "SingleSelect") return
     if (!finishAnswer) {
-      if (!click) {
+      if (click || (question.type == "TypeSelect" && typeSelectAnswer != "")) {
         return (
-          <Button color="white" theme="dark_Button" mb="$2" disabled>คุณยังไม่ได้เลือกคำตอบ</Button>
+          <Button theme="dark_Button" mb="$2" onPress={finishMultiSelectAnswer}>ยืนยันคำตอบ</Button>
+        )
+      }
+      if (question.type == "TypeSelect") {
+        return (
+          <Button color="white" theme="dark_Button" mb="$2" disabled>คุณยังไม่ได้ตอบคำถาม</Button>
         )
       }
       return (
-        <Button theme="dark_Button" mb="$2" onPress={finishMultiSelectAnswer}>ยืนยันคำตอบ</Button>
+        <Button color="white" theme="dark_Button" mb="$2" disabled>คุณยังไม่ได้เลือกคำตอบ</Button>
       )
     } else {
       return (
-        <Button color="white" disabled theme="dark_Button" mb="$2">คุณเลือกคำตอบเรียบร้อยแล้ว</Button>
+        <Button color="white" disabled theme="dark_Button" mb="$2">คุณยืนยันคำตอบเรียบร้อยแล้ว</Button>
       )
     }
   }
@@ -174,11 +180,11 @@ export default function QuestionScreen() {
               {isHost && <Text>({amountUserSelectChoice[index]})</Text>}
             </Card>
           )) : (
-            <TextArea m="$2" flex={1} als="stretch" multiline theme="dark_TextArea">
+            <TextArea editable={finishAnswer ? false : true} m="$2" flex={1} als="stretch" multiline theme="dark_TextArea" value={typeSelectAnswer} onChangeText={setTypeSelectAnswer}>
             </TextArea>
           )}
         </XStack>
-        {question.type == "MultiSelect" && renderFinishButton()}
+        {question.type != "SingleSelect" && renderFinishButton()}
       </YStack>
     </>
   );
