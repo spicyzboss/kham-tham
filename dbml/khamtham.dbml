@@ -13,8 +13,15 @@ Table users {
   email String [unique, not null]
   password String [not null]
   createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime
+  updatedAt DateTime [not null]
   RoomCreated rooms [not null]
+}
+
+Table players {
+  id String [pk]
+  username String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  PlayerJoinedRoom player_room [not null]
 }
 
 Table rooms {
@@ -27,31 +34,33 @@ Table rooms {
   status RoomStatus [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
-  RoomQuestion room_questions [not null]
-  UserJoinedRoom users_rooms [not null]
+  RoomQuestion room_question [not null]
+  PlayerJoinedRoom player_room [not null]
 }
 
-Table users_rooms {
+Table player_room {
   id Int [pk, increment]
+  player players [not null]
+  playerId String [not null]
   room rooms [not null]
   roomId Int [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
-  UserAnswerQuestion users_rooms_questions [not null]
+  PlayerAnswerQuestion player_room_question [not null]
 }
 
-Table users_rooms_questions {
+Table player_room_question {
   id Int [pk, increment]
-  room users_rooms [not null]
-  userJoinedRoomId Int [not null]
-  questionId room_questions [not null]
+  PlayerJoinedRoom player_room [not null]
+  playerJoinedRoomId Int [not null]
+  RoomQuestion room_question [not null]
   roomQuestionId Int [not null]
   Question4Answer question_4_answers [not null]
   MultiSelectAnswer multi_select_answers [not null]
   TypeAnswer type_answers [not null]
 }
 
-Table room_questions {
+Table room_question {
   id Int [pk, increment]
   room rooms [not null]
   roomId Int [not null]
@@ -61,12 +70,12 @@ Table room_questions {
   Question4Question question_4_questions [not null]
   MultiSelectQuestion multi_select_questions [not null]
   TypeQuestion type_questions [not null]
-  UserAnswerQuestion users_rooms_questions [not null]
+  PlayerAnswerQuestion player_room_question [not null]
 }
 
 Table question_4_questions {
   id Int [pk, increment]
-  Question room_questions [not null]
+  Question room_question [not null]
   roomQuestionId Int [not null]
   question String [not null]
   choice1 String [not null]
@@ -81,14 +90,14 @@ Table question_4_questions {
 
 Table question_4_answers {
   id Int [pk]
-  UserAnswerQuestion users_rooms_questions [not null]
-  userAnswerQuestionId Int [not null]
   answer Int [not null]
+  PlayerAnswerQuestion player_room_question [not null]
+  playerAnswerQuestionId Int [not null]
 }
 
 Table multi_select_questions {
   id Int [pk, increment]
-  Question room_questions [not null]
+  Question room_question [not null]
   roomQuestionId Int [not null]
   question String [not null]
   choice1 String [not null]
@@ -103,14 +112,14 @@ Table multi_select_questions {
 
 Table multi_select_answers {
   id Int [pk]
-  UserAnswerQuestion users_rooms_questions [not null]
-  userAnswerQuestionId Int [not null]
   answer Json [not null]
+  PlayerAnswerQuestion player_room_question [not null]
+  playerAnswerQuestionId Int [not null]
 }
 
 Table type_questions {
   id Int [pk, increment]
-  Question room_questions [not null]
+  Question room_question [not null]
   roomQuestionId Int [not null]
   question String [not null]
   answer String [not null]
@@ -121,9 +130,9 @@ Table type_questions {
 
 Table type_answers {
   id Int [pk]
-  UserAnswerQuestion users_rooms_questions [not null]
-  userAnswerQuestionId Int [not null]
   answer String [not null]
+  PlayerAnswerQuestion player_room_question [not null]
+  playerAnswerQuestionId Int [not null]
 }
 
 Enum RoomStatus {
@@ -145,22 +154,24 @@ Enum QuestionType {
 
 Ref: rooms.ownerId > users.id
 
-Ref: users_rooms.roomId > rooms.id
+Ref: player_room.playerId > players.id
 
-Ref: users_rooms_questions.userJoinedRoomId > users_rooms.id
+Ref: player_room.roomId > rooms.id
 
-Ref: users_rooms_questions.roomQuestionId > room_questions.id
+Ref: player_room_question.playerJoinedRoomId > player_room.id
 
-Ref: room_questions.roomId > rooms.id
+Ref: player_room_question.roomQuestionId > room_question.id
 
-Ref: question_4_questions.roomQuestionId > room_questions.id
+Ref: room_question.roomId > rooms.id
 
-Ref: question_4_answers.userAnswerQuestionId > users_rooms_questions.id
+Ref: question_4_questions.roomQuestionId > room_question.id
 
-Ref: multi_select_questions.roomQuestionId > room_questions.id
+Ref: question_4_answers.playerAnswerQuestionId > player_room_question.id
 
-Ref: multi_select_answers.userAnswerQuestionId > users_rooms_questions.id
+Ref: multi_select_questions.roomQuestionId > room_question.id
 
-Ref: type_questions.roomQuestionId > room_questions.id
+Ref: multi_select_answers.playerAnswerQuestionId > player_room_question.id
 
-Ref: type_answers.userAnswerQuestionId > users_rooms_questions.id
+Ref: type_questions.roomQuestionId > room_question.id
+
+Ref: type_answers.playerAnswerQuestionId > player_room_question.id
