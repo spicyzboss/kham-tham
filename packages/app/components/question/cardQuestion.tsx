@@ -1,6 +1,6 @@
 import { Card, H3, XStack, YStack, Input, Label, TextArea } from '@my/ui';
 import { StyleSheet, TextInput } from 'react-native';
-import { GameMode } from '@prisma/client'
+import { GameMode } from '@prisma/client';
 
 interface PropQuestion {
   indexQuestion: number;
@@ -15,69 +15,80 @@ export default function CardQuestion({
   questionInfo,
   mode,
 }: PropQuestion) {
-  const { question, timeDisplayQuestion, timeAnswerQuestion, type, score, answer, ...rest } = questionInfo;
+  const { question, timeDisplayQuestion, timeAnswerQuestion, type, score, answer, ...rest } =
+    questionInfo;
 
   const handleAnswerChange = (indexQuestion, order, text) => {
-    let obj = {}
-    obj[`choice${order}`] = text
-    handleChange(indexQuestion, obj)
-  }
+    let obj = {};
+    obj[`choice${order}`] = text;
+    handleChange(indexQuestion, obj);
+  };
 
   const handleSelectAnswer = (indexQuestion, order) => {
-    let newAnswer
-    if (type == "SingleSelect") {
-      newAnswer = { answer: order }
-      handleChange(indexQuestion, newAnswer)
+    let newAnswer;
+    if (type == 'SingleSelect') {
+      newAnswer = { answer: order };
+      handleChange(indexQuestion, newAnswer);
     }
-    if (type == "MultipleSelect") {
+    if (type == 'MultipleSelect') {
       if (answer.indexOf(order) != -1) {
         const removeIndex = answer.indexOf(order);
-        answer.splice(removeIndex, 1)
-        newAnswer = { answer: [...answer] }
+        answer.splice(removeIndex, 1);
+        newAnswer = { answer: [...answer] };
       } else {
-        newAnswer = { answer: [...answer, order] }
+        newAnswer = { answer: [...answer, order] };
       }
 
-      handleChange(indexQuestion, newAnswer)
+      handleChange(indexQuestion, newAnswer);
     }
-  }
-
+  };
 
   const isAnswerSelect = (order) => {
-    if (type == "SingleSelect") {
+    if (type == 'SingleSelect') {
       return (
         <>
-          <Label w={100} h={"100%"} ta="center" pr="$3" theme={answer == order ? "yellow_Text" : "white_Text"} onPress={() => handleSelectAnswer(indexQuestion, order)}>
-            {answer == order ? `ตัวเลือกที่ ${order} ${"\n"}(คำตอบ)` : `ตัวเลือกที่ ${order}`}
+          <Label
+            w={100}
+            h={'100%'}
+            ta="center"
+            pr="$3"
+            theme={answer == order ? 'yellow_Text' : 'white_Text'}
+            onPress={() => handleSelectAnswer(indexQuestion, order)}
+          >
+            {answer == order ? `ตัวเลือกที่ ${order} ${'\n'}(คำตอบ)` : `ตัวเลือกที่ ${order}`}
           </Label>
         </>
-      )
+      );
     }
-    if (type == "MultipleSelect") {
+    if (type == 'MultipleSelect') {
       return (
-        <Label w={100} h={"100%"} ta="center" pr="$3" theme={answer.includes(order) ? "yellow_Text" : "white_Text"} onPress={() => handleSelectAnswer(indexQuestion, order)}>
-          {answer.includes(order) ? `ตัวเลือกที่ ${order} ${"\n"}(คำตอบ)` : `ตัวเลือกที่ ${order}`}
+        <Label
+          w={100}
+          h={'100%'}
+          ta="center"
+          pr="$3"
+          theme={answer.includes(order) ? 'yellow_Text' : 'white_Text'}
+          onPress={() => handleSelectAnswer(indexQuestion, order)}
+        >
+          {answer.includes(order) ? `ตัวเลือกที่ ${order} ${'\n'}(คำตอบ)` : `ตัวเลือกที่ ${order}`}
         </Label>
-      )
+      );
     }
-  }
-
+  };
 
   const renderSelectElement = (indexQuestion) => {
-    if (type != "TypeSelect") {
-      return (
-        [1, 2, 3, 4].map((order, index) => (
-          <XStack key={index} ai="center">
-            {isAnswerSelect(order)}
-            <TextArea
-              ai="stretch"
-              f={1}
-              value={rest[`choice${order}`]}
-              onChangeText={(text) => handleAnswerChange(indexQuestion, order, text)}
-            />
-          </XStack>
-        ))
-      )
+    if (type != 'TypeSelect') {
+      return [1, 2, 3, 4].map((order, index) => (
+        <XStack key={index} ai="center">
+          {isAnswerSelect(order)}
+          <TextArea
+            ai="stretch"
+            f={1}
+            value={rest[`choice${order}`]}
+            onChangeText={(text) => handleAnswerChange(indexQuestion, order, text)}
+          />
+        </XStack>
+      ));
     } else {
       return (
         <XStack ai={'center'}>
@@ -85,15 +96,14 @@ export default function CardQuestion({
             คำตอบ
           </Label>
           <TextArea
-
             w={300}
             value={rest['answer']}
             onChangeText={(text) => handleChange(indexQuestion, { answer: text })}
           />
         </XStack>
-      )
+      );
     }
-  }
+  };
 
   return (
     <Card theme="dark" elevate style={styles.cardContainer}>
@@ -103,7 +113,9 @@ export default function CardQuestion({
             <H3 mr="$3" theme="white_Text">
               คำถามที่ {indexQuestion + 1}
             </H3>
-            <Label w={60} theme="white_Text">คะแนน</Label>
+            <Label w={60} theme="white_Text">
+              คะแนน
+            </Label>
             <Input
               ai="stretch"
               f={1}
@@ -113,29 +125,42 @@ export default function CardQuestion({
               keyboardType="number-pad"
             />
           </XStack>
-          <TextArea ai="stretch" f={1} placeholder="รายละเอียดคำถาม" value={question} onChangeText={(text) => handleChange(indexQuestion, { question: text })} />
+          <TextArea
+            ai="stretch"
+            f={1}
+            placeholder="รายละเอียดคำถาม"
+            value={question}
+            onChangeText={(text) => handleChange(indexQuestion, { question: text })}
+          />
           {renderSelectElement(indexQuestion)}
           {mode === 'COMPETITIVE' && (
             <XStack>
-              <Label theme="white_Text" w={200}>ระยะเวลาแสดงคำถาม (วินาที)</Label>
+              <Label theme="white_Text" w={200}>
+                ระยะเวลาแสดงคำถาม (วินาที)
+              </Label>
               <Input
                 ai="stretch"
                 f={1}
                 textAlign="center"
-                onChangeText={(text) => handleChange(indexQuestion, { 'timeDisplayQuestion': Number(text) })}
+                onChangeText={(text) =>
+                  handleChange(indexQuestion, { timeDisplayQuestion: Number(text) })
+                }
                 value={String(timeDisplayQuestion)}
                 keyboardType="number-pad"
               />
             </XStack>
-          )
-          }
+          )}
           <XStack>
-            <Label theme="white_Text" w={200}>ระยะเวลาตอบคำถาม (วินาที)</Label>
+            <Label theme="white_Text" w={200}>
+              ระยะเวลาตอบคำถาม (วินาที)
+            </Label>
             <Input
               ai="stretch"
               f={1}
               textAlign="center"
-              onChangeText={(text) => handleChange(indexQuestion, { 'timeAnswerQuestion': Number(text) })}
+              onChangeText={(text) =>
+                handleChange(indexQuestion, { timeAnswerQuestion: Number(text) })
+              }
               value={String(timeAnswerQuestion)}
               keyboardType="number-pad"
             />
@@ -149,6 +174,6 @@ export default function CardQuestion({
 const styles = StyleSheet.create({
   cardContainer: {
     margin: 10,
-    flex: 1
+    flex: 1,
   },
 });
