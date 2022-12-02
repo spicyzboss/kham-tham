@@ -19,9 +19,9 @@ export default function ContainerShowPlayer() {
     'w',
   ]);
 
-  const startRoomQuestion = () => {
+  const playTheRoom = () => {
 
-    push(`/room/${roomId}/question/${order}`)
+    push(`/room/${roomId}/question/1`)
   }
 
 
@@ -35,10 +35,10 @@ export default function ContainerShowPlayer() {
     <YStack space="$3">
       <XStack flexWrap="wrap">
         {filterPlayers.map((playerName, index) => (
-          <Button key={index}>{playerName}</Button>
+          <Button color="black" key={index}>{playerName}</Button>
         ))}
       </XStack>
-      <Button onPress={startRoomQuestion} theme="dark_Button">เริ่มเล่น</Button>
+      <Button onPress={playTheRoom} theme="dark_Button">เริ่มเล่น</Button>
     </YStack>
   );
 }

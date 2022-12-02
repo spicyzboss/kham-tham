@@ -9,16 +9,16 @@ export default function ContainerShowCode() {
   return (
     <Card theme="dark" elevate>
       <Card.Header padded>
-        <H2 ta="center" color="white">
+        <H2 ta="center" theme="white_Text">
           {codeRoom}
         </H2>
-        <H2 ta="center" color="white">
+        <H2 ta="center" theme="white_Text">
           or
         </H2>
         <Image
           style={styles.image}
           source={{
-            uri: 'https://www.investopedia.com/thmb/hJrIBjjMBGfx0oa_bHAgZ9AWyn0=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/qr-code-bc94057f452f4806af70fd34540f72ad.png',
+            uri: `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${codeRoom}`,
           }}
         />
       </Card.Header>
