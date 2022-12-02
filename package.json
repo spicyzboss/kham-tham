@@ -16,6 +16,7 @@
     "api": "yarn workspace api start",
     "api:dev": "yarn workspace api dev",
     "db:build": "dotenv -e .env.development -- prisma generate --data-proxy",
+    "db:lint": "dotenv -e .env.deployment -- prisma validate",
     "db:push": "dotenv -e .env.deployment -- prisma db push --skip-generate",
     "db:pull": "dotenv -e .env.deployment -- prisma db pull"
   },

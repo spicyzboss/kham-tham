@@ -35,70 +35,82 @@ enum QuestionType {
 }
 
 model User {
-  id          String    @id @default(uuid())
-  username    String    @unique
-  email       String    @unique
+  id          String   @id @default(uuid())
+  username    String   @unique
+  email       String   @unique
   password    String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime? @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   RoomCreated Room[]
 
   @@map("users")
 }
 
+model Player {
+  id               String             @id @default(uuid())
+  playername       String
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  PlayerJoinedRoom PlayerJoinedRoom[]
+
+  @@map("players")
+}
+
 model Room {
-  id             Int              @id @default(autoincrement())
-  code           String
-  owner          User             @relation(fields: [ownerId], references: [id])
-  ownerId        String
-  name           String
-  mode           GameMode
-  status         RoomStatus
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  RoomQuestion   RoomQuestion[]
-  UserJoinedRoom UserJoinedRoom[]
+  id               Int                @id @default(autoincrement())
+  code             String
+  owner            User               @relation(fields: [ownerId], references: [id])
+  ownerId          String
+  name             String
+  mode             GameMode
+  status           RoomStatus
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  RoomQuestion     RoomQuestion[]
+  PlayerJoinedRoom PlayerJoinedRoom[]
 
   @@map("rooms")
 }
 
-model UserJoinedRoom {
-  id                 Int                  @id @default(autoincrement())
-  room               Room                 @relation(fields: [roomId], references: [id])
-  roomId             Int
-  createdAt          DateTime             @default(now())
-  updatedAt          DateTime             @updatedAt
-  UserAnswerQuestion UserAnswerQuestion[]
+model PlayerJoinedRoom {
+  id                   Int                    @id @default(autoincrement())
+  player               Player                 @relation(fields: [playerId], references: [id])
+  playerId             String
+  room                 Room                   @relation(fields: [roomId], references: [id])
+  roomId               Int
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  PlayerAnswerQuestion PlayerAnswerQuestion[]
 
-  @@map("users_rooms")
+  @@map("player_room")
 }
 
-model UserAnswerQuestion {
-  id                Int                 @id @default(autoincrement())
-  room              UserJoinedRoom      @relation(fields: [userJoinedRoomId], references: [id])
-  userJoinedRoomId  Int
-  questionId        RoomQuestion        @relation(fields: [roomQuestionId], references: [id])
-  roomQuestionId    Int
-  Question4Answer   Question4Answer[]
-  MultiSelectAnswer MultiSelectAnswer[]
-  TypeAnswer        TypeAnswer[]
+model PlayerAnswerQuestion {
+  id                 Int                 @id @default(autoincrement())
+  PlayerJoinedRoom   PlayerJoinedRoom    @relation(fields: [playerJoinedRoomId], references: [id])
+  playerJoinedRoomId Int
+  RoomQuestion       RoomQuestion        @relation(fields: [roomQuestionId], references: [id])
+  roomQuestionId     Int
+  Question4Answer    Question4Answer[]
+  MultiSelectAnswer  MultiSelectAnswer[]
+  TypeAnswer         TypeAnswer[]
 
-  @@map("users_rooms_questions")
+  @@map("player_room_question")
 }
 
 model RoomQuestion {
-  id                  Int                   @id @default(autoincrement())
-  room                Room                  @relation(fields: [roomId], references: [id])
-  roomId              Int
-  type                QuestionType
-  createdAt           DateTime              @default(now())
-  updatedAt           DateTime              @updatedAt
-  Question4Question   Question4Question[]
-  MultiSelectQuestion MultiSelectQuestion[]
-  TypeQuestion        TypeQuestion[]
-  UserAnswerQuestion  UserAnswerQuestion[]
+  id                   Int                    @id @default(autoincrement())
+  room                 Room                   @relation(fields: [roomId], references: [id])
+  roomId               Int
+  type                 QuestionType
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  Question4Question    Question4Question[]
+  MultiSelectQuestion  MultiSelectQuestion[]
+  TypeQuestion         TypeQuestion[]
+  PlayerAnswerQuestion PlayerAnswerQuestion[]
 
-  @@map("room_questions")
+  @@map("room_question")
 }
 
 model Question4Question {
@@ -119,10 +131,10 @@ model Question4Question {
 }
 
 model Question4Answer {
-  id                   Int                @id
-  UserAnswerQuestion   UserAnswerQuestion @relation(fields: [userAnswerQuestionId], references: [id])
-  userAnswerQuestionId Int
-  answer               Int
+  id                     Int                  @id
+  answer                 Int
+  PlayerAnswerQuestion   PlayerAnswerQuestion @relation(fields: [playerAnswerQuestionId], references: [id])
+  playerAnswerQuestionId Int
 
   @@map("question_4_answers")
 }
@@ -145,10 +157,10 @@ model MultiSelectQuestion {
 }
 
 model MultiSelectAnswer {
-  id                   Int                @id
-  UserAnswerQuestion   UserAnswerQuestion @relation(fields: [userAnswerQuestionId], references: [id])
-  userAnswerQuestionId Int
-  answer               Json
+  id                     Int                  @id
+  answer                 Json
+  PlayerAnswerQuestion   PlayerAnswerQuestion @relation(fields: [playerAnswerQuestionId], references: [id])
+  playerAnswerQuestionId Int
 
   @@map("multi_select_answers")
 }
@@ -167,10 +179,10 @@ model TypeQuestion {
 }
 
 model TypeAnswer {
-  id                   Int                @id
-  UserAnswerQuestion   UserAnswerQuestion @relation(fields: [userAnswerQuestionId], references: [id])
-  userAnswerQuestionId Int
-  answer               String
+  id                     Int                  @id
+  answer                 String
+  PlayerAnswerQuestion   PlayerAnswerQuestion @relation(fields: [playerAnswerQuestionId], references: [id])
+  playerAnswerQuestionId Int
 
   @@map("type_answers")
 }

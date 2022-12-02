@@ -6,20 +6,8 @@ import { Room } from '@prisma/client';
 export class RoomController {
   constructor(private readonly appService: RoomService) { }
 
-
-  @Get('')
-  getHaha(): Promise<Room[] | null> {
-    return this.appService.getRooms();
-  }
-
-  @Post(':code')
+  @Post('/join/:code')
   getRoomByCode(@Param('code') code: string): Promise<Room | null> {
     return this.appService.getRoomByCode(code);
   }
-
-  @Get('/test')
-  getWave(): string {
-    return "wave";
-  }
-
 }
