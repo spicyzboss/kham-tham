@@ -6,7 +6,7 @@ import KhamThamAPI from 'app/helpers/KhamThamAPI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LoginScreen() {
-  const { push } = useRouter();
+  const { push, replace } = useRouter();
   const signUp = () => {
     push('/sign-up');
   };
@@ -22,7 +22,7 @@ export default function LoginScreen() {
   const checkHasToken = async () => {
     const token = await AsyncStorage.getItem('userToken');
     if (token) {
-      push(`/room/user`);
+      replace(`/room/user`);
     }
   };
 
