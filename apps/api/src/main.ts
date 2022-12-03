@@ -26,8 +26,9 @@ async function launch() {
     }),
     {
       abortOnError: false,
-      logger: false
-    }
+      logger: false,
+      cors: true,
+    },
   );
 
   await app.listen(PORT, '0.0.0.0');

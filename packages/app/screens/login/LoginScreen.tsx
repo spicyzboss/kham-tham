@@ -2,6 +2,8 @@ import { Button, H1, Input, Paragraph, YStack, Spinner } from '@my/ui';
 import { useState } from 'react';
 import { KeyboardAvoidingView } from 'react-native';
 import { useRouter } from 'solito/router';
+import KhamThamAPI from 'app/helpers/KhamThamAPI';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LoginScreen() {
   const { push } = useRouter();
@@ -17,19 +19,37 @@ export default function LoginScreen() {
 
   const [loading, setLoading] = useState(false);
 
+  const loginHandler = async () => {
+    const data = await KhamThamAPI.login({
+      username: email,
+      password,
+    });
+
+    return data;
+  };
+
   const validate = () => {
     setDisplayEmailErrorMessage(!email);
     setDisplayPasswordErrorMessage(!password);
 
     if (email && password) {
-      // setLoading(true);
-      // setLoading(false);
-      push(`/room/user`);
+      setLoading(true);
+      loginHandler()
+        .then((e: string) => {
+          console.log(e);
+          if (e) {
+            // AsyncStorage.setItem('user', e);
+            push(`/room/user`);
+          }
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     }
   };
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: "black" }} behavior="padding">
+    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: 'black' }} behavior="padding">
       <YStack f={1} jc="center" ai="center" space="$12" theme="dark">
         <H1>Kham Tham</H1>
 
