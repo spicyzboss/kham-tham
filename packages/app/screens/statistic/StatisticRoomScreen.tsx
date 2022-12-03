@@ -47,9 +47,9 @@ export default function StatisticRoomScreen() {
 
   };
 
-  const playTheRoom = () => {
+  const startTheRoom = () => {
 
-    push(`/room/${roomId}/question/1`)
+    push(`/room/${roomId}`)
 
   }
 
@@ -85,7 +85,7 @@ export default function StatisticRoomScreen() {
         </YStack>
       )}
       <View style={styles.bottomButton}>
-        <Button theme="dark_Button" size="$6" onPress={playTheRoom}>
+        <Button theme="dark_Button" size="$6" onPress={startTheRoom}>
           เริ่มเล่น
         </Button>
       </View>

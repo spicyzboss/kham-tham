@@ -14,16 +14,18 @@ export default function ShowRoomScreen() {
 
   return (
     <YStack f={1} backgroundColor={'#000'}>
-      <YStack p="$3" space="$2" ai="center">
+      <YStack p="$3" space="$2" ai="center" mt="$6">
         <XGroup>
           <Button
             backgroundColor={showCode ? '$blue11Dark' : '$blue5Light'}
+            color="black"
             onPress={() => setShowCode(true)}
           >
             Code ของห้อง
           </Button>
           <Button
             backgroundColor={!showCode ? '$blue11Dark' : '$blue5Light'}
+            color="black"
             onPress={() => setShowCode(false)}
           >
             ผู้เล่นที่เข้าร่วมห้อง

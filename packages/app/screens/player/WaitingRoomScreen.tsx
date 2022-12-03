@@ -1,4 +1,4 @@
-import { Button, YStack, H4 } from '@my/ui';
+import { Button, YStack, H4, Spinner } from '@my/ui';
 import { useRouter } from 'solito/router';
 
 export default function WaitingRoomScreen({ navigation }) {
@@ -12,7 +12,8 @@ export default function WaitingRoomScreen({ navigation }) {
 
   return (
     <YStack backgroundColor="black" f={1} jc="center" ai="center" space theme="dark">
-      <H4>Waiting for host...</H4>
+      <Spinner size="small" color="white" />
+      <H4>Waiting for host</H4>
       <Button onPress={back}>Back</Button>
       <Button onPress={testHostConfirm}>Host Confirm</Button>
 
