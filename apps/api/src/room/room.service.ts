@@ -112,4 +112,62 @@ export class RoomService {
     }
   }
 
+  async quitRoom(playerId: string, code: string) {
+    try {
+      const playerJoined = await this.prisma.playerJoinedRoom.findFirst({
+        where: {
+          playerId,
+          room: {
+            code,
+            status: "WAITING",
+          }
+        },
+        select: {
+          id: true,
+        }
+      });
+
+      const player = await this.prisma.playerJoinedRoom.delete({
+        where: {
+          id: playerJoined.id,
+        },
+        select: {
+          playerId: true,
+          roomId: true,
+        }
+      });
+
+      return player;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async getRoom(roomId: number) {
+    try {
+      const room = await this.prisma.room.findUnique({
+        where: {
+          id: roomId,
+        },
+        select: {
+          id: true,
+          RoomQuestion: true,
+          PlayerJoinedRoom: {
+            select: {
+              player: true,
+            }
+          },
+          owner: {
+            select: {
+              username: true,
+            }
+          },
+        }
+      });
+
+      return room;
+    } catch (e) {
+      return null;
+    }
+  }
 }

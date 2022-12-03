@@ -13,14 +13,14 @@ export class EventsGateway {
 
   @SubscribeMessage('joinroom')
   async join(@MessageBody() data: any): Promise<any> {
-    console.log("JOIN", data.id, data.username);
+    console.log("JOIN", data.id, data.playername);
     this.server.emit('join', data);
     return data;
   }
 
   @SubscribeMessage('quitroom')
   async quit(@MessageBody() data: any): Promise<any> {
-    console.log("QUIT", data.id, data.username);
+    console.log("QUIT", data.id, data.playername);
     this.server.emit('quit', data);
     return data;
   }
