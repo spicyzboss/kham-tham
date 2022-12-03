@@ -1,5 +1,5 @@
 import { Button, H1, Input, Paragraph, YStack, Spinner } from '@my/ui';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { KeyboardAvoidingView } from 'react-native';
 import { useRouter } from 'solito/router';
 import KhamThamAPI from 'app/helpers/KhamThamAPI';
@@ -19,13 +19,24 @@ export default function LoginScreen() {
 
   const [loading, setLoading] = useState(false);
 
+  const checkHasToken = async () => {
+    const token = await AsyncStorage.getItem('userToken');
+    if (token) {
+      push(`/room/user`);
+    }
+  };
+
+  useEffect(() => {
+    checkHasToken();
+  }, []);
+
   const loginHandler = async () => {
     const data = await KhamThamAPI.login({
       username: email,
       password,
     });
 
-    return data;
+    return data.data as string;
   };
 
   const validate = () => {
@@ -36,10 +47,10 @@ export default function LoginScreen() {
       setLoading(true);
       loginHandler()
         .then((e: string) => {
-          console.log(e);
           if (e) {
-            // AsyncStorage.setItem('user', e);
-            push(`/room/user`);
+            AsyncStorage.setItem('userToken', e).then(() => {
+              checkHasToken();
+            });
           }
         })
         .finally(() => {

@@ -29,7 +29,7 @@ class KhamThamAPI extends Axios {
     const request = await this.post('/user/login', JSON.stringify({
       username: loginCred.username,
       password: loginCred.password,
-    })) as string;
+    }));
 
     return request;
   }
