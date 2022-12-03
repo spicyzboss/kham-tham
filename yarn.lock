@@ -4960,6 +4960,7 @@ __metadata:
     "@types/passport-jwt": ^3.0.7
     bcrypt: ^5.1.0
     dotenv-cli: ^6.0.0
+    nanoid: 3
     passport-jwt: ^4.0.0
     pino-pretty: ^9.1.1
     reflect-metadata: ^0.1.13
@@ -11912,7 +11913,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:^3.1.23, nanoid@npm:^3.1.30, nanoid@npm:^3.3.4":
+"nanoid@npm:3, nanoid@npm:^3.1.23, nanoid@npm:^3.1.30, nanoid@npm:^3.3.4":
   version: 3.3.4
   resolution: "nanoid@npm:3.3.4"
   bin:
