@@ -11,7 +11,7 @@ export default function LoginScreen() {
     push('/sign-up');
   };
 
-  const isFocused = useIsFocused()
+  const isFocused = useIsFocused();
 
   const [username, setUsername] = useState('');
   const [displayUsernameErrorMessage, setDisplayUsernameErrorMessage] = useState(false);
@@ -36,7 +36,7 @@ export default function LoginScreen() {
 
   const loginHandler = async () => {
     try {
-      const data = await fetch('http://192.168.0.100:3000/user/login', {
+      const data = await fetch('http://10.0.119.37:3000/user/login', {
         method: 'POST',
         body: JSON.stringify({
           username,
