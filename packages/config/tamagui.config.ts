@@ -174,6 +174,22 @@ const error_Text = createTheme({
   colorFocus: '#E5484D',
 });
 
+const red_Button = createTheme({
+  background: '#E5484D',
+  backgroundHover: '#E5484D',
+  backgroundPress: '#E5484D',
+  backgroundFocus: '#E5484D',
+  backgroundTransparent: '#E5484D',
+  borderColor: '#E5484D',
+  borderColorHover: '#E5484D',
+  borderColorPress: '#E5484D',
+  borderColorFocus: '#E5484D',
+  color: 'black',
+  colorHover: 'black',
+  colorPress: 'black',
+  colorFocus: 'black',
+})
+
 export const config = createTamagui({
   animations,
   defaultTheme: 'dark',
@@ -197,7 +213,8 @@ export const config = createTamagui({
     black_Text,
     white_Text,
     yellow_Text,
-    error_Text
+    error_Text,
+    red_Button
   },
   tokens,
   media: {

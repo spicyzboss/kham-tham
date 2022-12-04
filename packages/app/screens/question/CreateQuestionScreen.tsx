@@ -1,4 +1,4 @@
-import { H1, H3, YStack, XStack, Button, Card, Label, Input } from '@my/ui';
+import { H1, H3, YStack, XStack, Button, Card, Label, Input, H2 } from '@my/ui';
 import { useState } from 'react';
 import { AddQuestionButton, CardQuestion } from '../../components/question';
 import { ScrollView, View, StyleSheet } from 'react-native';
@@ -20,6 +20,7 @@ export default function CreateQuestionScreen() {
   const amountQuestions = questions.length;
   // TODO: implement GameMode
   const mode: GameMode = useParam('mode')[0]?.toUpperCase() as GameMode;
+  const roomName = useParam('roomName')
 
   const closeModal = () => {
     setOpenModal(false);
@@ -72,6 +73,12 @@ export default function CreateQuestionScreen() {
     setOpenModal(true);
   };
 
+  const deleteQuestion = (index: number) => {
+    let copyQuestions = [...questions]
+    copyQuestions.splice(index, 1)
+    setQuestions([...copyQuestions])
+  }
+
   const handleChange = (index, value) => {
     let copyQuestions = [...questions];
     copyQuestions[index] = { ...copyQuestions[index], ...value };
@@ -89,6 +96,7 @@ export default function CreateQuestionScreen() {
           <H1 ta="center" theme="white_Text">
             คำถาม ( {amountQuestions} )
           </H1>
+          <H2 ta="center" theme="white_Text">ชื่อห้อง : {roomName}</H2>
           <H3 ta="center" theme={mode == 'COMPETITIVE' ? 'crimson_Text' : 'lime_Text'}>
             {mode}
           </H3>
@@ -120,6 +128,7 @@ export default function CreateQuestionScreen() {
               indexQuestion={index}
               handleChange={handleChange}
               questionInfo={question}
+              deleteQuestion={deleteQuestion}
             ></CardQuestion>
           ))}
         </YStack>

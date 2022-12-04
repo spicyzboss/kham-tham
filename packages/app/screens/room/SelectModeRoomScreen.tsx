@@ -12,22 +12,25 @@ export default function SelectModeRoomScreen() {
 
   const { push, back } = useRouter();
   const competitive = () => {
-    push(`/room/createQuestion/competitive`);
+    push(`/room/createQuestion/${inputRoomName}/competitive`);
   };
   const cooperative = () => {
-    push(`/room/createQuestion/cooperative`);
+    push(`/room/createQuestion/${inputRoomName}/cooperative`);
   };
   const confirmRoomName = () => {
     if (!inputRoomName) return setDisplayRoomNameErrorMessage(true)
     setDisplayRoomNameErrorMessage(false)
     setShowSelectMode(true)
   }
+  const backToInputRoomName = () => {
+    setShowSelectMode(false)
+  }
   return (
     <YStack backgroundColor="black" f={1} jc="center" ai="center" space>
       {showSelectMode ? (
         <>
           <YStack ai="center" jc="center" flex={1} space>
-            <H4>ชื่อห้อง : {inputRoomName}</H4>
+            <H4 theme="white_Text">ชื่อห้อง : {inputRoomName}</H4>
             <XStack space jc="center" ai="center">
               <H2 mr="$1" theme="white_Text">
                 Room Mode {' '}
@@ -35,14 +38,13 @@ export default function SelectModeRoomScreen() {
               <ModalInfo />
             </XStack>
 
-
             <Button theme="crimson_Button" w={245} onPress={competitive}>
               Competitive
             </Button>
             <Button theme="lime_Button" w={245} onPress={cooperative}>
               Cooperative
             </Button>
-            <Button theme="dark_Button" w={245} onPress={back}>
+            <Button theme="dark_Button" w={245} onPress={backToInputRoomName}>
               Back
             </Button>
           </YStack>

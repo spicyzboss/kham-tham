@@ -25,7 +25,7 @@ export default function NavigationProvider({ children }: NavigationProviderProps
           SelectModeRoomScreen: '/room/mode',
           ShowRoomScreen: '/room/:roomId',
           WaitingRoomScreen: '/room/:roomId/waiting',
-          CreateQuestionScreen: '/room/createQuestion/:mode',
+          CreateQuestionScreen: '/room/createQuestion/:roomName/:mode',
           QuestionScreen: '/room/:roomId/question/:order',
           CompetitiveScoreScreen: '/room/:roomId/leaderBoard/:order',
           StatisticRoomScreen: '/room/statistic/:roomId',

@@ -31,7 +31,7 @@ export default function LoginScreen() {
 
   const loginHandler = async () => {
     try {
-      const data = await fetch('http://10.0.119.37:3000/user/login', {
+      const data = await fetch('http://192.168.0.100:3000/user/login', {
         method: 'POST',
         body: JSON.stringify({
           username,
@@ -114,7 +114,7 @@ export default function LoginScreen() {
 
           <YStack space>
             <Button onPress={() => validate()}>
-              {loading ? <Spinner size="small" color="#CD1D8D" /> : <Paragraph>Sign In</Paragraph>}
+              {loading ? <Spinner size="small" color="white" /> : <Paragraph>Sign In</Paragraph>}
             </Button>
             <Button theme="dark_white_Button" onPress={signUp}>
               Create New Account

@@ -1,12 +1,14 @@
-import { Card, H3, XStack, YStack, Input, Label, TextArea } from '@my/ui';
+import { Card, H3, XStack, YStack, Input, Label, TextArea, Button } from '@my/ui';
 import { StyleSheet, TextInput } from 'react-native';
 import { GameMode } from '@prisma/client';
+import { Trash } from "@tamagui/feather-icons"
 
 interface PropQuestion {
   indexQuestion: number;
   questionInfo: CreateQuestion4Question | CreateMultiSelectQuestion | CreateTypeQuestion;
   handleChange: (a, b) => void;
   mode: GameMode;
+  deleteQuestion: (a) => void;
 }
 
 export default function CardQuestion({
@@ -14,6 +16,7 @@ export default function CardQuestion({
   handleChange,
   questionInfo,
   mode,
+  deleteQuestion
 }: PropQuestion) {
   const { question, timeDisplayQuestion, timeAnswerQuestion, type, score, answer, ...rest } =
     questionInfo;
@@ -165,6 +168,9 @@ export default function CardQuestion({
               keyboardType="number-pad"
             />
           </XStack>
+          <Button als="center" w={150} theme="red_Button" icon={Trash} onPress={() => deleteQuestion(indexQuestion)} >
+            ลบคำถามนี้
+          </Button>
         </YStack>
       </Card.Header>
     </Card>

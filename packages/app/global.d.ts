@@ -57,6 +57,7 @@ type KhamThamScreen = {
   CreateQuestionScreen: {
     roomId: string;
     mode: string;
+    roomName: string;
   };
   EnterCodeRoomScreen: undefined;
   WaitingRoomScreen: {
