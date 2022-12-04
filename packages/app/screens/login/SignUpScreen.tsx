@@ -1,6 +1,5 @@
 import { Button, H1, Input, Paragraph, YStack, Sheet, Spinner } from '@my/ui';
-import { useState } from 'react';
-import { useLink } from 'solito/link';
+import { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
 
 import { ConfirmOTP } from 'app/components/login';

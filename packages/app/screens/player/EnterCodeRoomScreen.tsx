@@ -19,7 +19,7 @@ export default function EnterCodeRoomScreen() {
   const checkPlayerToken = async () => {
     const token = await AsyncStorage.getItem('playerToken');
     if (token) {
-      const player = await fetch('http://10.0.119.37:3000/room/me', {
+      const player = await fetch('http://192.168.0.100:3000/room/me', {
         method: 'GET',
         headers: {
           Authorization: token,
@@ -37,7 +37,7 @@ export default function EnterCodeRoomScreen() {
 
   const createPlayer = async () => {
     if (name) {
-      const request = await fetch('http://10.0.119.37:3000/room/create/player', {
+      const request = await fetch('http://192.168.0.100:3000/room/create/player', {
         method: 'POST',
         body: JSON.stringify({
           playername: name,
@@ -62,7 +62,7 @@ export default function EnterCodeRoomScreen() {
   const joinRoom = async () => {
     const result = await checkPlayerToken();
     if (result) {
-      const request = await fetch(`http://10.0.119.37:3000/room/join/${code}`, {
+      const request = await fetch(`http://192.168.0.100:3000/room/join/${code}`, {
         method: 'POST',
         headers: {
           Authorization: result.token,
@@ -107,20 +107,23 @@ export default function EnterCodeRoomScreen() {
     if (!name) return setdisplayNameErrorMessage(true)
     setdisplayNameErrorMessage(false)
     setShowEnterCode(true)
-  }
-  setLoading(true);
-  createPlayer()
-    .then((e) => {
-      if (e) {
-        setShowEnterCode(true);
-      }
-    })
-    .finally(() => {
-      setLoading(false);
-    });
 
+    setLoading(true);
+    createPlayer()
+      .then((e) => {
+        if (e) {
+          console.log(e)
+          setShowEnterCode(true);
+        }
+      })
+      .finally(() => {
+        console.log("finally")
+        setLoading(false);
+      });
+
+  }
   const backToInputName = () => {
-    // setShowEnterCode(false)
+    setShowEnterCode(false)
   }
 
   return (
@@ -151,6 +154,7 @@ export default function EnterCodeRoomScreen() {
                 onChangeText={setCode}
                 size={'$5'}
                 keyboardType="number-pad"
+                textTransform='uppercase'
               />
               {displayCodedErrorMessage && (
                 <Paragraph ta="right" theme="error_Text">Please enter your code</Paragraph>
@@ -160,24 +164,20 @@ export default function EnterCodeRoomScreen() {
           {!showEnterCode ? (
             <Button onPress={confirmName}>
               {loading ? (
-                <Spinner size="small" color="$green10" />
+                <Spinner size="small" color="white" />
               ) : (
                 <Paragraph>Confirm Name</Paragraph>
               )}
             </Button>
           ) : (
             <Button onPress={enterRoom}>
-              {loading ? <Spinner size="small" color="$green10" /> : <Paragraph>Join</Paragraph>}
+              {loading ? <Spinner size="small" color="white" /> : <Paragraph>Join</Paragraph>}
             </Button>
           )}
           {
-            !showEnterCode ? (
+            !showEnterCode && (
               <Button theme="dark_white_Button" onPress={back}>
-                Back To Menu
-              </Button>
-            ) : (
-              <Button theme="dark_white_Button" onPress={backToInputName}>
-                Back To Enter Name
+                Back
               </Button>
             )
           }

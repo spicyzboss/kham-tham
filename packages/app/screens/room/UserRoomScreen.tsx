@@ -37,14 +37,12 @@ export default function UserRoomScreen() {
     }).then((res) => res.json());
   };
 
-  const { data, error } = useSWR('http://10.0.119.37:3000/room/owner', fetchRooms);
+  const { data, error } = useSWR('http://192.168.0.100:3000/room/owner', fetchRooms);
 
   if (error) return <Button>error</Button>;
 
   if (!data) return <LoadingSpinner />;
 
-  console.log(data, error);
-  // setKhamThams(data);
 
   return (
     <View style={[globalStyles.container, globalStyles.padding10]}>
@@ -77,7 +75,7 @@ export default function UserRoomScreen() {
           COOPERATIVE
         </Button>
       </XStack>
-      {data
+      {data && data
         .filter(
           (v) =>
             ((filterByCompetitive && v.mode === 'COMPETITIVE') ||
