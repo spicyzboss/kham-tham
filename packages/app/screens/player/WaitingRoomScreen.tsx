@@ -29,17 +29,16 @@ export default function WaitingRoomScreen({ navigation }) {
         playername: playerData.playername,
       });
     }
-  });
 
-  const testHostConfirm = () => {
-    push(`/room/${roomId}/question/1`);
-  };
+    socket.on('play', (data) => {
+      push(`/room/${data.roomId}/question/1`);
+    });
+  });
 
   return (
     <YStack backgroundColor="black" f={1} jc="center" ai="center" space theme="dark">
       <Spinner size="small" color="white" />
       <H4>Waiting for host</H4>
-      {/* <Button onPress={testHostConfirm}>Host Confirm</Button> */}
     </YStack>
   );
 }

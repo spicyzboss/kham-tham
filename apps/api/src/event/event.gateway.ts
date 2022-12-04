@@ -18,6 +18,13 @@ export class EventsGateway {
     return data;
   }
 
+  @SubscribeMessage('playroom')
+  async play(@MessageBody() data: any): Promise<any> {
+    console.log("PLAY", data.roomId, data.name);
+    this.server.emit('play', data);
+    return data;
+  }
+
   @SubscribeMessage('quitroom')
   async quit(@MessageBody() data: any): Promise<any> {
     console.log("QUIT", data.id, data.playername);
