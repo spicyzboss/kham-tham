@@ -170,4 +170,27 @@ export class RoomService {
       return null;
     }
   }
+
+  async getOwnerRoom(ownerId: string) {
+    try {
+      const rooms = await this.prisma.room.findMany({
+        where: {
+          ownerId,
+        },
+        select: {
+          id: true,
+          code: true,
+          name: true,
+          mode: true,
+          status: true,
+          RoomQuestion: true,
+          createdAt: true,
+        }
+      });
+
+      return rooms;
+    } catch (e) {
+      return null;
+    }
+  }
 }

@@ -6,7 +6,7 @@ import KhamThamAPI from 'app/helpers/KhamThamAPI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LoginScreen() {
-  const { push } = useRouter();
+  const { push, replace } = useRouter();
   const signUp = () => {
     push('/sign-up');
   };
@@ -22,7 +22,7 @@ export default function LoginScreen() {
   const checkHasToken = async () => {
     const token = await AsyncStorage.getItem('userToken');
     if (token) {
-      push(`/room/user`);
+      replace(`/room/user`);
     }
   };
 
@@ -31,12 +31,24 @@ export default function LoginScreen() {
   }, []);
 
   const loginHandler = async () => {
-    const data = await KhamThamAPI.login({
-      username,
-      password,
-    });
+    try {
+      const data = await fetch('http://10.0.119.37:3000/user/login', {
+        method: 'POST',
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json',
+        },
+      });
+      const d = await data.text();
 
-    return data.data as string;
+      return d;
+    } catch (e) {
+      return '';
+    }
   };
 
   const validate = () => {
@@ -46,9 +58,9 @@ export default function LoginScreen() {
     if (username && password) {
       setLoading(true);
       loginHandler()
-        .then((e: string) => {
-          if (e) {
-            AsyncStorage.setItem('userToken', e).then(() => {
+        .then((token: string) => {
+          if (token) {
+            AsyncStorage.setItem('userToken', token).then(() => {
               checkHasToken();
             });
           }

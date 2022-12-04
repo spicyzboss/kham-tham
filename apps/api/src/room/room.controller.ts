@@ -2,7 +2,7 @@ import { BadRequestException, Body, Controller, Delete, Get, Headers, Param, Pos
 import { RoomService } from './room.service';
 import { CreateRoomRequest, CreateRoomResponse, GetPlayerResponse, JoinRoomByCodeResponse } from 'types/room';
 import { JwtService } from '@nestjs/jwt';
-import { Player } from '@prisma/client';
+import { Player, User } from '@prisma/client';
 import { CreateUserResponse, UserResponse } from 'types/user';
 
 @Controller('room')
@@ -87,5 +87,17 @@ export class RoomController {
     const room = await this.roomService.getRoom(parseInt(id));
 
     return room;
+  }
+
+  @Get('/owner')
+  async getOwnerRoom(@Headers('Authorization') token: string) {
+    if (!token) throw new UnauthorizedException();
+
+    const user: Pick<User, 'id'> = this.jwtService.verify(token);
+    if (!user) throw new UnauthorizedException();
+
+    const rooms = await this.roomService.getOwnerRoom(user.id);
+
+    return rooms;
   }
 }

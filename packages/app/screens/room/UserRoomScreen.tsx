@@ -6,8 +6,8 @@ import { H1, Input, XStack, Button } from '@my/ui';
 import CardKhamTham from '../../components/room/CardKhamTham';
 import LoadingSpinner from 'app/components/LoadingSpinner';
 import useSWR from 'swr';
-import axios from 'axios';
 import { GameMode } from '@prisma/client';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface KhamTham {
   id: number;
@@ -22,6 +22,7 @@ export default function UserRoomScreen() {
   const [inputFilter, setInputFilter] = useState<string>('');
   const [filterByCompetitive, setFilterByCompetitive] = useState<boolean>(false);
   const [filterByCooperative, setFilterByCooperative] = useState<boolean>(false);
+  const [token, setToken] = useState('');
 
   let filterKhamThams = khamThams.filter((khamTham) => khamTham.name.includes(inputFilter));
   if (filterByCompetitive)
@@ -31,23 +32,39 @@ export default function UserRoomScreen() {
   const amountFilterKhamThams = filterKhamThams.length;
 
   const filterByMode = (mode: string) => {
-    if (mode == 'COMPETITIVE') {
+    if (mode === 'COMPETITIVE') {
       setFilterByCompetitive((prev) => !prev);
       setFilterByCooperative(false);
-    }
-    if (mode == 'COOPERATIVE') {
+    } else {
       setFilterByCooperative((prev) => !prev);
       setFilterByCompetitive(false);
     }
   };
 
-  const fetchRooms = async (url: string) => await axios.get(url).then((r) => setKhamThams([{ id: 2, roomId: 3, name: "wave", amountQuestions: 2, mode: "COMPETITIVE" },]));
+  const checkHasToken = async () => {
+    const token = await AsyncStorage.getItem('userToken');
+    if (token) {
+      setToken(token);
+    }
+  };
 
-  const { error } = useSWR('https://dummyjson.com/products', fetchRooms);
+  const fetchRooms = (url: string) => {
+    return fetch(url, {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+    }).then((res) => res.json());
+  };
 
-  if (error) return <Button>error</Button>
+  const { data, error } = useSWR('/room/owner', fetchRooms);
 
-  if (khamThams.length == 0) return <LoadingSpinner />;
+  if (error) return <Button>error</Button>;
+
+  if (!data) return <LoadingSpinner />;
+
+  setKhamThams(data);
 
   return (
     <View style={[globalStyles.container, globalStyles.padding10]}>
@@ -57,7 +74,7 @@ export default function UserRoomScreen() {
         placeholderTextColor={'$gray9Light'}
         backgroundColor={'$blue3Light'}
         onChangeText={(text) => setInputFilter(text)}
-      ></Input>
+      />
       <XStack justifyContent="center" w={'100%'} mt="$2">
         <Button
           w={'50%'}
