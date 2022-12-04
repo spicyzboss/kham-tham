@@ -11,7 +11,10 @@ export default function EnterCodeRoomScreen() {
   const [name, setName] = useState('');
 
   const [loading, setLoading] = useState(false);
-  const [showEnterCode, setShowEnterCode] = useState<boolean>(false);
+  const [roomId, setRoomId] = useState(1)
+  const [showEnterCode, setShowEnterCode] = useState<boolean>(false)
+  const [displayNameErrorMessage, setdisplayNameErrorMessage] = useState<boolean>(false)
+  const [displayCodedErrorMessage, setdisplayCodedErrorMessage] = useState<boolean>(false)
 
   const checkPlayerToken = async () => {
     const token = await AsyncStorage.getItem('playerToken');
@@ -86,6 +89,8 @@ export default function EnterCodeRoomScreen() {
   }, []);
 
   const enterRoom = () => {
+    if (!code) return setdisplayCodedErrorMessage(true)
+    setdisplayCodedErrorMessage(false)
     setLoading(true);
     joinRoom()
       .then((e) => {
@@ -99,17 +104,24 @@ export default function EnterCodeRoomScreen() {
   };
 
   const confirmName = () => {
-    setLoading(true);
-    createPlayer()
-      .then((e) => {
-        if (e) {
-          setShowEnterCode(true);
-        }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+    if (!name) return setdisplayNameErrorMessage(true)
+    setdisplayNameErrorMessage(false)
+    setShowEnterCode(true)
+  }
+  setLoading(true);
+  createPlayer()
+    .then((e) => {
+      if (e) {
+        setShowEnterCode(true);
+      }
+    })
+    .finally(() => {
+      setLoading(false);
+    });
+
+  const backToInputName = () => {
+    // setShowEnterCode(false)
+  }
 
   return (
     <KeyboardAvoidingView style={{ flex: 1, backgroundColor: 'black' }} behavior="padding">
@@ -119,22 +131,31 @@ export default function EnterCodeRoomScreen() {
           {name != '' && showEnterCode && <Paragraph>ชื่อของคุณคือ : {name}</Paragraph>}
 
           {!showEnterCode ? (
-            <Input
-              placeholderTextColor="#CD1D8D"
-              placeholder="Enter Name here"
-              onChangeText={setName}
-              value={name}
-              size={'$5'}
-            />
+            <>
+              <Input
+                placeholderTextColor="#CD1D8D"
+                placeholder="Enter Name here"
+                onChangeText={setName}
+                size={'$5'}
+              />
+              {displayNameErrorMessage && (
+                <Paragraph ta="right" theme="error_Text">Please enter your name</Paragraph>
+              )}
+            </>
+
           ) : (
-            <Input
-              placeholderTextColor="#CD1D8D"
-              placeholder="Enter code here"
-              onChangeText={setCode}
-              value={code}
-              size={'$5'}
-              keyboardType="number-pad"
-            />
+            <>
+              <Input
+                placeholderTextColor="#CD1D8D"
+                placeholder="Enter code here"
+                onChangeText={setCode}
+                size={'$5'}
+                keyboardType="number-pad"
+              />
+              {displayCodedErrorMessage && (
+                <Paragraph ta="right" theme="error_Text">Please enter your code</Paragraph>
+              )}
+            </>
           )}
           {!showEnterCode ? (
             <Button onPress={confirmName}>
@@ -149,19 +170,19 @@ export default function EnterCodeRoomScreen() {
               {loading ? <Spinner size="small" color="$green10" /> : <Paragraph>Join</Paragraph>}
             </Button>
           )}
-          <Button
-            theme="dark_white_Button"
-            onPress={() => {
-              AsyncStorage.removeItem('playerToken');
-            }}
-          >
-            ClearToken
-          </Button>
-          <Button theme="dark_white_Button" onPress={back}>
-            Back
-          </Button>
-        </YStack>
-      </YStack>
-    </KeyboardAvoidingView>
+          {
+            !showEnterCode ? (
+              <Button theme="dark_white_Button" onPress={back}>
+                Back To Menu
+              </Button>
+            ) : (
+              <Button theme="dark_white_Button" onPress={backToInputName}>
+                Back To Enter Name
+              </Button>
+            )
+          }
+        </YStack >
+      </YStack >
+    </KeyboardAvoidingView >
   );
 }

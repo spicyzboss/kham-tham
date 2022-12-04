@@ -11,8 +11,8 @@ export default function LoginScreen() {
     push('/sign-up');
   };
 
-  const [email, setEmail] = useState('');
-  const [displayEmailErrorMessage, setDisplayEmailErrorMessage] = useState(false);
+  const [username, setUsername] = useState('');
+  const [displayUsernameErrorMessage, setDisplayUsernameErrorMessage] = useState(false);
 
   const [password, setPassword] = useState('');
   const [displayPasswordErrorMessage, setDisplayPasswordErrorMessage] = useState(false);
@@ -35,7 +35,7 @@ export default function LoginScreen() {
       const data = await fetch('http://10.0.119.37:3000/user/login', {
         method: 'POST',
         body: JSON.stringify({
-          username: email,
+          username,
           password,
         }),
         headers: {
@@ -52,10 +52,10 @@ export default function LoginScreen() {
   };
 
   const validate = () => {
-    setDisplayEmailErrorMessage(!email);
+    setDisplayUsernameErrorMessage(!username);
     setDisplayPasswordErrorMessage(!password);
 
-    if (email && password) {
+    if (username && password) {
       setLoading(true);
       loginHandler()
         .then((token: string) => {
@@ -79,17 +79,17 @@ export default function LoginScreen() {
         <YStack w={300} space="$8">
           <YStack space>
             <YStack>
-              <Paragraph>Email</Paragraph>
+              <Paragraph>Username</Paragraph>
               <Input
-                value={email}
-                onChangeText={setEmail}
+                value={username}
+                onChangeText={setUsername}
                 placeholderTextColor="#CD1D8D"
-                placeholder="Please enter your email"
+                placeholder="Enter your username"
                 size="$4"
                 borderWidth={2}
               />
-              {displayEmailErrorMessage && (
-                <Paragraph ta="right">Please enter your email</Paragraph>
+              {displayUsernameErrorMessage && (
+                <Paragraph ta="right" theme="error_Text">Please enter your username</Paragraph>
               )}
             </YStack>
             <YStack>
@@ -98,12 +98,13 @@ export default function LoginScreen() {
                 value={password}
                 onChangeText={setPassword}
                 placeholderTextColor="#CD1D8D"
-                placeholder="Please enter your password"
+                placeholder="Enter your password"
+                secureTextEntry={true}
                 size="$4"
                 borderWidth={2}
               />
               {displayPasswordErrorMessage && (
-                <Paragraph ta="right">Please enter your password</Paragraph>
+                <Paragraph ta="right" theme="error_Text">Please enter your password</Paragraph>
               )}
             </YStack>
           </YStack>
