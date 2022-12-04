@@ -11,15 +11,25 @@ export default function EnterCodeRoomScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
   const [roomId, setRoomId] = useState(1)
   const [showEnterCode, setShowEnterCode] = useState<boolean>(false)
+  const [displayNameErrorMessage, setdisplayNameErrorMessage] = useState<boolean>(false)
+  const [displayCodedErrorMessage, setdisplayCodedErrorMessage] = useState<boolean>(false)
 
   const enterRoom = () => {
+    if (!code) return setdisplayCodedErrorMessage(true)
+    setdisplayCodedErrorMessage(false)
     setLoading(true);
     push(`/room/${roomId}/waiting`);
     setLoading(false);
   };
 
   const confirmName = () => {
+    if (!name) return setdisplayNameErrorMessage(true)
+    setdisplayNameErrorMessage(false)
     setShowEnterCode(true)
+  }
+
+  const backToInputName = () => {
+    setShowEnterCode(false)
   }
 
   return (
@@ -31,20 +41,31 @@ export default function EnterCodeRoomScreen({ navigation }) {
           {(name != "" && showEnterCode) && <Paragraph>ชื่อของคุณคือ : {name}</Paragraph>}
 
           {!showEnterCode ? (
-            <Input
-              placeholderTextColor="#CD1D8D"
-              placeholder="Enter Name here"
-              onChangeText={setName}
-              size={'$5'}
-            />
+            <>
+              <Input
+                placeholderTextColor="#CD1D8D"
+                placeholder="Enter Name here"
+                onChangeText={setName}
+                size={'$5'}
+              />
+              {displayNameErrorMessage && (
+                <Paragraph ta="right" theme="error_Text">Please enter your name</Paragraph>
+              )}
+            </>
+
           ) : (
-            <Input
-              placeholderTextColor="#CD1D8D"
-              placeholder="Enter code here"
-              onChangeText={setCode}
-              size={'$5'}
-              keyboardType="number-pad"
-            />
+            <>
+              <Input
+                placeholderTextColor="#CD1D8D"
+                placeholder="Enter code here"
+                onChangeText={setCode}
+                size={'$5'}
+                keyboardType="number-pad"
+              />
+              {displayCodedErrorMessage && (
+                <Paragraph ta="right" theme="error_Text">Please enter your code</Paragraph>
+              )}
+            </>
           )}
           {!showEnterCode ? (
             <Button onPress={confirmName}>
@@ -55,9 +76,15 @@ export default function EnterCodeRoomScreen({ navigation }) {
               {loading ? <Spinner size="small" color="$green10" /> : <Paragraph>Join</Paragraph>}
             </Button>
           )}
-          <Button theme="dark_white_Button" onPress={back}>
-            Back
-          </Button>
+          {!showEnterCode ? (
+            <Button theme="dark_white_Button" onPress={back}>
+              Back To Menu
+            </Button>
+          ) : (
+            <Button theme="dark_white_Button" onPress={backToInputName}>
+              Back To Enter Name
+            </Button>
+          )}
         </YStack>
       </YStack>
     </KeyboardAvoidingView>

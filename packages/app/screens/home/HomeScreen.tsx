@@ -1,6 +1,4 @@
-import { Anchor, Button, H1, Paragraph, Separator, Sheet, XStack, YStack } from '@my/ui';
-import { ChevronDown, ChevronUp } from '@tamagui/feather-icons';
-import React, { useState } from 'react';
+import { Button, H1, Separator, YStack } from '@my/ui';
 import { useRouter } from 'solito/router';
 
 export default function HomeScreen() {
@@ -11,74 +9,16 @@ export default function HomeScreen() {
   }
 
   return (
-    <YStack f={1} jc="center" ai="center" p="$4" space>
-      <YStack space="$4" maw={600}>
-        <H1 ta="center">Welcome to Tamagui.</H1>
-        <Paragraph ta="center">
-          Here's a basic starter to show navigating from one screen to another. This screen uses the
-          same code on Next.js and React Native. ddss
-        </Paragraph>
-
+    <YStack f={1} jc="center" ai="center" p="$4" space="$4" backgroundColor="black">
+      <YStack space="$4" minWidth={300}>
+        <H1 ta="center" theme="white_Text">Kham Tham</H1>
         <Separator />
-        <Paragraph ta="center">
-          Tamagui is made by{' '}
-          <Anchor href="https://twitter.com/natebirdman" target="_blank">
-            Nate Wienert
-          </Anchor>
-          , give it a star{' '}
-          <Anchor href="https://github.com/tamagui/tamagui" target="_blank" rel="noreferrer">
-            on Github
-          </Anchor>
-          .
-        </Paragraph>
+      </YStack>
+      <YStack space="$4" minWidth={200}>
+        <Button als="stretch" theme="dark_Button" onPress={() => navigateTo("/login")}>Sign in</Button>
+        <Button als="stretch" theme="crimson_Button" onPress={() => navigateTo("/code")}>Enter code</Button>
       </YStack>
 
-      <XStack>
-        <Button onPress={() => navigateTo("/login")}>Link to Login</Button>
-      </XStack>
-      <XStack>
-        <Button onPress={() => navigateTo("/code")}>enter-code-room</Button>
-      </XStack>
-
-      <SheetDemo />
-    </YStack>
-  );
-}
-
-function SheetDemo() {
-  const [open, setOpen] = useState(false);
-  const [position, setPosition] = useState(0);
-
-  return (
-    <>
-      <Button
-        size="$6"
-        icon={open ? ChevronDown : ChevronUp}
-        circular
-        onPress={() => setOpen((x) => !x)}
-      />
-      <Sheet
-        modal
-        open={open}
-        onOpenChange={setOpen}
-        snapPoints={[80]}
-        position={position}
-        onPositionChange={setPosition}
-        dismissOnSnapToBottom
-      >
-        <Sheet.Overlay />
-        <Sheet.Frame ai="center" jc="center">
-          <Sheet.Handle />
-          <Button
-            size="$6"
-            circular
-            icon={ChevronDown}
-            onPress={() => {
-              setOpen(false);
-            }}
-          />
-        </Sheet.Frame>
-      </Sheet>
-    </>
+    </YStack >
   );
 }

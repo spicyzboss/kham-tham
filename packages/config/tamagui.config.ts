@@ -167,6 +167,12 @@ const yellow_Text = createTheme({
   colorPress: '#F0C000',
   colorFocus: '#F0C000',
 });
+const error_Text = createTheme({
+  color: '#E5484D',
+  colorHover: '#E5484D',
+  colorPress: '#E5484D',
+  colorFocus: '#E5484D',
+});
 
 export const config = createTamagui({
   animations,
@@ -190,7 +196,8 @@ export const config = createTamagui({
     lime_Text,
     black_Text,
     white_Text,
-    yellow_Text
+    yellow_Text,
+    error_Text
   },
   tokens,
   media: {
