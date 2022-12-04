@@ -21,8 +21,8 @@ export default function HomeScreen() {
       </YStack>
       <YStack space="$4" minWidth={200}>
         <Button als="stretch" theme="dark_Button" onPress={() => navigateTo("/login")}>Sign in</Button>
-        <Button als="stretch" theme="dark_Button" onPress={() => clearToken('playerToken')}>Clear Token User</Button>
-        <Button als="stretch" theme="dark_Button" onPress={() => clearToken('userToken')}>Clear Token Player</Button>
+        <Button als="stretch" theme="dark_Button" onPress={() => clearToken('userToken')}>Clear Token User</Button>
+        <Button als="stretch" theme="dark_Button" onPress={() => clearToken('playerToken')}>Clear Token Player</Button>
         <Button als="stretch" theme="crimson_Button" onPress={() => navigateTo("/code")}>Enter code</Button>
       </YStack>
 

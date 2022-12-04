@@ -26,6 +26,7 @@ export default function UserRoomScreen() {
   };
 
   const fetchRooms = (url: string) => {
+    console.log("token", token)
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -36,11 +37,13 @@ export default function UserRoomScreen() {
     }).then((res) => res.json());
   };
 
-  const { data, error } = useSWR('http://10.0.119.37:3000/room/owner', fetchRooms);
+  const { data, error } = useSWR(token ? 'http://192.168.0.100:3000/room/owner' : null, fetchRooms);
 
   if (error) return <Button>error</Button>;
 
   if (!data) return <LoadingSpinner />;
+
+  console.log("data", data)
 
   return (
     <View style={[globalStyles.container, globalStyles.padding10]}>
