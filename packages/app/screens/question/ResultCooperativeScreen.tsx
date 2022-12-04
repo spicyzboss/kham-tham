@@ -7,7 +7,7 @@ export default function ResultCooperativeScreen() {
 
     const [bossHP, setBossHP] = useState(100)
     const [totalDamage, setTotalDamage] = useState(120)
-    const [bossAlive, setBossAlive] = useState(true)
+    const [bossAlive, setBossAlive] = useState(false)
 
 
     useEffect(() => {

@@ -49,6 +49,7 @@ export default function EnterCodeRoomScreen() {
 
       if (data) {
         AsyncStorage.setItem('playerToken', data);
+        return true
       } else {
         return false;
       }

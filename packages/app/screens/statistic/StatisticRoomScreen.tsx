@@ -13,6 +13,8 @@ export default function StatisticRoomScreen() {
 
   const roomId = useParam("roomId")
 
+  const [questions, setQuestions] = useState(["ไก่กับไข่อะไรเกิดก่อนกัน", "เวฟกับเปาใครเท่กว่ากัน"])
+
 
   const [data, setData] = useState([[{
     name: "ตอบถูก",
@@ -47,8 +49,7 @@ export default function StatisticRoomScreen() {
 
   };
 
-  const startTheRoom = () => {
-
+  const playTheRoom = () => {
     push(`/room/${roomId}`)
 
   }
@@ -63,7 +64,7 @@ export default function StatisticRoomScreen() {
             <YStack jc="center" ai="center" space="$3" mt="$6" mb="$15" >
               {data.map((amountAnswer, index) => (
                 <View key={index}>
-                  <H2 theme="crimson_Text" ta="center">ข้อที่ {index + 1}</H2>
+                  <H2 theme="crimson_Text" ta="center">คำถาม : {questions[index]}</H2>
                   <PieChart
                     data={amountAnswer}
                     width={screenWidth}
@@ -85,7 +86,7 @@ export default function StatisticRoomScreen() {
         </YStack>
       )}
       <View style={styles.bottomButton}>
-        <Button theme="dark_Button" size="$6" onPress={startTheRoom}>
+        <Button theme="dark_Button" size="$6" onPress={playTheRoom}>
           เริ่มเล่น
         </Button>
       </View>

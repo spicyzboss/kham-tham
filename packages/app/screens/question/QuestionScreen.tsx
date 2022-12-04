@@ -20,7 +20,7 @@ export default function QuestionScreen() {
   const [roomId] = useParam('roomId');
 
   // question part
-  const [sumQuestion, setSumQuestion] = useState(0);
+  const [sumQuestion, setSumQuestion] = useState(2);
   const [question, setQuestion] = useState({
     question: 'description',
     score: 1000,
@@ -28,7 +28,7 @@ export default function QuestionScreen() {
     showQuestion: 2,
     answerQuestion: 2,
     type: 'MultiSelect',
-    mode: 'COMPETITIVE' as GameMode,
+    mode: 'COOPERATIVE' as GameMode,
   });
   const [click, setClick] = useState(false);
   const [finishAnswer, setFinishAnswer] = useState(false);

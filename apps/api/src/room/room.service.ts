@@ -151,6 +151,7 @@ export class RoomService {
         },
         select: {
           id: true,
+          code: true,
           RoomQuestion: true,
           PlayerJoinedRoom: {
             select: {
@@ -170,6 +171,26 @@ export class RoomService {
       return null;
     }
   }
+
+  async playTheRoom(roomId: number) {
+    try {
+      const room = await this.prisma.room.update({
+        where: {
+          id: roomId,
+        },
+        data: {
+          status: "PLAYING"
+        }
+      });
+
+      return room;
+    } catch (e) {
+      console.log(e)
+      return null;
+    }
+  }
+
+
 
   async getOwnerRoom(ownerId: string) {
     try {

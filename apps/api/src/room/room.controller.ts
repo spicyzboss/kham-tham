@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, Headers, Param, Post, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Body, ConsoleLogger, Controller, Delete, Get, Headers, Param, Post, Put, UnauthorizedException } from '@nestjs/common';
 import { RoomService } from './room.service';
 import { CreateRoomRequest, CreateRoomResponse, GetPlayerResponse, JoinRoomByCodeResponse } from 'types/room';
 import { JwtService } from '@nestjs/jwt';
@@ -85,6 +85,20 @@ export class RoomController {
     if (!id) throw new BadRequestException();
 
     const room = await this.roomService.getRoom(parseInt(id));
+
+    return room;
+  }
+
+  @Put('/:roomId/play')
+  async playRoom(@Param('roomId') roomId: string, @Headers('Authorization') token: string) {
+    console.log("roomId", roomId)
+    if (!token) throw new UnauthorizedException();
+    if (!roomId) throw new BadRequestException();
+
+
+    const room = await this.roomService.playTheRoom(parseInt(roomId));
+
+    console.log("room", room)
 
     return room;
   }
