@@ -40,7 +40,7 @@ export default function ShowRoomScreen() {
     }).then((res) => res.json());
   };
   const { data, error } = useSWR(
-    token ? `http://10.0.119.37:3000/room/info/${roomId}` : null,
+    token ? `http://192.168.0.100:3000/room/info/${roomId}` : null,
     fetchRooms
   );
 
@@ -51,7 +51,7 @@ export default function ShowRoomScreen() {
   const changeRoomStatusHandler = async () => {
     try {
       if (!roomId) return null;
-      const data = await fetch(`http://10.0.119.37:3000/room/${roomId[0]}/play`, {
+      const data = await fetch(`http://192.168.0.100:3000/room/${roomId[0]}/play`, {
         method: 'PUT',
         headers: {
           'Access-Control-Allow-Origin': '*',

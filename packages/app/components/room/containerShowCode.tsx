@@ -1,16 +1,17 @@
 import { Card, H2 } from '@my/ui';
 import { useState } from 'react';
-import { View, Image, StyleSheet } from 'react-native';
-import global_style from '../../../assets/global_style';
+import { Image, StyleSheet } from 'react-native';
 
-export default function ContainerShowCode() {
-  const [codeRoom, setCodeRoom] = useState('ABC123');
+interface CodeRoom {
+  code: string
+}
 
+export default function ContainerShowCode({ code }: CodeRoom) {
   return (
     <Card theme="dark" elevate>
       <Card.Header padded>
         <H2 ta="center" theme="white_Text">
-          {codeRoom}
+          {code}
         </H2>
         <H2 ta="center" theme="white_Text">
           or
@@ -18,7 +19,7 @@ export default function ContainerShowCode() {
         <Image
           style={styles.image}
           source={{
-            uri: `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${codeRoom}`,
+            uri: `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${code}`,
           }}
         />
       </Card.Header>
@@ -30,5 +31,6 @@ const styles = StyleSheet.create({
   image: {
     width: 300,
     aspectRatio: 1 / 1,
+    marginTop: 10
   },
 });
