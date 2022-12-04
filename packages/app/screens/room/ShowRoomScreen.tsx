@@ -40,7 +40,7 @@ export default function ShowRoomScreen() {
     }).then((res) => res.json());
   };
   const { data, error } = useSWR(
-    token ? `http://10.0.119.37:3000/room/info/${roomId}` : null,
+    token ? `http://10.0.119.37:3000/room/info/${roomId[0]}` : null,
     fetchRooms
   );
 

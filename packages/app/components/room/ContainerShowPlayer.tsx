@@ -1,44 +1,32 @@
-import { Button, XStack, YStack } from '@my/ui';
-import { useState } from 'react';
-import { useRouter } from 'solito/router';
+import { Button, XStack, YStack, H3, Paragraph, Spinner } from '@my/ui';
+import { Player } from '@prisma/client';
 
-export default function ContainerShowPlayer() {
+interface PlayerJoinRoom {
+  player: Player[];
+  playTheRoom: () => void;
+  loading: boolean;
+}
 
-  const { push } = useRouter()
-
-  const roomId = 3
-  const order = 0
-
-  const [players, setPlayers] = useState([
-    'wave',
-    'bank',
-    'ฉันจะกินไก่',
-    'omg',
-    'wavewave',
-    'wavewave',
-    'w',
-  ]);
-
-  const playTheRoom = () => {
-
-    push(`/room/${roomId}/question/1`)
-  }
-
-
+export default function ContainerShowPlayer({ player, playTheRoom, loading }: PlayerJoinRoom) {
   const sortByLength = (a, b) => {
     return a.length - b.length;
   };
 
-  const filterPlayers = players.sort(sortByLength);
+  const filterPlayers = player.sort(sortByLength);
 
   return (
     <YStack space="$3">
       <XStack flexWrap="wrap">
         {filterPlayers.map((playerName, index) => (
-          <Button color="black" key={index}>{playerName}</Button>
+          <Button color="black" key={index}>
+            {playerName}
+          </Button>
         ))}
+        {filterPlayers.length == 0 && <H3 m="$4">ไม่มีผู้เล่นในห้องนี้</H3>}
       </XStack>
-      <Button onPress={playTheRoom} theme="dark_Button">เริ่มเล่น</Button>
+      <Button onPress={playTheRoom} theme="dark_Button">
+        {!loading ? <Paragraph>เริ่มเล่น</Paragraph> : <Spinner size="small" color="white" />}
+      </Button>
     </YStack>
   );
 }
