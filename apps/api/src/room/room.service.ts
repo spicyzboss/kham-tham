@@ -194,7 +194,105 @@ export class RoomService {
     }
   }
 
-  async createRoomQuestion() {
-    // await this.prisma.roomQuestion.create()
+  async createRoomQuestion(name: string, mode: GameMode, ownerId: string, questions: any[]) {
+    try {
+      const code = this.util.genCode();
+
+      const questionMap = (q) => {
+        let con;
+
+        if (q.type === "QUIZ_4_ANSWER") {
+          con = {
+            Question4Question: {
+              create: {
+                question: q.question,
+                choice1: q.choice1,
+                choice2: q.choice2,
+                choice3: q.choice3,
+                choice4: q.choice4,
+                answer: q.answer,
+                score: q.score,
+                timeDisplayQuestion: q.timeDisplayQuestion,
+                timeAnswerQuestion: q.timeAnswerQuestion,
+              }
+            }
+          };
+        } else if (q.type === "MULTI_SELECT_ANSWER") {
+          con = {
+            MultiSelectQuestion: {
+              create: {
+                question: q.question,
+                choice1: q.choice1,
+                choice2: q.choice2,
+                choice3: q.choice3,
+                choice4: q.choice4,
+                answer: q.answer,
+                score: q.score,
+                timeDisplayQuestion: q.timeDisplayQuestion,
+                timeAnswerQuestion: q.timeAnswerQuestion,
+              }
+            }
+          };
+        } else if (q.type === "TYPE_ANSWER") {
+          con = {
+            TypeQuestion: {
+              create: {
+                question: q.question,
+                answer: q.answer,
+                score: q.score,
+                timeAnswerQuestion: q.timeAnswerQuestion,
+                timeDisplayQuestion: q.timeDisplayQuestion,
+              }
+            }
+          };
+        } else {
+          con = {};
+        }
+
+        return {
+          type: q.type,
+          ...con,
+        };
+      };
+
+      const qm = questions.map(v => questionMap(v));
+
+      const room = await this.prisma.room.create({
+        data: {
+          mode,
+          name,
+          code,
+          owner: {
+            connect: {
+              id: ownerId,
+            }
+          },
+          status: "WAITING",
+          RoomQuestion: {
+            create: qm,
+          }
+        },
+        select: {
+          code: true,
+          name: true,
+          mode: true,
+          RoomQuestion: {
+            select: {
+              id: true,
+              roomId: true,
+              type: true,
+              createdAt: true,
+              Question4Question: true,
+              MultiSelectQuestion: true,
+              TypeQuestion: true,
+            }
+          },
+        }
+      });
+
+      return room;
+    } catch (e) {
+      return null;
+    }
   }
 }

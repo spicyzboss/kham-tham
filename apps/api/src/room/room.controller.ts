@@ -1,6 +1,6 @@
 import { BadRequestException, Body, Controller, Delete, Get, Headers, Param, Post, UnauthorizedException } from '@nestjs/common';
 import { RoomService } from './room.service';
-import { CreateRoomRequest, CreateRoomResponse, GetPlayerResponse, JoinRoomByCodeResponse } from 'types/room';
+import { CreateRoomRequest, CreateRoomResponse, CreateRoomWithQuestionRequest, GetPlayerResponse, JoinRoomByCodeResponse } from 'types/room';
 import { JwtService } from '@nestjs/jwt';
 import { Player, User } from '@prisma/client';
 import { CreateUserResponse } from 'types/user';
@@ -99,5 +99,19 @@ export class RoomController {
     const rooms = await this.roomService.getOwnerRoom(user.id);
 
     return rooms;
+  }
+
+  @Post('/create/withQuestion')
+  async createRoomWithQuestion(@Body() body: CreateRoomWithQuestionRequest, @Headers("Authorization") token: string) {
+    if (!token) throw new UnauthorizedException();
+    const { name, mode, questions } = body;
+    if (!name || !mode || !questions.length) throw new BadRequestException();
+
+    const user: CreateUserResponse = this.jwtService.verify(token);
+    if (!user) throw new UnauthorizedException();
+
+    const room = this.roomService.createRoomQuestion(name, mode, user.id, questions);
+
+    return room;
   }
 }
