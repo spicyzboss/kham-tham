@@ -9,75 +9,73 @@ import ModalAddQuestion from 'app/components/question/ModalAddQuestion';
 import { GameMode } from '@prisma/client';
 
 export default function CreateQuestionScreen() {
-  const { push } = useRouter()
-  const { useParam } = createParam()
-  const [questions, setQuestions] = useState<(CreateQuestion4Question | CreateMultiSelectQuestion | CreateTypeQuestion)[]>([]);
+  const { push } = useRouter();
+  const { useParam } = createParam();
+  const [questions, setQuestions] = useState<
+    (CreateQuestion4Question | CreateMultiSelectQuestion | CreateTypeQuestion)[]
+  >([]);
   const [minScore, setMinScore] = useState<number>(30);
-  const [openModal, setOpenModal] = useState(false)
+  const [openModal, setOpenModal] = useState(false);
 
   const amountQuestions = questions.length;
   // TODO: implement GameMode
-  const mode: GameMode = useParam("mode")[0]?.toUpperCase() as GameMode;
+  const mode: GameMode = useParam('mode')[0]?.toUpperCase() as GameMode;
 
   const closeModal = () => {
-    setOpenModal(false)
-  }
+    setOpenModal(false);
+  };
 
   const selectType = (type: TypeSelect) => {
-    closeModal()
-    let newQuestion: CreateQuestion4Question | CreateMultiSelectQuestion | CreateTypeQuestion
-    if (type == "SingleSelect") {
+    closeModal();
+    let newQuestion: CreateQuestion4Question | CreateMultiSelectQuestion | CreateTypeQuestion;
+    if (type === 'SingleSelect') {
       newQuestion = {
-        question: "question",
-        choice1: "1",
-        choice2: "2",
-        choice3: "3",
-        choice4: "4",
+        question: '',
+        choice1: '',
+        choice2: '',
+        choice3: '',
+        choice4: '',
         answer: 1,
         timeDisplayQuestion: 5,
-        timeAnswerQuestion: 5,
+        timeAnswerQuestion: 15,
         type: type,
-        score: 1000
-      }
-    }
-    if (type == "MultipleSelect") {
+        score: 1000,
+      };
+    } else if (type === 'MultipleSelect') {
       newQuestion = {
-        question: "question",
-        choice1: "1",
-        choice2: "2",
-        choice3: "3",
-        choice4: "4",
+        question: '',
+        choice1: '',
+        choice2: '',
+        choice3: '',
+        choice4: '',
         answer: [],
         timeDisplayQuestion: 5,
-        timeAnswerQuestion: 5,
+        timeAnswerQuestion: 15,
         type: type,
-        score: 1000
-      }
-    }
-    if (type == "TypeSelect") {
+        score: 1000,
+      };
+    } else if (type === 'TypeSelect') {
       newQuestion = {
-        question: "question",
-        answer: "",
+        question: '',
+        answer: '',
         timeDisplayQuestion: 5,
-        timeAnswerQuestion: 5,
+        timeAnswerQuestion: 15,
         type: type,
-        score: 1000
-      }
+        score: 1000,
+      };
     }
 
     setQuestions((prev) => [...prev, newQuestion]);
-
-  }
+  };
 
   const handleAddQuestionButton = () => {
-    setOpenModal(true)
+    setOpenModal(true);
   };
 
   const handleChange = (index, value) => {
-    let copyQuestions = [...questions]
-    copyQuestions[index] = { ...copyQuestions[index], ...value }
-    setQuestions([...copyQuestions])
-
+    let copyQuestions = [...questions];
+    copyQuestions[index] = { ...copyQuestions[index], ...value };
+    setQuestions([...copyQuestions]);
   };
 
   const submit = () => {
@@ -88,14 +86,20 @@ export default function CreateQuestionScreen() {
     <View style={styles.container}>
       <ScrollView>
         <YStack>
-          <H1 ta="center" theme="white_Text">คำถาม ( {amountQuestions} )</H1>
-          <H3 ta="center" theme={mode == "COMPETITIVE" ? "crimson_Text" : "lime_Text"}>{mode}</H3>
+          <H1 ta="center" theme="white_Text">
+            คำถาม ( {amountQuestions} )
+          </H1>
+          <H3 ta="center" theme={mode == 'COMPETITIVE' ? 'crimson_Text' : 'lime_Text'}>
+            {mode}
+          </H3>
 
           {mode == 'COOPERATIVE' && (
             <Card theme="dark" elevate style={styles.cardContainer}>
               <Card.Header padded>
                 <XStack justifyContent="center">
-                  <Label w={170} theme="white_Text">เกณฑ์คะแนนขั้นต่ำ (%)</Label>
+                  <Label w={170} theme="white_Text">
+                    เกณฑ์คะแนนขั้นต่ำ (%)
+                  </Label>
                   <Input
                     f={1}
                     ai="stretch"
@@ -128,7 +132,6 @@ export default function CreateQuestionScreen() {
       </ScrollView>
       <AddQuestionButton handler={handleAddQuestionButton} />
       <ModalAddQuestion openModal={openModal} closeModal={closeModal} selectType={selectType} />
-
     </View>
   );
 }
@@ -138,7 +141,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   container: {
-    backgroundColor: "black",
-    flex: 1
-  }
+    backgroundColor: 'black',
+    flex: 1,
+  },
 });

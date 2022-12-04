@@ -193,4 +193,8 @@ export class RoomService {
       return null;
     }
   }
+
+  async createRoomQuestion() {
+    // await this.prisma.roomQuestion.create()
+  }
 }
