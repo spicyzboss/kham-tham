@@ -3,8 +3,8 @@ import { View } from 'react-native';
 import CreateButton from 'app/components/CreateButton';
 import globalStyles from '../../../assets/global_style';
 import { H1, Input, XStack, Button } from '@my/ui';
-import CardKhamTham from '../../components/room/CardKhamTham';
 import LoadingSpinner from 'app/components/LoadingSpinner';
+import { CardKhamTham } from '../../components/room';
 import useSWR from 'swr';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
