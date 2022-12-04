@@ -1,16 +1,16 @@
 import { Button, H2, YStack } from '@my/ui';
 import { ModalInfo } from 'app/components/room';
-import { useRouter } from "solito/router";
+import { useRouter } from 'solito/router';
 
 export default function SelectModeRoomScreen() {
-  const { push } = useRouter()
-  const roomId = 3
+  const { push } = useRouter();
+  const roomId = 3;
   const competitive = () => {
-    push(`/room/${roomId}/competitive/createQuestion`)
-  }
+    push(`/room/${roomId}/competitive/createQuestion`);
+  };
   const cooperative = () => {
-    push(`/room/${roomId}/cooperative/createQuestion`)
-  }
+    push(`/room/${roomId}/cooperative/createQuestion`);
+  };
   return (
     <YStack backgroundColor="black" f={1} jc="center" ai="center" space>
       <YStack fd={'row'}>

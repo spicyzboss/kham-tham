@@ -17,16 +17,6 @@ class KhamThamAPI {
 
     return request;
   }
-
-  async getOwnerRoom(token: string) {
-    const request = await this.get('/room/owner', {
-      headers: {
-        'Authorization': token,
-      },
-    });
-
-    return request;
-  }
 }
 
 export default new KhamThamAPI();

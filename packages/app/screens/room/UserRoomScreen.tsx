@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import CreateButton from 'app/components/CreateButton';
 import globalStyles from '../../../assets/global_style';
@@ -9,37 +9,15 @@ import useSWR from 'swr';
 import { GameMode } from '@prisma/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-interface KhamTham {
-  id: number;
-  roomId: number;
-  name: string;
-  amountQuestions: number;
-  mode: GameMode;
-}
-
 export default function UserRoomScreen() {
-  const [khamThams, setKhamThams] = useState<KhamTham[]>([]);
   const [inputFilter, setInputFilter] = useState<string>('');
   const [filterByCompetitive, setFilterByCompetitive] = useState<boolean>(false);
   const [filterByCooperative, setFilterByCooperative] = useState<boolean>(false);
   const [token, setToken] = useState('');
 
-  let filterKhamThams = khamThams.filter((khamTham) => khamTham.name.includes(inputFilter));
-  if (filterByCompetitive)
-    filterKhamThams = filterKhamThams.filter((khamThams) => khamThams.mode == 'COMPETITIVE');
-  if (filterByCooperative)
-    filterKhamThams = filterKhamThams.filter((khamThams) => khamThams.mode == 'COOPERATIVE');
-  const amountFilterKhamThams = filterKhamThams.length;
-
-  const filterByMode = (mode: string) => {
-    if (mode === 'COMPETITIVE') {
-      setFilterByCompetitive((prev) => !prev);
-      setFilterByCooperative(false);
-    } else {
-      setFilterByCooperative((prev) => !prev);
-      setFilterByCompetitive(false);
-    }
-  };
+  useEffect(() => {
+    checkHasToken();
+  }, []);
 
   const checkHasToken = async () => {
     const token = await AsyncStorage.getItem('userToken');
@@ -50,6 +28,7 @@ export default function UserRoomScreen() {
 
   const fetchRooms = (url: string) => {
     return fetch(url, {
+      method: 'GET',
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
@@ -58,17 +37,18 @@ export default function UserRoomScreen() {
     }).then((res) => res.json());
   };
 
-  const { data, error } = useSWR('/room/owner', fetchRooms);
+  const { data, error } = useSWR('http://10.0.119.37:3000/room/owner', fetchRooms);
 
   if (error) return <Button>error</Button>;
 
   if (!data) return <LoadingSpinner />;
 
-  setKhamThams(data);
+  console.log(data, error);
+  // setKhamThams(data);
 
   return (
     <View style={[globalStyles.container, globalStyles.padding10]}>
-      <H1 theme="white_Text">Kham Tham ({amountFilterKhamThams})</H1>
+      <H1 theme="white_Text">Kham Tham ({data.length})</H1>
       <Input
         borderColor={'$blue11Dark'}
         placeholderTextColor={'$gray9Light'}
@@ -79,33 +59,45 @@ export default function UserRoomScreen() {
         <Button
           w={'50%'}
           theme={filterByCompetitive ? 'crimson_Button' : 'light'}
-          onPress={() => filterByMode('COMPETITIVE')}
+          onPress={() => {
+            setFilterByCompetitive(!filterByCompetitive);
+            setFilterByCooperative(false);
+          }}
         >
           COMPETITIVE
         </Button>
         <Button
           w={'50%'}
           theme={filterByCooperative ? 'lime_Button' : 'light'}
-          onPress={() => filterByMode('COOPERATIVE')}
+          onPress={() => {
+            setFilterByCompetitive(false);
+            setFilterByCooperative(!filterByCooperative);
+          }}
         >
           COOPERATIVE
         </Button>
       </XStack>
-      {filterKhamThams.map((khamTham, index) => {
-        return (
+      {data
+        .filter(
+          (v) =>
+            ((filterByCompetitive && v.mode === 'COMPETITIVE') ||
+              (filterByCooperative && v.mode === 'COOPERATIVE') ||
+              (!filterByCompetitive && !filterByCooperative)) &&
+            v.name.includes(inputFilter.toLowerCase())
+        )
+        .map((khamTham) => (
           <CardKhamTham
             animation="bouncy"
             w={'100%'}
             scale={1}
             pressStyle={{ scale: 0.95 }}
             key={khamTham.id}
-            roomId={khamTham.roomId}
+            roomId={khamTham.id}
             name={khamTham.name}
-            amountQuestions={khamTham.amountQuestions}
+            amountQuestions={khamTham.RoomQuestion.length}
             mode={khamTham.mode}
-          ></CardKhamTham>
-        );
-      })}
+          />
+        ))}
       <CreateButton to="/room/mode" />
     </View>
   );
