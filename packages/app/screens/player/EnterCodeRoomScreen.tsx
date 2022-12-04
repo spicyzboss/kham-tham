@@ -4,6 +4,7 @@ import { KeyboardAvoidingView } from 'react-native';
 import { useRouter } from 'solito/router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import KhamThamAPI from 'app/helpers/KhamThamAPI';
+import { io } from 'socket.io-client';
 
 export default function EnterCodeRoomScreen({ navigation }) {
   const { push, back, replace } = useRouter();
@@ -11,7 +12,6 @@ export default function EnterCodeRoomScreen({ navigation }) {
   const [name, setName] = useState('');
 
   const [loading, setLoading] = useState(false);
-  const [roomId, setRoomId] = useState(1);
   const [showEnterCode, setShowEnterCode] = useState<boolean>(false);
 
   const checkPlayerToken = async () => {
@@ -32,7 +32,12 @@ export default function EnterCodeRoomScreen({ navigation }) {
       const request = await KhamThamAPI.createPlayer(name);
       if (request.status === 201) {
         AsyncStorage.setItem('playerToken', request.data);
+        return true;
+      } else {
+        return false;
       }
+    } else {
+      return false;
     }
   };
 
@@ -40,7 +45,13 @@ export default function EnterCodeRoomScreen({ navigation }) {
     const result = await checkPlayerToken();
     if (result) {
       const request = await KhamThamAPI.joinRoom(code, result.token);
-      console.log(request.data);
+      if (request.status === 201) {
+        return JSON.parse(request.data);
+      } else {
+        return null;
+      }
+    } else {
+      return null;
     }
   };
 
@@ -56,8 +67,10 @@ export default function EnterCodeRoomScreen({ navigation }) {
   const enterRoom = () => {
     setLoading(true);
     joinRoom()
-      .then(() => {
-        push(`/room/${roomId}/waiting`);
+      .then((e) => {
+        if (e) {
+          push(`/room/${e.roomId}/waiting`);
+        }
       })
       .finally(() => {
         setLoading(false);
@@ -65,8 +78,11 @@ export default function EnterCodeRoomScreen({ navigation }) {
   };
 
   const confirmName = () => {
-    createPlayer();
-    setShowEnterCode(true);
+    createPlayer().then((e) => {
+      if (e) {
+        setShowEnterCode(true);
+      }
+    });
   };
 
   return (
@@ -81,6 +97,7 @@ export default function EnterCodeRoomScreen({ navigation }) {
               placeholderTextColor="#CD1D8D"
               placeholder="Enter Name here"
               onChangeText={setName}
+              value={name}
               size={'$5'}
             />
           ) : (
@@ -88,6 +105,7 @@ export default function EnterCodeRoomScreen({ navigation }) {
               placeholderTextColor="#CD1D8D"
               placeholder="Enter code here"
               onChangeText={setCode}
+              value={code}
               size={'$5'}
               keyboardType="number-pad"
             />
@@ -99,6 +117,14 @@ export default function EnterCodeRoomScreen({ navigation }) {
               {loading ? <Spinner size="small" color="$green10" /> : <Paragraph>Join</Paragraph>}
             </Button>
           )}
+          <Button
+            theme="dark_white_Button"
+            onPress={() => {
+              AsyncStorage.removeItem('playerToken');
+            }}
+          >
+            ClearToken
+          </Button>
           <Button theme="dark_white_Button" onPress={back}>
             Back
           </Button>
