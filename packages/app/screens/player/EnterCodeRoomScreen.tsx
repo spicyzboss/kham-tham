@@ -3,11 +3,10 @@ import { useEffect, useState } from 'react';
 import { KeyboardAvoidingView } from 'react-native';
 import { useRouter } from 'solito/router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import KhamThamAPI from 'app/helpers/KhamThamAPI';
-import { io } from 'socket.io-client';
+// import KhamThamAPI from 'app/helpers/KhamThamAPI';
 
-export default function EnterCodeRoomScreen({ navigation }) {
-  const { push, back, replace } = useRouter();
+export default function EnterCodeRoomScreen() {
+  const { push, back } = useRouter();
   const [code, setCode] = useState('');
   const [name, setName] = useState('');
 
@@ -17,22 +16,38 @@ export default function EnterCodeRoomScreen({ navigation }) {
   const checkPlayerToken = async () => {
     const token = await AsyncStorage.getItem('playerToken');
     if (token) {
-      const player = await KhamThamAPI.getPlayer(token);
-      if (player.status === 200) {
-        return {
-          data: JSON.parse(player.data),
-          token,
-        };
-      }
+      const player = await fetch('http://10.0.119.37:3000/room/me', {
+        method: 'GET',
+        headers: {
+          Authorization: token,
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await player.json();
+      return {
+        data: data,
+        token,
+      };
     }
   };
 
   const createPlayer = async () => {
     if (name) {
-      const request = await KhamThamAPI.createPlayer(name);
-      if (request.status === 201) {
-        AsyncStorage.setItem('playerToken', request.data);
-        return true;
+      const request = await fetch('http://10.0.119.37:3000/room/create/player', {
+        method: 'POST',
+        body: JSON.stringify({
+          playername: name,
+        }),
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await request.text();
+
+      if (data) {
+        AsyncStorage.setItem('playerToken', data);
       } else {
         return false;
       }
@@ -44,12 +59,18 @@ export default function EnterCodeRoomScreen({ navigation }) {
   const joinRoom = async () => {
     const result = await checkPlayerToken();
     if (result) {
-      const request = await KhamThamAPI.joinRoom(code, result.token);
-      if (request.status === 201) {
-        return JSON.parse(request.data);
-      } else {
-        return null;
-      }
+      const request = await fetch(`http://10.0.119.37:3000/room/join/${code}`, {
+        method: 'POST',
+        headers: {
+          Authorization: result.token,
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({}),
+      });
+
+      const data = await request.json();
+      return data ?? null;
     } else {
       return null;
     }
@@ -78,11 +99,16 @@ export default function EnterCodeRoomScreen({ navigation }) {
   };
 
   const confirmName = () => {
-    createPlayer().then((e) => {
-      if (e) {
-        setShowEnterCode(true);
-      }
-    });
+    setLoading(true);
+    createPlayer()
+      .then((e) => {
+        if (e) {
+          setShowEnterCode(true);
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -111,7 +137,13 @@ export default function EnterCodeRoomScreen({ navigation }) {
             />
           )}
           {!showEnterCode ? (
-            <Button onPress={confirmName}>Confirm Name</Button>
+            <Button onPress={confirmName}>
+              {loading ? (
+                <Spinner size="small" color="$green10" />
+              ) : (
+                <Paragraph>Confirm Name</Paragraph>
+              )}
+            </Button>
           ) : (
             <Button onPress={enterRoom}>
               {loading ? <Spinner size="small" color="$green10" /> : <Paragraph>Join</Paragraph>}

@@ -31,12 +31,24 @@ export default function LoginScreen() {
   }, []);
 
   const loginHandler = async () => {
-    const data = await KhamThamAPI.login({
-      username: email,
-      password,
-    });
+    try {
+      const data = await fetch('http://10.0.119.37:3000/user/login', {
+        method: 'POST',
+        body: JSON.stringify({
+          username: email,
+          password,
+        }),
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json',
+        },
+      });
+      const d = await data.text();
 
-    return data.data as string;
+      return d;
+    } catch (e) {
+      return '';
+    }
   };
 
   const validate = () => {
