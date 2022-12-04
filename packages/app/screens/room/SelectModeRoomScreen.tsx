@@ -1,4 +1,4 @@
-import { Button, H2, H4, YStack, XStack, Input } from '@my/ui';
+import { Button, H2, H4, YStack, XStack, Input, Paragraph } from '@my/ui';
 import { ModalInfo } from 'app/components/room';
 import { useRouter } from 'solito/router';
 import { useState } from 'react';
@@ -7,9 +7,10 @@ export default function SelectModeRoomScreen() {
 
   const [showSelectMode, setShowSelectMode] = useState<boolean>(false)
   const [inputRoomName, setInputRoomName] = useState("")
+  const [displayRoomNameErrorMessage, setDisplayRoomNameErrorMessage] = useState<boolean>(false)
 
 
-  const { push } = useRouter();
+  const { push, back } = useRouter();
   const competitive = () => {
     push(`/room/createQuestion/competitive`);
   };
@@ -17,6 +18,8 @@ export default function SelectModeRoomScreen() {
     push(`/room/createQuestion/cooperative`);
   };
   const confirmRoomName = () => {
+    if (!inputRoomName) return setDisplayRoomNameErrorMessage(true)
+    setDisplayRoomNameErrorMessage(false)
     setShowSelectMode(true)
   }
   return (
@@ -39,6 +42,9 @@ export default function SelectModeRoomScreen() {
             <Button theme="lime_Button" w={245} onPress={cooperative}>
               Cooperative
             </Button>
+            <Button theme="dark_Button" w={245} onPress={back}>
+              Back
+            </Button>
           </YStack>
         </>
       ) : (
@@ -48,13 +54,22 @@ export default function SelectModeRoomScreen() {
           </H2>
           <Input
             als="stretch"
-            theme="dark"
+            theme="dark_Input"
+            placeholderTextColor="#CD1D8D"
             onChangeText={setInputRoomName}
             value={inputRoomName}
+            placeholder="Enter your room name"
           />
+          {displayRoomNameErrorMessage && (
+            <Paragraph ta="right" theme="error_Text">
+              Please enter your room name
+            </Paragraph>
+          )}
           <Button theme="dark_Button" w={245} onPress={confirmRoomName}>
             Confirm Room Name
           </Button>
+
+
 
         </YStack>
       )
