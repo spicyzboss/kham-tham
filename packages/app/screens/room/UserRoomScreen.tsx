@@ -3,8 +3,8 @@ import { View, ScrollView, Dimensions } from 'react-native';
 import CreateButton from 'app/components/CreateButton';
 import globalStyles from '../../../assets/global_style';
 import { H1, Input, XStack, Button, YStack } from '@my/ui';
-import CardKhamTham from '../../components/room/CardKhamTham';
 import LoadingSpinner from 'app/components/LoadingSpinner';
+import { CardKhamTham } from '../../components/room';
 import useSWR from 'swr';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -36,7 +36,7 @@ export default function UserRoomScreen() {
     }).then((res) => res.json());
   };
 
-  const { data, error } = useSWR(token ? 'http://192.168.0.100:3000/room/owner' : null, fetchRooms);
+  const { data, error } = useSWR(token ? 'http://10.0.119.37:3000/room/owner' : null, fetchRooms);
 
   if (error) return <Button>error</Button>;
 

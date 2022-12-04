@@ -6,3 +6,5 @@ type GetPlayerResponse = Pick<Player, 'id' | 'playername'>;
 
 type CreateRoomRequest = Pick<Prisma.RoomCreateInput, 'name' | 'mode'>;
 type CreateRoomResponse = Pick<Room, 'code' | 'mode' | 'name'>;
+
+type CreateRoomWithQuestionRequest = Pick<Prisma.RoomCreateInput, 'mode' | 'name'> & { questions: any[]; };

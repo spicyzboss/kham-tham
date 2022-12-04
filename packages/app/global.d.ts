@@ -1,41 +1,36 @@
-enum TypeSelect {
-  SingleSelect = "SingleSelect",
-  MultipleSelect = "MultipleSelect",
-  TypeSelect = "TypeSelect",
-}
 type CreateQuestion4Question = {
-  question: string
-  choice1: string
-  choice2: string
-  choice3: string
-  choice4: string
-  answer: Int
-  timeDisplayQuestion: Int
-  timeAnswerQuestion: Int
-  type: string
-  score: Float
-}
+  question: string;
+  choice1: string;
+  choice2: string;
+  choice3: string;
+  choice4: string;
+  answer: Int;
+  timeDisplayQuestion: Int;
+  timeAnswerQuestion: Int;
+  type: string;
+  score: Float;
+};
 type CreateMultiSelectQuestion = {
-  question: string
-  choice1: string
-  choice2: string
-  choice3: string
-  choice4: string
-  answer: JSONArray
-  timeDisplayQuestion: Int
-  timeAnswerQuestion: Int
-  type: string
-  score: Float
-}
+  question: string;
+  choice1: string;
+  choice2: string;
+  choice3: string;
+  choice4: string;
+  answer: JSONArray;
+  timeDisplayQuestion: Int;
+  timeAnswerQuestion: Int;
+  type: string;
+  score: Float;
+};
 
 type CreateTypeQuestion = {
-  question: string
-  answer: string
-  timeDisplayQuestion: Int
-  timeAnswerQuestion: Int
-  type: string
-  score: Float
-}
+  question: string;
+  answer: string;
+  timeDisplayQuestion: Int;
+  timeAnswerQuestion: Int;
+  type: string;
+  score: Float;
+};
 
 type KhamThamScreen = {
   HomeScreen: undefined;
