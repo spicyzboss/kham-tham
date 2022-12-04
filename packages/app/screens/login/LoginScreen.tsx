@@ -3,12 +3,15 @@ import { useEffect, useState } from 'react';
 import { KeyboardAvoidingView } from 'react-native';
 import { useRouter } from 'solito/router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useIsFocused } from '@react-navigation/native';
 
 export default function LoginScreen() {
   const { push, replace } = useRouter();
   const signUp = () => {
     push('/sign-up');
   };
+
+  const isFocused = useIsFocused()
 
   const [username, setUsername] = useState('');
   const [displayUsernameErrorMessage, setDisplayUsernameErrorMessage] = useState(false);
@@ -26,8 +29,10 @@ export default function LoginScreen() {
   };
 
   useEffect(() => {
-    checkHasToken();
-  }, []);
+    if (isFocused) {
+      checkHasToken();
+    }
+  }, [isFocused]);
 
   const loginHandler = async () => {
     try {
