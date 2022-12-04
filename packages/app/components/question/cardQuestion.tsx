@@ -29,11 +29,11 @@ export default function CardQuestion({
 
   const handleSelectAnswer = (indexQuestion, order) => {
     let newAnswer;
-    if (type == 'SingleSelect') {
+    if (type == 'QUIZ_4_ANSWER') {
       newAnswer = { answer: order };
       handleChange(indexQuestion, newAnswer);
     }
-    if (type == 'MultipleSelect') {
+    if (type == 'MULTI_SELECT_ANSWER') {
       if (answer.indexOf(order) != -1) {
         const removeIndex = answer.indexOf(order);
         answer.splice(removeIndex, 1);
@@ -47,7 +47,7 @@ export default function CardQuestion({
   };
 
   const isAnswerSelect = (order) => {
-    if (type == 'SingleSelect') {
+    if (type == 'QUIZ_4_ANSWER') {
       return (
         <>
           <Label
@@ -63,7 +63,7 @@ export default function CardQuestion({
         </>
       );
     }
-    if (type == 'MultipleSelect') {
+    if (type == 'MULTI_SELECT_ANSWER') {
       return (
         <Label
           w={100}
@@ -80,7 +80,7 @@ export default function CardQuestion({
   };
 
   const renderSelectElement = (indexQuestion) => {
-    if (type != 'TypeSelect') {
+    if (type != 'TYPE_ANSWER') {
       return [1, 2, 3, 4].map((order, index) => (
         <XStack key={index} ai="center">
           {isAnswerSelect(order)}
