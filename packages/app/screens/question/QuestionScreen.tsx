@@ -111,7 +111,7 @@ export default function QuestionScreen() {
     if (!click) {
       setClick(true);
       newChoiceSelected = [order];
-      if (question.type == 'SingleSelect') setFinishAnswer(true);
+      if (question.type == 'QUIZ_4_ANSWER') setFinishAnswer(true);
     } else if (question.type == 'MultiSelect') {
       if (choiceSelected.indexOf(order) != -1) {
         const removeIndex = choiceSelected.indexOf(order);
@@ -133,16 +133,16 @@ export default function QuestionScreen() {
   };
 
   const renderFinishButton = () => {
-    if (question.type == 'SingleSelect') return;
+    if (question.type == 'QUIZ_4_ANSWER') return;
     if (!finishAnswer) {
-      if (click || (question.type == 'TypeSelect' && typeSelectAnswer != '')) {
+      if (click || (question.type == 'TYPE_ANSWER' && TYPE_ANSWERAnswer != '')) {
         return (
           <Button theme="dark_Button" mb="$2" onPress={finishAnswerButton}>
             ยืนยันคำตอบ
           </Button>
         );
       }
-      if (question.type == 'TypeSelect') {
+      if (question.type == 'TYPE_ANSWER') {
         return (
           <Button color="white" theme="dark_Button" mb="$2" disabled>
             คุณยังไม่ได้ตอบคำถาม
@@ -199,7 +199,7 @@ export default function QuestionScreen() {
             : `หมดเวลาตอบคำถามแล้ว`}
         </Paragraph>
         <XStack flex={1} jc="center" ai="center" flexWrap="wrap">
-          {question.type != 'TypeSelect' ? (
+          {question.type != 'TYPE_ANSWER' ? (
             question.choices.map((choice, index) => (
               <Card
                 key={index}
@@ -233,7 +233,7 @@ export default function QuestionScreen() {
             ></TextArea>
           )}
         </XStack>
-        {question.type != 'SingleSelect' && renderFinishButton()}
+        {question.type != 'QUIZ_4_ANSWER' && renderFinishButton()}
       </YStack>
     </>
   );
