@@ -4,12 +4,11 @@ import { useRouter } from 'solito/router';
 
 export default function SelectModeRoomScreen() {
   const { push } = useRouter();
-  const roomId = 3;
   const competitive = () => {
-    push(`/room/${roomId}/competitive/createQuestion`);
+    push(`/room/createQuestion/competitive`);
   };
   const cooperative = () => {
-    push(`/room/${roomId}/cooperative/createQuestion`);
+    push(`/room/createQuestion/cooperative`);
   };
   return (
     <YStack backgroundColor="black" f={1} jc="center" ai="center" space>

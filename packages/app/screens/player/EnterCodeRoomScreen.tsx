@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { KeyboardAvoidingView } from 'react-native';
 import { useRouter } from 'solito/router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import KhamThamAPI from 'app/helpers/KhamThamAPI';
 
 export default function EnterCodeRoomScreen() {
   const { push, back } = useRouter();
@@ -11,15 +10,14 @@ export default function EnterCodeRoomScreen() {
   const [name, setName] = useState('');
 
   const [loading, setLoading] = useState(false);
-  const [roomId, setRoomId] = useState(1)
-  const [showEnterCode, setShowEnterCode] = useState<boolean>(false)
-  const [displayNameErrorMessage, setdisplayNameErrorMessage] = useState<boolean>(false)
-  const [displayCodedErrorMessage, setdisplayCodedErrorMessage] = useState<boolean>(false)
+  const [showEnterCode, setShowEnterCode] = useState<boolean>(false);
+  const [displayNameErrorMessage, setdisplayNameErrorMessage] = useState<boolean>(false);
+  const [displayCodedErrorMessage, setdisplayCodedErrorMessage] = useState<boolean>(false);
 
   const checkPlayerToken = async () => {
     const token = await AsyncStorage.getItem('playerToken');
     if (token) {
-      const player = await fetch('http://192.168.0.100:3000/room/me', {
+      const player = await fetch('http://10.0.119.37:3000/room/me', {
         method: 'GET',
         headers: {
           Authorization: token,
@@ -37,7 +35,7 @@ export default function EnterCodeRoomScreen() {
 
   const createPlayer = async () => {
     if (name) {
-      const request = await fetch('http://192.168.0.100:3000/room/create/player', {
+      const request = await fetch('http://10.0.119.37:3000/room/create/player', {
         method: 'POST',
         body: JSON.stringify({
           playername: name,
@@ -62,7 +60,7 @@ export default function EnterCodeRoomScreen() {
   const joinRoom = async () => {
     const result = await checkPlayerToken();
     if (result) {
-      const request = await fetch(`http://192.168.0.100:3000/room/join/${code}`, {
+      const request = await fetch(`http://10.0.119.37:3000/room/join/${code}`, {
         method: 'POST',
         headers: {
           Authorization: result.token,
@@ -89,8 +87,8 @@ export default function EnterCodeRoomScreen() {
   }, []);
 
   const enterRoom = () => {
-    if (!code) return setdisplayCodedErrorMessage(true)
-    setdisplayCodedErrorMessage(false)
+    if (!code) return setdisplayCodedErrorMessage(true);
+    setdisplayCodedErrorMessage(false);
     setLoading(true);
     joinRoom()
       .then((e) => {
@@ -104,27 +102,26 @@ export default function EnterCodeRoomScreen() {
   };
 
   const confirmName = () => {
-    if (!name) return setdisplayNameErrorMessage(true)
-    setdisplayNameErrorMessage(false)
-    setShowEnterCode(true)
+    if (!name) return setdisplayNameErrorMessage(true);
+    setdisplayNameErrorMessage(false);
+    setShowEnterCode(true);
 
     setLoading(true);
     createPlayer()
       .then((e) => {
         if (e) {
-          console.log(e)
+          console.log(e);
           setShowEnterCode(true);
         }
       })
       .finally(() => {
-        console.log("finally")
+        console.log('finally');
         setLoading(false);
       });
-
-  }
+  };
   const backToInputName = () => {
-    setShowEnterCode(false)
-  }
+    setShowEnterCode(false);
+  };
 
   return (
     <KeyboardAvoidingView style={{ flex: 1, backgroundColor: 'black' }} behavior="padding">
@@ -142,10 +139,11 @@ export default function EnterCodeRoomScreen() {
                 size={'$5'}
               />
               {displayNameErrorMessage && (
-                <Paragraph ta="right" theme="error_Text">Please enter your name</Paragraph>
+                <Paragraph ta="right" theme="error_Text">
+                  Please enter your name
+                </Paragraph>
               )}
             </>
-
           ) : (
             <>
               <Input
@@ -154,10 +152,12 @@ export default function EnterCodeRoomScreen() {
                 onChangeText={setCode}
                 size={'$5'}
                 keyboardType="number-pad"
-                textTransform='uppercase'
+                textTransform="uppercase"
               />
               {displayCodedErrorMessage && (
-                <Paragraph ta="right" theme="error_Text">Please enter your code</Paragraph>
+                <Paragraph ta="right" theme="error_Text">
+                  Please enter your code
+                </Paragraph>
               )}
             </>
           )}
@@ -174,15 +174,13 @@ export default function EnterCodeRoomScreen() {
               {loading ? <Spinner size="small" color="white" /> : <Paragraph>Join</Paragraph>}
             </Button>
           )}
-          {
-            !showEnterCode && (
-              <Button theme="dark_white_Button" onPress={back}>
-                Back
-              </Button>
-            )
-          }
-        </YStack >
-      </YStack >
-    </KeyboardAvoidingView >
+          {!showEnterCode && (
+            <Button theme="dark_white_Button" onPress={back}>
+              Back
+            </Button>
+          )}
+        </YStack>
+      </YStack>
+    </KeyboardAvoidingView>
   );
 }

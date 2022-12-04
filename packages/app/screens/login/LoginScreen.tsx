@@ -2,7 +2,6 @@ import { Button, H1, Input, Paragraph, YStack, Spinner } from '@my/ui';
 import { useEffect, useState } from 'react';
 import { KeyboardAvoidingView } from 'react-native';
 import { useRouter } from 'solito/router';
-import KhamThamAPI from 'app/helpers/KhamThamAPI';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LoginScreen() {
@@ -32,7 +31,7 @@ export default function LoginScreen() {
 
   const loginHandler = async () => {
     try {
-      const data = await fetch('http://192.168.0.100:3000/user/login', {
+      const data = await fetch('http://10.0.119.37:3000/user/login', {
         method: 'POST',
         body: JSON.stringify({
           username,
@@ -89,7 +88,9 @@ export default function LoginScreen() {
                 borderWidth={2}
               />
               {displayUsernameErrorMessage && (
-                <Paragraph ta="right" theme="error_Text">Please enter your username</Paragraph>
+                <Paragraph ta="right" theme="error_Text">
+                  Please enter your username
+                </Paragraph>
               )}
             </YStack>
             <YStack>
@@ -104,7 +105,9 @@ export default function LoginScreen() {
                 borderWidth={2}
               />
               {displayPasswordErrorMessage && (
-                <Paragraph ta="right" theme="error_Text">Please enter your password</Paragraph>
+                <Paragraph ta="right" theme="error_Text">
+                  Please enter your password
+                </Paragraph>
               )}
             </YStack>
           </YStack>

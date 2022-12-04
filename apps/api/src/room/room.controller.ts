@@ -3,7 +3,7 @@ import { RoomService } from './room.service';
 import { CreateRoomRequest, CreateRoomResponse, GetPlayerResponse, JoinRoomByCodeResponse } from 'types/room';
 import { JwtService } from '@nestjs/jwt';
 import { Player, User } from '@prisma/client';
-import { CreateUserResponse, UserResponse } from 'types/user';
+import { CreateUserResponse } from 'types/user';
 
 @Controller('room')
 export class RoomController {
