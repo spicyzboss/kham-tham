@@ -106,13 +106,10 @@ export default function EnterCodeRoomScreen() {
   const confirmName = () => {
     if (!name) return setdisplayNameErrorMessage(true)
     setdisplayNameErrorMessage(false)
-    setShowEnterCode(true)
-
     setLoading(true);
     createPlayer()
       .then((e) => {
         if (e) {
-          console.log(e)
           setShowEnterCode(true);
         }
       })
