@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function EnterCodeRoomScreen() {
   const { push, back } = useRouter();
-  const [code, setCode] = useState('');
+  const [code, setCode] = useState('H64WCS');
   const [name, setName] = useState('');
 
   const [loading, setLoading] = useState(false);

@@ -128,4 +128,15 @@ export class RoomController {
 
     return room;
   }
+
+  @Get('/:roomId/playerAnswerQuestion')
+  async getPlayerAnswerQuestion(@Param('roomId') roomId: string, @Headers('Authorization') token: string) {
+    if (!token) throw new UnauthorizedException();
+    if (!roomId) throw new BadRequestException();
+
+    const room = this.roomService.getPlayerAnswerQuestion(parseInt(roomId));
+
+    return room;
+  }
+
 }

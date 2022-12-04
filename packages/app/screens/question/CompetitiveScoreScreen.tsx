@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'solito/router';
 import { createParam } from 'solito';
 import { Star, Flag } from "@tamagui/feather-icons"
+import { useIsFocused } from '@react-navigation/native';
 
 interface User {
   name: string,
@@ -10,6 +11,8 @@ interface User {
 }
 
 export default function CompetitiveScoreScreen() {
+
+  const isFocused = useIsFocused()
 
   const { push, parseNextPath, back } = useRouter()
   const { useParam } = createParam()
@@ -33,14 +36,16 @@ export default function CompetitiveScoreScreen() {
   const delay = 5 * 1000
 
   useEffect(() => {
-    setTimeout(() => {
-      if (Number(order) > 2) {
+    if (isFocused) {
+      setTimeout(() => {
+        if (Number(order) > 2) {
 
-      } else {
-        push(`/room/${roomId}/question/${Number(order) + 1}`)
-      }
-    }, delay)
-  }, [])
+        } else {
+          push(`/room/${roomId}/question/${Number(order) + 1}`)
+        }
+      }, delay)
+    }
+  }, [isFocused])
 
   return (
     <YStack f={1} backgroundColor="black" jc="center">

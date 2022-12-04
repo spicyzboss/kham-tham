@@ -152,7 +152,15 @@ export class RoomService {
         select: {
           id: true,
           code: true,
-          RoomQuestion: true,
+          mode: true,
+          RoomQuestion: {
+            select: {
+              Question4Question: true,
+              MultiSelectQuestion: true,
+              TypeQuestion: true,
+              type: true,
+            }
+          },
           PlayerJoinedRoom: {
             select: {
               player: true,
@@ -161,6 +169,28 @@ export class RoomService {
           owner: {
             select: {
               username: true,
+            }
+          },
+        }
+      });
+
+      return room;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async getPlayerAnswerQuestion(roomId: number) {
+    try {
+      const room = await this.prisma.playerAnswerQuestion.findUnique({
+        where: {
+          id: roomId,
+        },
+        select: {
+          id: true,
+          PlayerJoinedRoom: {
+            select: {
+              player: true,
             }
           },
         }

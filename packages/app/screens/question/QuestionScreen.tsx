@@ -5,31 +5,24 @@ import { useRouter } from 'solito/router';
 import { createParam } from 'solito';
 import global_style from '../../../assets/global_style';
 import { useIsFocused } from '@react-navigation/native';
-import { RoomQuestion } from '@prisma/client';
 import { GameMode } from '@prisma/client';
+import LoadingSpinner from 'app/components/LoadingSpinner';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function QuestionScreen() {
   // setting part
-  const { push } = useRouter();
+  const { push, replace } = useRouter();
   const { useParam } = createParam();
 
   const isFocused = useIsFocused();
 
   // param part
   const [order] = useParam('order');
+  if (!order) return
   const [roomId] = useParam('roomId');
 
   // question part
-  const [sumQuestion, setSumQuestion] = useState(2);
-  const [question, setQuestion] = useState({
-    question: 'description',
-    score: 1000,
-    choices: ['wave1', 'wave2', 'wave3', 'wave4'],
-    showQuestion: 2,
-    answerQuestion: 2,
-    type: 'MultiSelect',
-    mode: 'COOPERATIVE' as GameMode,
-  });
   const [click, setClick] = useState(false);
   const [finishAnswer, setFinishAnswer] = useState(false);
 
@@ -38,58 +31,148 @@ export default function QuestionScreen() {
   const [choiceSelected, setChoiceSelected] = useState<number[]>([1, 2, 3, 4]);
   const [typeSelectAnswer, setTypeSelectAnswer] = useState('');
 
+  const [question, setQuestion] = useState({
+    RoomQuestion: [{
+      "Question4Question": [
+        {
+          "choice1": "",
+          "choice2": "",
+          "choice3": "",
+          "choice4": "",
+          "answer": 1,
+        }
+      ],
+      "MultiSelectQuestion": [
+        {
+          "choice1": "",
+          "choice2": "",
+          "choice3": "",
+          "choice4": "",
+          "answer": 1,
+        }
+      ],
+      "TypeQuestion": [
+        {
+          "choice1": "",
+          "choice2": "",
+          "choice3": "",
+          "choice4": "",
+          "answer": 1,
+        }
+      ],
+    }],
+    timeDisplayQuestion: 2000,
+    timeAnswerQuestion: 2000,
+    mode: "COMPETITIVE" as GameMode,
+    type: "QUIZ_4_ANSWER",
+    owner: {
+      username: ""
+    },
+    question: "",
+    choices: ["", "", "", ""],
+    fetchDone: false,
+  })
+
+  const [sumQuestion, setSumQuestion] = useState(0);
+
+
+
   // host part
   const isHost = false;
   const amountUserSelectChoice = [3, 2, 4, 5];
 
-  // time counter part
-  const [timeCounter, setTimeCounter] = useState(question.showQuestion + question.answerQuestion);
   const timeCounterInterval = useRef<number | null>(null);
   // modal
   const [openModal, setOpenModal] = useState(true);
 
-  const randomNumber = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  };
+  const [timeCounter, setTimeCounter] = useState(question.timeAnswerQuestion + question.timeDisplayQuestion);
+
   // BossHP 0 - 100
   const [HP, setHP] = useState(80);
 
-  useEffect(() => {
-    if (timeCounter <= question.showQuestion && question.mode != 'COOPERATIVE') {
-      setOpenModal(false);
+  const fetchRooms = (url: string, token: string) => {
+    console.log("fetch")
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+    }).then((res) => res.json());
+  };
+
+  const checkHasToken = async () => {
+    const token = await AsyncStorage.getItem('playerToken');
+    if (!token) {
+      replace(`/code`);
+    } else {
+      fetchRooms(`http://192.168.0.100:3000/room/info/${roomId}`, token).then(result => {
+        const convertResult = result?.RoomQuestion.map(question => {
+          return {
+            type: question.type,
+            info: [...question.Question4Question, ...question.MultiSelectQuestion, ...question.TypeQuestion][0],
+            choices: [question?.Question4Question[0]?.choice1, question?.Question4Question[0]?.choice2, question?.Question4Question[0]?.choice3, question?.Question4Question[0]?.choice4, question?.MultiSelectQuestion[0]?.choice1, question?.MultiSelectQuestion[0]?.choice2, question?.MultiSelectQuestion[0]?.choice3, question?.MultiSelectQuestion[0]?.choice4, question?.TypeQuestion[0]?.choice1, question?.TypeQuestion[0]?.choice2, question?.TypeQuestion[0]?.choice3, question?.TypeQuestion[0]?.choice4].filter(choice => choice != undefined),
+            timeDisplayQuestion: 20,
+            timeAnswerQuestion: 15,
+            mode: result?.mode,
+            owner: result?.owner?.username,
+            question: [question?.Question4Question[0]?.question, question?.MultiSelectQuestion[0]?.question, question?.TypeQuestion[0]?.question].filter(choice => choice != undefined)[0],
+            fetchDone: true,
+          }
+        })[parseInt(order) - 1]
+
+        setQuestion({ ...convertResult })
+        setClick(false);
+        setFinishAnswer(false);
+        setOpenModal(true);
+        setTimeCounter(convertResult.timeDisplayQuestion + convertResult.timeAnswerQuestion);
+        setChoiceSelected([1, 2, 3, 4]);
+        setSumQuestion(result.RoomQuestion.length)
+        timeCounterInterval.current = window.setInterval(() => {
+          setTimeCounter((prev) => prev - 1);
+        }, 1000);
+      })
     }
-    if (timeCounter <= 0) {
-      setOpenModal(false);
-      setFinishAnswer(true);
+  };
+
+
+  useEffect(() => {
+    if (isFocused) {
+      checkHasToken()
+    }
+  }, [isFocused]);
+
+  useEffect(() => {
+    if (question.fetchDone) {
+      console.log("timeCounter2", timeCounter)
+      if (timeCounter <= question.timeDisplayQuestion && question.mode != 'COOPERATIVE') {
+        setOpenModal(false);
+      }
+      if (timeCounter <= 0) {
+        setOpenModal(false);
+        setFinishAnswer(true);
+      }
     }
   }, [timeCounter]);
 
   useEffect(() => {
-    if (!finishAnswer) return;
-    stopTimeCounter();
-    if (!click) {
-      let newChoiceSelected = [randomNumber(1, 4)];
-      setChoiceSelected([...newChoiceSelected]);
+    if (question.fetchDone) {
+      if (!finishAnswer) return;
+      stopTimeCounter();
+      if (!click) {
+        let newChoiceSelected = [randomNumber(1, 4)];
+        setChoiceSelected([...newChoiceSelected]);
+      }
+      prepareNextQuestion();
     }
-    prepareNextQuestion();
   }, [finishAnswer]);
 
-  useEffect(() => {
-    if (isFocused) {
-      initiateValue();
-      timeCounterInterval.current = window.setInterval(() => {
-        setTimeCounter((prev) => prev - 1);
-      }, 1000);
-    }
-  }, [isFocused]);
 
-  const initiateValue = () => {
-    setClick(false);
-    setFinishAnswer(false);
-    setOpenModal(true);
-    setTimeCounter(question.showQuestion + question.answerQuestion);
-    setChoiceSelected([1, 2, 3, 4]);
+  const randomNumber = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1) + min);
   };
+
 
   const stopTimeCounter = () => {
     window.clearInterval(timeCounterInterval.current);
@@ -112,7 +195,7 @@ export default function QuestionScreen() {
       setClick(true);
       newChoiceSelected = [order];
       if (question.type == 'QUIZ_4_ANSWER') setFinishAnswer(true);
-    } else if (question.type == 'MultiSelect') {
+    } else if (question.type == 'MULTI_SELECT_ANSWER') {
       if (choiceSelected.indexOf(order) != -1) {
         const removeIndex = choiceSelected.indexOf(order);
         choiceSelected.splice(removeIndex, 1);
@@ -171,12 +254,16 @@ export default function QuestionScreen() {
     );
   };
 
+  if (!question.fetchDone) return (
+    <LoadingSpinner />
+  )
+
   return (
     <>
       <ModalQuestion
         mode={question.mode}
         question={question.question}
-        timeLeft={timeCounter - question.answerQuestion}
+        timeLeft={timeCounter - question.timeAnswerQuestion}
         order={Number(order)}
         closeModal={closeModal}
         openModal={openModal}
