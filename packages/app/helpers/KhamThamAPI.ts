@@ -33,6 +33,34 @@ class KhamThamAPI extends Axios {
 
     return request;
   }
+
+  async getPlayer(token: string) {
+    const request = await this.get('/room/me', {
+      headers: {
+        'Authorization': token,
+      },
+    });
+
+    return request;
+  }
+
+  async createPlayer(playername: string) {
+    const request = await this.post('/room/create/player', JSON.stringify({
+      playername,
+    }));
+
+    return request;
+  }
+
+  async joinRoom(code: string, token: string) {
+    const request = await this.post(`/room/join/${code}`, JSON.stringify({}), {
+      headers: {
+        'Authorization': token,
+      },
+    });
+
+    return request;
+  }
 }
 
 export default new KhamThamAPI();

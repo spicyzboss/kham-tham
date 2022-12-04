@@ -91,11 +91,7 @@ export class UserService {
         }
       });
 
-      console.log(user.password);
-      console.log(cred.password);
-
       const isSame = await compare(cred.password, user.password);
-      console.log(isSame);
 
       if (isSame) {
         delete user.password;
