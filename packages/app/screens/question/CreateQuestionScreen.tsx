@@ -10,7 +10,7 @@ import { GameMode } from '@prisma/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function CreateQuestionScreen() {
-  const { push } = useRouter();
+  const { push, replace } = useRouter();
   const { useParam } = createParam();
   const [questions, setQuestions] = useState<
     (CreateQuestion4Question | CreateMultiSelectQuestion | CreateTypeQuestion)[]
@@ -97,7 +97,7 @@ export default function CreateQuestionScreen() {
   const sendQuestion = async () => {
     const token = await tokenChecker();
     if (token) {
-      const request = await fetch('http://192.168.0.100/room/create/withQuestion', {
+      const request = await fetch('http://10.0.119.37:3000/room/create/withQuestion', {
         method: 'POST',
         body: JSON.stringify({
           name: roomName[0],
@@ -111,13 +111,13 @@ export default function CreateQuestionScreen() {
         },
       });
 
-      const data = await request.json();
+      return await request.json();
     }
   };
 
   const submit = () => {
     sendQuestion().then((e) => {
-      push(`/room/user`);
+      replace(`/room/user`);
     });
   };
 

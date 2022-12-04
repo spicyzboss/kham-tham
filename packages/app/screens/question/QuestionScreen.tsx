@@ -135,7 +135,7 @@ export default function QuestionScreen() {
   const renderFinishButton = () => {
     if (question.type == 'QUIZ_4_ANSWER') return;
     if (!finishAnswer) {
-      if (click || (question.type == 'TYPE_ANSWER' && TYPE_ANSWERAnswer != '')) {
+      if (click || (question.type == 'TYPE_ANSWER' && typeSelectAnswer != '')) {
         return (
           <Button theme="dark_Button" mb="$2" onPress={finishAnswerButton}>
             ยืนยันคำตอบ
