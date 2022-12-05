@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function EnterCodeRoomScreen() {
   const { push, back } = useRouter();
-  const [code, setCode] = useState('H64WCS');
+  const [code, setCode] = useState('');
   const [name, setName] = useState('');
 
   const [loading, setLoading] = useState(false);
@@ -94,7 +94,7 @@ export default function EnterCodeRoomScreen() {
     joinRoom()
       .then((e) => {
         if (e) {
-          AsyncStorage.setItem(`gameToken/${e.roomId}`, e.id).then(() => {
+          AsyncStorage.setItem(`gameToken-${e.roomId}`, e.id.toString()).then(() => {
             push(`/room/${e.roomId}/waiting`);
           });
         }
