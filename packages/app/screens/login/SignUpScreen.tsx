@@ -7,8 +7,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'solito/router';
 
 export default function SignUpScreen() {
-  const { push, replace } = useRouter()
-  const isFocused = useIsFocused()
+  const { push, replace } = useRouter();
+  const isFocused = useIsFocused();
   const [openOTP, setOpenOTP] = useState(false);
 
   // TODO: implement error message
@@ -17,28 +17,29 @@ export default function SignUpScreen() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const [displayUsernameErrorMessage, setdisplayUsernameErrorMessage] = useState<boolean>(false)
-  const [displayEmailErrorMessage, setdisplayEmailErrorMessage] = useState<boolean>(false)
-  const [displayPasswordErrorMessage, setdisplayPasswordErrorMessage] = useState<boolean>(false)
-  const [displayConfirmPasswordErrorMessage, setdisplayConfirmPasswordErrorMessage] = useState<boolean>(false)
-  const [displayNotMatchPassword, setdisplayNotMatchPassword] = useState<boolean>(false)
+  const [displayUsernameErrorMessage, setdisplayUsernameErrorMessage] = useState<boolean>(false);
+  const [displayEmailErrorMessage, setdisplayEmailErrorMessage] = useState<boolean>(false);
+  const [displayPasswordErrorMessage, setdisplayPasswordErrorMessage] = useState<boolean>(false);
+  const [displayConfirmPasswordErrorMessage, setdisplayConfirmPasswordErrorMessage] =
+    useState<boolean>(false);
+  const [displayNotMatchPassword, setdisplayNotMatchPassword] = useState<boolean>(false);
 
   const [OTP, setOTP] = useState('');
 
   const [loading, setLoading] = useState(false);
 
   const checkHasToken = async () => {
-    const token = await AsyncStorage.getItem("userToken")
+    const token = await AsyncStorage.getItem('userToken');
     if (token) {
-      return replace("/room/user")
+      return replace('/room/user');
     }
-  }
+  };
 
   useEffect(() => {
     if (isFocused) {
-      checkHasToken()
+      checkHasToken();
     }
-  }, [isFocused])
+  }, [isFocused]);
 
   const createAccountHandler = async (url: string) => {
     const data = await fetch(url, {
@@ -46,7 +47,7 @@ export default function SignUpScreen() {
       body: JSON.stringify({
         username,
         email,
-        password
+        password,
       }),
       headers: {
         'Access-Control-Allow-Origin': '*',
@@ -54,28 +55,29 @@ export default function SignUpScreen() {
       },
     });
 
-    return data.text()
-
+    return data.text();
   };
 
   const createAccount = async () => {
-    setdisplayUsernameErrorMessage(!username)
-    setdisplayEmailErrorMessage(!email)
-    setdisplayPasswordErrorMessage(!password)
-    setdisplayConfirmPasswordErrorMessage(!confirmPassword)
-    setdisplayNotMatchPassword(password != confirmPassword)
+    setdisplayUsernameErrorMessage(!username);
+    setdisplayEmailErrorMessage(!email);
+    setdisplayPasswordErrorMessage(!password);
+    setdisplayConfirmPasswordErrorMessage(!confirmPassword);
+    setdisplayNotMatchPassword(password != confirmPassword);
 
-    setLoading(true)
+    setLoading(true);
     if (username && email && password && confirmPassword) {
-      console.log("create account")
-      createAccountHandler(`http://192.168.0.100:3000/user/create`).then(async (result) => {
-        if (result) {
-          await AsyncStorage.setItem("userToken", result)
-          push("/room/user")
-        }
-      }).finally(() => setLoading(false))
+      console.log('create account');
+      createAccountHandler(`http://10.0.119.37:3000/user/create`)
+        .then(async (result) => {
+          if (result) {
+            await AsyncStorage.setItem('userToken', result);
+            push('/room/user');
+          }
+        })
+        .finally(() => setLoading(false));
     }
-  }
+  };
 
   // const confirmOTP = () => {
   //   setOpenOTP(false);
@@ -100,7 +102,9 @@ export default function SignUpScreen() {
                   borderWidth={2}
                 />
                 {displayUsernameErrorMessage && (
-                  <Paragraph ta="right" theme="error_Text">Please enter your username</Paragraph>
+                  <Paragraph ta="right" theme="error_Text">
+                    Please enter your username
+                  </Paragraph>
                 )}
               </YStack>
               <YStack>
@@ -114,7 +118,9 @@ export default function SignUpScreen() {
                   borderWidth={2}
                 />
                 {displayEmailErrorMessage && (
-                  <Paragraph ta="right" theme="error_Text">Please enter your email</Paragraph>
+                  <Paragraph ta="right" theme="error_Text">
+                    Please enter your email
+                  </Paragraph>
                 )}
               </YStack>
               <YStack>
@@ -129,7 +135,9 @@ export default function SignUpScreen() {
                   borderWidth={2}
                 />
                 {displayPasswordErrorMessage && (
-                  <Paragraph ta="right" theme="error_Text">Please enter your password</Paragraph>
+                  <Paragraph ta="right" theme="error_Text">
+                    Please enter your password
+                  </Paragraph>
                 )}
               </YStack>
               <YStack>
@@ -144,10 +152,14 @@ export default function SignUpScreen() {
                   borderWidth={2}
                 />
                 {displayConfirmPasswordErrorMessage && (
-                  <Paragraph ta="right" theme="error_Text">Please enter your confirm password</Paragraph>
+                  <Paragraph ta="right" theme="error_Text">
+                    Please enter your confirm password
+                  </Paragraph>
                 )}
                 {displayNotMatchPassword && (
-                  <Paragraph ta="right" theme="error_Text">Your confirm password is not match</Paragraph>
+                  <Paragraph ta="right" theme="error_Text">
+                    Your confirm password is not match
+                  </Paragraph>
                 )}
               </YStack>
             </YStack>

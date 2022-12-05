@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'solito/router';
 
 export default function UserRoomScreen() {
-  const { push } = useRouter()
+  const { push } = useRouter();
   const [inputFilter, setInputFilter] = useState<string>('');
   const [filterByCompetitive, setFilterByCompetitive] = useState<boolean>(false);
   const [filterByCooperative, setFilterByCooperative] = useState<boolean>(false);
@@ -37,7 +37,7 @@ export default function UserRoomScreen() {
     }).then((res) => res.json());
   };
 
-  const { data, error } = useSWR(token ? 'http://192.168.0.100:3000/room/owner' : null, fetchRooms);
+  const { data, error } = useSWR(token ? 'http://10.0.119.37:3000/room/owner' : null, fetchRooms);
 
   if (error) return <Button>error</Button>;
 
@@ -47,8 +47,8 @@ export default function UserRoomScreen() {
 
   const signOut = async () => {
     await AsyncStorage.removeItem('userToken');
-    push('/home')
-  }
+    push('/home');
+  };
 
   return (
     <>
@@ -56,7 +56,9 @@ export default function UserRoomScreen() {
         <YStack f={1} backgroundColor="black" mih={ScreenHeight}>
           <XStack jc="center" ai="center" my="$4" space>
             <H2 theme="white_Text">Kham Tham ({data.length})</H2>
-            <Button theme="dark" onPress={signOut}>Sign out</Button>
+            <Button theme="dark" onPress={signOut}>
+              Sign out
+            </Button>
           </XStack>
           <Input
             borderColor={'$blue11Dark'}

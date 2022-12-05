@@ -17,7 +17,7 @@ export default function EnterCodeRoomScreen() {
   const checkPlayerToken = async () => {
     const token = await AsyncStorage.getItem('playerToken');
     if (token) {
-      const player = await fetch('http://192.168.0.100:3000/room/me', {
+      const player = await fetch('http://10.0.119.37:3000/room/me', {
         method: 'GET',
         headers: {
           Authorization: token,
@@ -35,7 +35,7 @@ export default function EnterCodeRoomScreen() {
 
   const createPlayer = async () => {
     if (name) {
-      const request = await fetch('http://192.168.0.100:3000/room/create/player', {
+      const request = await fetch('http://10.0.119.37:3000/room/create/player', {
         method: 'POST',
         body: JSON.stringify({
           playername: name,
@@ -61,7 +61,7 @@ export default function EnterCodeRoomScreen() {
   const joinRoom = async () => {
     const result = await checkPlayerToken();
     if (result) {
-      const request = await fetch(`http://192.168.0.100:3000/room/join/${code}`, {
+      const request = await fetch(`http://10.0.119.37:3000/room/join/${code}`, {
         method: 'POST',
         headers: {
           Authorization: result.token,
@@ -153,7 +153,7 @@ export default function EnterCodeRoomScreen() {
                 onChangeText={setCode}
                 size={'$5'}
                 value={code}
-                keyboardType="number-pad"
+                keyboardType="default"
                 textTransform="uppercase"
               />
               {displayCodedErrorMessage && (

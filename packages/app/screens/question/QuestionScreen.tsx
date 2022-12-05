@@ -9,7 +9,6 @@ import { GameMode } from '@prisma/client';
 import LoadingSpinner from 'app/components/LoadingSpinner';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
 export default function QuestionScreen() {
   // setting part
   const { push, replace } = useRouter();
@@ -19,7 +18,7 @@ export default function QuestionScreen() {
 
   // param part
   const [order] = useParam('order');
-  if (!order) return
+  if (!order) return;
   const [roomId] = useParam('roomId');
 
   // question part
@@ -31,51 +30,54 @@ export default function QuestionScreen() {
   const [choiceSelected, setChoiceSelected] = useState<number[]>([1, 2, 3, 4]);
   const [typeSelectAnswer, setTypeSelectAnswer] = useState('');
 
-  const [question, setQuestion] = useState({
-    RoomQuestion: [{
-      "Question4Question": [
-        {
-          "choice1": "",
-          "choice2": "",
-          "choice3": "",
-          "choice4": "",
-          "answer": 1,
-        }
-      ],
-      "MultiSelectQuestion": [
-        {
-          "choice1": "",
-          "choice2": "",
-          "choice3": "",
-          "choice4": "",
-          "answer": 1,
-        }
-      ],
-      "TypeQuestion": [
-        {
-          "choice1": "",
-          "choice2": "",
-          "choice3": "",
-          "choice4": "",
-          "answer": 1,
-        }
-      ],
-    }],
+  const [question, setQuestion] = useState<any>({
+    RoomQuestion: [
+      {
+        Question4Question: [
+          {
+            id: 0,
+            choice1: '',
+            choice2: '',
+            choice3: '',
+            choice4: '',
+            answer: 1,
+          },
+        ],
+        MultiSelectQuestion: [
+          {
+            id: 0,
+            choice1: '',
+            choice2: '',
+            choice3: '',
+            choice4: '',
+            answer: 1,
+          },
+        ],
+        TypeQuestion: [
+          {
+            id: 0,
+            choice1: '',
+            choice2: '',
+            choice3: '',
+            choice4: '',
+            answer: 1,
+          },
+        ],
+      },
+    ],
     timeDisplayQuestion: 2000,
     timeAnswerQuestion: 2000,
-    mode: "COMPETITIVE" as GameMode,
-    type: "QUIZ_4_ANSWER",
+    mode: 'COMPETITIVE' as GameMode,
+    type: 'QUIZ_4_ANSWER',
     owner: {
-      username: ""
+      username: '',
     },
-    question: "",
-    choices: ["", "", "", ""],
+    question: '',
+    choices: ['', '', '', ''],
     fetchDone: false,
-  })
+  });
 
   const [sumQuestion, setSumQuestion] = useState(0);
-
-
 
   // host part
   const isHost = false;
@@ -85,13 +87,15 @@ export default function QuestionScreen() {
   // modal
   const [openModal, setOpenModal] = useState(true);
 
-  const [timeCounter, setTimeCounter] = useState(question.timeAnswerQuestion + question.timeDisplayQuestion);
+  const [timeCounter, setTimeCounter] = useState(
+    question.timeAnswerQuestion + question.timeDisplayQuestion
+  );
 
   // BossHP 0 - 100
   const [HP, setHP] = useState(80);
 
   const fetchRooms = (url: string, token: string) => {
-    console.log("fetch")
+    console.log('fetch');
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -107,45 +111,64 @@ export default function QuestionScreen() {
     if (!token) {
       replace(`/code`);
     } else {
-      fetchRooms(`http://192.168.0.100:3000/room/info/${roomId}`, token).then(result => {
-        const convertResult = result?.RoomQuestion.map(question => {
+      fetchRooms(`http://10.0.119.37:3000/room/info/${roomId}`, token).then((result) => {
+        const convertResult = result?.RoomQuestion.map((question) => {
           return {
             type: question.type,
-            info: [...question.Question4Question, ...question.MultiSelectQuestion, ...question.TypeQuestion][0],
-            choices: [question?.Question4Question[0]?.choice1, question?.Question4Question[0]?.choice2, question?.Question4Question[0]?.choice3, question?.Question4Question[0]?.choice4, question?.MultiSelectQuestion[0]?.choice1, question?.MultiSelectQuestion[0]?.choice2, question?.MultiSelectQuestion[0]?.choice3, question?.MultiSelectQuestion[0]?.choice4, question?.TypeQuestion[0]?.choice1, question?.TypeQuestion[0]?.choice2, question?.TypeQuestion[0]?.choice3, question?.TypeQuestion[0]?.choice4].filter(choice => choice != undefined),
+            info: [
+              ...question.Question4Question,
+              ...question.MultiSelectQuestion,
+              ...question.TypeQuestion,
+            ][0],
+            choices: [
+              question?.Question4Question[0]?.choice1,
+              question?.Question4Question[0]?.choice2,
+              question?.Question4Question[0]?.choice3,
+              question?.Question4Question[0]?.choice4,
+              question?.MultiSelectQuestion[0]?.choice1,
+              question?.MultiSelectQuestion[0]?.choice2,
+              question?.MultiSelectQuestion[0]?.choice3,
+              question?.MultiSelectQuestion[0]?.choice4,
+              question?.TypeQuestion[0]?.choice1,
+              question?.TypeQuestion[0]?.choice2,
+              question?.TypeQuestion[0]?.choice3,
+              question?.TypeQuestion[0]?.choice4,
+            ].filter((choice) => choice != undefined),
             timeDisplayQuestion: 20,
             timeAnswerQuestion: 15,
             mode: result?.mode,
             owner: result?.owner?.username,
-            question: [question?.Question4Question[0]?.question, question?.MultiSelectQuestion[0]?.question, question?.TypeQuestion[0]?.question].filter(choice => choice != undefined)[0],
+            question: [
+              question?.Question4Question[0]?.question,
+              question?.MultiSelectQuestion[0]?.question,
+              question?.TypeQuestion[0]?.question,
+            ].filter((choice) => choice != undefined)[0],
             fetchDone: true,
-          }
-        })[parseInt(order) - 1]
+          };
+        })[parseInt(order) - 1];
 
-        setQuestion({ ...convertResult })
+        setQuestion({ ...convertResult });
         setClick(false);
         setFinishAnswer(false);
         setOpenModal(true);
         setTimeCounter(convertResult.timeDisplayQuestion + convertResult.timeAnswerQuestion);
         setChoiceSelected([1, 2, 3, 4]);
-        setSumQuestion(result.RoomQuestion.length)
+        setSumQuestion(result.RoomQuestion.length);
         timeCounterInterval.current = window.setInterval(() => {
           setTimeCounter((prev) => prev - 1);
         }, 1000);
-      })
+      });
     }
   };
 
-
   useEffect(() => {
     if (isFocused) {
-      checkHasToken()
+      checkHasToken();
     }
   }, [isFocused]);
 
   useEffect(() => {
     if (question.fetchDone) {
-      console.log("timeCounter2", timeCounter)
       if (timeCounter <= question.timeDisplayQuestion && question.mode != 'COOPERATIVE') {
         setOpenModal(false);
       }
@@ -156,6 +179,29 @@ export default function QuestionScreen() {
     }
   }, [timeCounter]);
 
+  const handlerAnswer = async () => {
+    if (!roomId) return;
+    const token = await AsyncStorage.getItem(`gameToken-${roomId[0]}`);
+
+    if (token) {
+      const request = await fetch(`http://10.0.119.37:3000/room/answer/${question.info.id}`, {
+        method: 'POST',
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: parseInt(token),
+          type: question.type,
+          answer: question.type === 'QUIZ_4_ANSWER' ? choiceSelected[0] : choiceSelected,
+        }),
+      });
+
+      const data = await request.json();
+      return data;
+    }
+  };
+
   useEffect(() => {
     if (question.fetchDone) {
       if (!finishAnswer) return;
@@ -164,15 +210,16 @@ export default function QuestionScreen() {
         let newChoiceSelected = [randomNumber(1, 4)];
         setChoiceSelected([...newChoiceSelected]);
       }
-      prepareNextQuestion();
+      handlerAnswer().then((e) => {
+        console.log(e);
+        prepareNextQuestion();
+      });
     }
   }, [finishAnswer]);
-
 
   const randomNumber = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
   };
-
 
   const stopTimeCounter = () => {
     window.clearInterval(timeCounterInterval.current);
@@ -194,7 +241,9 @@ export default function QuestionScreen() {
     if (!click) {
       setClick(true);
       newChoiceSelected = [order];
-      if (question.type == 'QUIZ_4_ANSWER') setFinishAnswer(true);
+      if (question.type == 'QUIZ_4_ANSWER') {
+        setFinishAnswer(true);
+      }
     } else if (question.type == 'MULTI_SELECT_ANSWER') {
       if (choiceSelected.indexOf(order) != -1) {
         const removeIndex = choiceSelected.indexOf(order);
@@ -254,9 +303,7 @@ export default function QuestionScreen() {
     );
   };
 
-  if (!question.fetchDone) return (
-    <LoadingSpinner />
-  )
+  if (!question.fetchDone) return <LoadingSpinner />;
 
   return (
     <>
@@ -317,7 +364,7 @@ export default function QuestionScreen() {
               theme="dark_TextArea"
               value={typeSelectAnswer}
               onChangeText={setTypeSelectAnswer}
-            ></TextArea>
+            />
           )}
         </XStack>
         {question.type != 'QUIZ_4_ANSWER' && renderFinishButton()}
