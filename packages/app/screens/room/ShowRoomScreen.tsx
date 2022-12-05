@@ -42,7 +42,7 @@ export default function ShowRoomScreen() {
   if (!roomId) return <Button>error</Button>;
 
   const { data, error } = useSWR(
-    token ? `http://192.168.0.100:3000/room/info/${roomId[0]}` : null,
+    token ? `http://10.0.119.37:3000/room/info/${roomId[0]}` : null,
     fetchRooms
   );
 

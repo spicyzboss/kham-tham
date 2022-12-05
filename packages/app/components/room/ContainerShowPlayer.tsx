@@ -5,7 +5,7 @@ import { io } from 'socket.io-client';
 import { useRouter } from 'solito/router';
 
 export default function ContainerShowPlayer({ roomId }: { roomId: string }) {
-  const socket = io('ws://192.168.0.100:3000');
+  const socket = io('ws://10.0.119.37:3000');
   const { push, replace } = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [token, setToken] = useState('');
@@ -36,7 +36,7 @@ export default function ContainerShowPlayer({ roomId }: { roomId: string }) {
   const changeRoomStatusHandler = async () => {
     try {
       if (!roomId) return null;
-      const data = await fetch(`http://192.168.0.100:3000/room/${roomId}/play`, {
+      const data = await fetch(`http://10.0.119.37:3000/room/${roomId}/play`, {
         method: 'PUT',
         headers: {
           'Access-Control-Allow-Origin': '*',
