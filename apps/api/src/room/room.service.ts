@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { GameMode, Player, Room } from '@prisma/client';
+import { GameMode, Player, Room, PlayerJoinedRoom } from '@prisma/client';
 import { GetPlayerResponse, JoinRoomByCodeResponse } from 'types/room';
 import { PrismaService } from '../prisma/prisma.service';
 import { UtilService } from 'src/util/util.service';
@@ -164,6 +164,7 @@ export class RoomService {
           PlayerJoinedRoom: {
             select: {
               player: true,
+              PlayerAnswerQuestion: true
             }
           },
           owner: {
@@ -238,6 +239,58 @@ export class RoomService {
       });
 
       return rooms;
+    } catch (e) {
+      return null;
+    }
+  }
+
+
+  async getPlayerScoreInRoom(roomId: number, roomQuestionId: number) {
+    try {
+      const playerScoreInRoom = await this.prisma.roomQuestion.findMany({
+        where: {
+          roomId,
+        },
+        select: {
+          roomId: true,
+          id: true,
+          PlayerAnswerQuestion: {
+            where: {
+              roomQuestionId
+            },
+            select: {
+              PlayerJoinedRoom: {
+                select: {
+                  player: {
+                    select: {
+                      playername: true,
+                      id: true
+                    }
+                  }
+                }
+              },
+              roomQuestionId: true,
+              Question4Answer: {
+                select: {
+                  answer: true
+                }
+              },
+              MultiSelectAnswer: {
+                select: {
+                  answer: true
+                }
+              },
+              TypeAnswer: {
+                select: {
+                  answer: true
+                }
+              },
+            }
+          }
+        }
+      });
+
+      return playerScoreInRoom;
     } catch (e) {
       return null;
     }

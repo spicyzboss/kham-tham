@@ -97,7 +97,7 @@ export default function CreateQuestionScreen() {
   const sendQuestion = async () => {
     const token = await tokenChecker();
     if (token) {
-      const request = await fetch('http://10.0.119.37:3000/room/create/withQuestion', {
+      const request = await fetch('http://192.168.0.100:3000/room/create/withQuestion', {
         method: 'POST',
         body: JSON.stringify({
           name: roomName[0],

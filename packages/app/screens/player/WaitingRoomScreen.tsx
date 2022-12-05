@@ -5,7 +5,7 @@ import { io } from 'socket.io-client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function WaitingRoomScreen({ navigation }) {
-  const socket = io('ws://10.0.119.37:3000');
+  const socket = io('ws://192.168.0.100:3000');
   const { useParam } = createParam();
   const { push } = useRouter();
   const [roomId] = useParam('roomId');
@@ -13,7 +13,7 @@ export default function WaitingRoomScreen({ navigation }) {
   socket.on('connect', async () => {
     const token = await AsyncStorage.getItem('playerToken');
     if (token) {
-      const request = await fetch('http://10.0.119.37:3000/room/me', {
+      const request = await fetch('http://192.168.0.100:3000/room/me', {
         method: 'GET',
         headers: {
           'Access-Control-Allow-Origin': '*',
