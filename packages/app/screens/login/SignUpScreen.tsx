@@ -1,14 +1,14 @@
 import { Button, H1, Input, Paragraph, YStack, Sheet, Spinner } from '@my/ui';
 import { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
-
-import { ConfirmOTP } from 'app/components/login';
-import KhamThamAPI from 'app/helpers/KhamThamAPI';
-import { KeyboardAvoidingView, Modal, StyleSheet } from 'react-native';
-import axios from 'axios';
+import { useIsFocused } from '@react-navigation/native';
+import { KeyboardAvoidingView } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRouter } from 'solito/router';
 
 export default function SignUpScreen() {
-
+  const { push, replace } = useRouter()
+  const isFocused = useIsFocused()
   const [openOTP, setOpenOTP] = useState(false);
 
   // TODO: implement error message
@@ -27,35 +27,60 @@ export default function SignUpScreen() {
 
   const [loading, setLoading] = useState(false);
 
-  const createAccountHandler = async () => {
-    const data = await KhamThamAPI.createUser({
-      username,
-      email,
-      password,
+  const checkHasToken = async () => {
+    const token = await AsyncStorage.getItem("userToken")
+    if (token) {
+      return replace("/room/user")
+    }
+  }
+
+  useEffect(() => {
+    if (isFocused) {
+      checkHasToken()
+    }
+  }, [isFocused])
+
+  const createAccountHandler = async (url: string) => {
+    const data = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify({
+        username,
+        email,
+        password
+      }),
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
+      },
     });
+
+    return data.text()
 
   };
 
-  const createAccount = () => {
+  const createAccount = async () => {
     setdisplayUsernameErrorMessage(!username)
     setdisplayEmailErrorMessage(!email)
     setdisplayPasswordErrorMessage(!password)
     setdisplayConfirmPasswordErrorMessage(!confirmPassword)
     setdisplayNotMatchPassword(password != confirmPassword)
 
-    // setLoading(true)
-    // createAccountHandler().then((result: string) => {
-    //   console.log(result)
-    //   if (result) {
-
-    //   }
-    // }).finally(() => setLoading(false)).catch(e => console.log(e))
+    setLoading(true)
+    if (username && email && password && confirmPassword) {
+      console.log("create account")
+      createAccountHandler(`http://192.168.0.100:3000/user/create`).then(async (result) => {
+        if (result) {
+          await AsyncStorage.setItem("userToken", result)
+          push("/room/user")
+        }
+      }).finally(() => setLoading(false))
+    }
   }
 
-  const confirmOTP = () => {
-    setOpenOTP(false);
-    setLoading(false);
-  };
+  // const confirmOTP = () => {
+  //   setOpenOTP(false);
+  //   setLoading(false);
+  // };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

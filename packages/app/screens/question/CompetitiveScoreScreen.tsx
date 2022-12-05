@@ -1,9 +1,10 @@
-import { YStack, H2, Paragraph, YGroup, ListItem, H3, H4 } from '@my/ui';
+import { YStack, H2, Paragraph, YGroup, ListItem, H3, H4, Button } from '@my/ui';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'solito/router';
 import { createParam } from 'solito';
 import { Star, Flag } from "@tamagui/feather-icons"
 import { useIsFocused } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface User {
   name: string,
@@ -14,7 +15,7 @@ export default function CompetitiveScoreScreen() {
 
   const isFocused = useIsFocused()
 
-  const { push, parseNextPath, back } = useRouter()
+  const { push } = useRouter()
   const { useParam } = createParam()
 
   const [order] = useParam("order")
@@ -38,7 +39,7 @@ export default function CompetitiveScoreScreen() {
   useEffect(() => {
     if (isFocused) {
       setTimeout(() => {
-        if (Number(order) > 2) {
+        if (Number(order) + 1 > 2) {
 
         } else {
           push(`/room/${roomId}/question/${Number(order) + 1}`)
@@ -46,6 +47,11 @@ export default function CompetitiveScoreScreen() {
       }, delay)
     }
   }, [isFocused])
+
+  const leaveTheRoom = async () => {
+    await AsyncStorage.removeItem("playerToken")
+    push("/home")
+  }
 
   return (
     <YStack f={1} backgroundColor="black" jc="center">
@@ -63,6 +69,7 @@ export default function CompetitiveScoreScreen() {
       <YStack m="$5">
         <H3 ta="center" theme="white_Text">ปัจจุบันคุณ <H3 theme="crimson_Text">{yourInfo?.name}</H3> อยู่ลำดับที่ <H2 theme="crimson_Text">{userScore.indexOf(yourInfo) + 1}</H2> {'\n'} จากผู้เล่นทั้งหมด {userScore.length} คน {"\n"} <H4>(คุณมี <H4 theme="crimson_Text">{yourInfo.score}</H4> คะแนน)</H4></H3>
       </YStack>
+      <Button theme="dark_Button" size="$6" onPress={leaveTheRoom}>Leave the Room</Button>
     </YStack>
   );
 }

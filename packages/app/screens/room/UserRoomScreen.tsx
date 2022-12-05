@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { View, ScrollView, Dimensions } from 'react-native';
+import { ScrollView, Dimensions } from 'react-native';
 import CreateButton from 'app/components/CreateButton';
-import globalStyles from '../../../assets/global_style';
-import { H1, Input, XStack, Button, YStack } from '@my/ui';
+import { Input, XStack, Button, YStack, H2 } from '@my/ui';
 import LoadingSpinner from 'app/components/LoadingSpinner';
 import { CardKhamTham } from '../../components/room';
 import useSWR from 'swr';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRouter } from 'solito/router';
 
 export default function UserRoomScreen() {
+  const { push } = useRouter()
   const [inputFilter, setInputFilter] = useState<string>('');
   const [filterByCompetitive, setFilterByCompetitive] = useState<boolean>(false);
   const [filterByCooperative, setFilterByCooperative] = useState<boolean>(false);
@@ -36,7 +37,7 @@ export default function UserRoomScreen() {
     }).then((res) => res.json());
   };
 
-  const { data, error } = useSWR(token ? 'http://10.0.119.37:3000/room/owner' : null, fetchRooms);
+  const { data, error } = useSWR(token ? 'http://192.168.0.100:3000/room/owner' : null, fetchRooms);
 
   if (error) return <Button>error</Button>;
 
@@ -44,11 +45,19 @@ export default function UserRoomScreen() {
 
   let ScreenHeight = Dimensions.get('window').height;
 
+  const signOut = async () => {
+    await AsyncStorage.removeItem('userToken');
+    push('/home')
+  }
+
   return (
     <>
       <ScrollView>
         <YStack f={1} backgroundColor="black" mih={ScreenHeight}>
-          <H1 theme="white_Text">Kham Tham ({data.length})</H1>
+          <XStack jc="center" ai="center" my="$4" space>
+            <H2 theme="white_Text">Kham Tham ({data.length})</H2>
+            <Button theme="dark" onPress={signOut}>Sign out</Button>
+          </XStack>
           <Input
             borderColor={'$blue11Dark'}
             placeholderTextColor={'$gray9Light'}
