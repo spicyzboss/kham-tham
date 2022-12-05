@@ -24,6 +24,16 @@ export class RoomController {
     return playerData;
   }
 
+  @Get('/:roomId/question/:roomQuestionId/playerScore')
+  async getPlayerScoreInRoom(@Param('roomId') roomId: string, @Param('roomQuestionId') roomQuestionId: string, @Headers('Authorization') token: string) {
+    if (!token) throw new UnauthorizedException();
+    const playerScoreInRoom = await this.roomService.getPlayerScoreInRoom(parseInt(roomId), parseInt(roomQuestionId))
+
+    if (!playerScoreInRoom) throw new BadRequestException();
+
+    return playerScoreInRoom;
+  }
+
   @Post('/create/player')
   async createPlayer(@Body('playername') playername: string) {
     if (!playername) throw new BadRequestException();
