@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { YStack, Progress, Image, H2, H3, H1, Paragraph, Button } from '@my/ui';
 import { useRouter } from "solito/router";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function ResultCooperativeScreen() {
 
     const { push } = useRouter()
@@ -14,8 +15,9 @@ export default function ResultCooperativeScreen() {
 
     }, [])
 
-    const leaveTheRoom = () => {
-        push("/code")
+    const leaveTheRoom = async () => {
+        await AsyncStorage.removeItem("playerToken")
+        push("/home")
     }
 
     return (
@@ -32,7 +34,7 @@ export default function ResultCooperativeScreen() {
                 )}
                 <Paragraph theme="white_Text">ผลรวมพลังโจมตีทั้งหมด</Paragraph>
                 <H3 theme="yellow_Text">{totalDamage}</H3>
-                <Button theme="dark_Button" size="$6" onPress={leaveTheRoom}>ออกห้อง</Button>
+                <Button theme="dark_Button" size="$6" onPress={leaveTheRoom}>Leave the Room</Button>
 
             </YStack>
         </>
