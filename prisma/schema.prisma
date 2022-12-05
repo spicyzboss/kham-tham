@@ -131,7 +131,7 @@ model Question4Question {
 }
 
 model Question4Answer {
-  id                     Int                  @id
+  id                     Int                  @id @default(autoincrement())
   answer                 Int
   PlayerAnswerQuestion   PlayerAnswerQuestion @relation(fields: [playerAnswerQuestionId], references: [id])
   playerAnswerQuestionId Int
@@ -157,7 +157,7 @@ model MultiSelectQuestion {
 }
 
 model MultiSelectAnswer {
-  id                     Int                  @id
+  id                     Int                  @id @default(autoincrement())
   answer                 Json
   PlayerAnswerQuestion   PlayerAnswerQuestion @relation(fields: [playerAnswerQuestionId], references: [id])
   playerAnswerQuestionId Int
@@ -179,7 +179,7 @@ model TypeQuestion {
 }
 
 model TypeAnswer {
-  id                     Int                  @id
+  id                     Int                  @id @default(autoincrement())
   answer                 String
   PlayerAnswerQuestion   PlayerAnswerQuestion @relation(fields: [playerAnswerQuestionId], references: [id])
   playerAnswerQuestionId Int
