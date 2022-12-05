@@ -153,7 +153,7 @@ export default function EnterCodeRoomScreen() {
                 onChangeText={setCode}
                 size={'$5'}
                 value={code}
-                keyboardType="number-pad"
+                keyboardType="default"
                 textTransform="uppercase"
               />
               {displayCodedErrorMessage && (
