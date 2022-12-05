@@ -91,14 +91,14 @@ export class RoomController {
 
   @Put('/:roomId/play')
   async playRoom(@Param('roomId') roomId: string, @Headers('Authorization') token: string) {
-    console.log("roomId", roomId)
+    console.log("roomId", roomId);
     if (!token) throw new UnauthorizedException();
     if (!roomId) throw new BadRequestException();
 
 
     const room = await this.roomService.playTheRoom(parseInt(roomId));
 
-    console.log("room", room)
+    console.log("room", room);
 
     return room;
   }
@@ -139,4 +139,10 @@ export class RoomController {
     return room;
   }
 
+  @Post('/answer/:questionId')
+  async playerAnswer(@Body() body: any, @Param('questionId') questionId: string) {
+    const player = await this.roomService.playerAnswer(body.id, parseInt(questionId), body.type, body.answer);
+
+    return player;
+  }
 }

@@ -215,12 +215,10 @@ export class RoomService {
 
       return room;
     } catch (e) {
-      console.log(e)
+      console.log(e);
       return null;
     }
   }
-
-
 
   async getOwnerRoom(ownerId: string) {
     try {
@@ -344,6 +342,94 @@ export class RoomService {
       return room;
     } catch (e) {
       return null;
+    }
+  }
+
+  async playerAnswer(playerId: number, roomQuestionId: number, questionType: string, answer: any) {
+    if (questionType === "QUIZ_4_ANSWER") {
+      const data = await this.prisma.playerAnswerQuestion.create({
+        data: {
+          PlayerJoinedRoom: {
+            connect: {
+              id: playerId,
+            }
+          },
+          Question4Answer: {
+            create: [
+              {
+                answer,
+              }
+            ]
+          },
+          RoomQuestion: {
+            connect: {
+              id: roomQuestionId,
+            }
+          }
+        },
+        select: {
+          id: true,
+          Question4Answer: true,
+        }
+      });
+
+      return data;
+    } else if (questionType === "MULTI_SELECT_ANSWER") {
+      const data = await this.prisma.playerAnswerQuestion.create({
+        data: {
+          PlayerJoinedRoom: {
+            connect: {
+              id: playerId,
+            }
+          },
+          MultiSelectAnswer: {
+            create: [
+              {
+                answer,
+              }
+            ]
+          },
+          RoomQuestion: {
+            connect: {
+              id: roomQuestionId,
+            }
+          }
+        },
+        select: {
+          id: true,
+          MultiSelectAnswer: true,
+        }
+      });
+
+      return data;
+    } else if (questionType === "TYPE_ANSWER") {
+      const data = await this.prisma.playerAnswerQuestion.create({
+        data: {
+          PlayerJoinedRoom: {
+            connect: {
+              id: playerId,
+            }
+          },
+          TypeAnswer: {
+            create: [
+              {
+                answer,
+              }
+            ]
+          },
+          RoomQuestion: {
+            connect: {
+              id: roomQuestionId,
+            }
+          }
+        },
+        select: {
+          id: true,
+          TypeAnswer: true,
+        }
+      });
+
+      return data;
     }
   }
 }

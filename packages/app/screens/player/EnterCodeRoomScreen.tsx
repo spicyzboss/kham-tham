@@ -94,7 +94,9 @@ export default function EnterCodeRoomScreen() {
     joinRoom()
       .then((e) => {
         if (e) {
-          push(`/room/${e.roomId}/waiting`);
+          AsyncStorage.setItem(`gameToken/${e.roomId}`, e.id).then(() => {
+            push(`/room/${e.roomId}/waiting`);
+          });
         }
       })
       .finally(() => {

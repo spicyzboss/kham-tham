@@ -90,7 +90,7 @@ Table question_4_questions {
 }
 
 Table question_4_answers {
-  id Int [pk]
+  id Int [pk, increment]
   answer Int [not null]
   PlayerAnswerQuestion player_room_question [not null]
   playerAnswerQuestionId Int [not null]
@@ -112,7 +112,7 @@ Table multi_select_questions {
 }
 
 Table multi_select_answers {
-  id Int [pk]
+  id Int [pk, increment]
   answer Json [not null]
   PlayerAnswerQuestion player_room_question [not null]
   playerAnswerQuestionId Int [not null]
@@ -130,7 +130,7 @@ Table type_questions {
 }
 
 Table type_answers {
-  id Int [pk]
+  id Int [pk, increment]
   answer String [not null]
   PlayerAnswerQuestion player_room_question [not null]
   playerAnswerQuestionId Int [not null]
