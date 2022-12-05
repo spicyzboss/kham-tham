@@ -5,7 +5,7 @@ import { useRouter } from 'solito/router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function EnterCodeRoomScreen() {
-  const { push, back } = useRouter();
+  const { push, back, replace } = useRouter();
   const [code, setCode] = useState('');
   const [name, setName] = useState('');
 
@@ -177,7 +177,7 @@ export default function EnterCodeRoomScreen() {
             </Button>
           )}
           {!showEnterCode && (
-            <Button theme="dark_white_Button" onPress={back}>
+            <Button theme="dark_white_Button" onPress={() => replace('/home')}>
               Back
             </Button>
           )}
